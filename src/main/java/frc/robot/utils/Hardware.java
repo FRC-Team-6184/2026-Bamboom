@@ -3,8 +3,6 @@ package frc.robot.utils;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 //Made the class final as everything here should be pretty much constant, but if it 
@@ -20,7 +18,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * Back Right Swerve Drive - 7
  * Back Right Swerve Turn - 8
  * 
- * Top Wheel of Shooter - 9
+ * Top Wheel of Shooter - 9 (motor for the top wheel, physically this motor is actually on the bottom of the shooter)
  * Bottom Wheel of Shooter - 10
  * 
  * Gyro (Pigeon2) - 20
@@ -30,12 +28,11 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 //Motors for Swerve Drive aren't found here as they are managed by the Swerve Drive Modules in the SwerveDrive subsystem
 public final class Hardware {
-    //TODO: Pretty sure this CAN ID is shared by something else, possibly the PDH. Resolve the conflict!
     public static final Pigeon2 gyro = new Pigeon2(20); 
     public static final GameController controller = new GameController(0);
 
     public static final TalonFX bottomShooterMotor = new TalonFX(10);
-    public static final TalonFX topShooterMotor = new TalonFX(9);
+    public static final TalonFX topShooterMotor = new TalonFX(9); 
 
     // public static final TalonFX blenderMotor = new TalonFX(-1);
 

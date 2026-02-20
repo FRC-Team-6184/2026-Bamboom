@@ -19,6 +19,7 @@ import frc.robot.utils.swerve.SwerveConstants.DriveConstants;
 
 public class SwerveDrive extends SubsystemBase {
     // This is directly copied from MAXSwerve template
+
     // Create MAXSwerveModules
     private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
             DriveConstants.kFrontLeftDrivingCanId,
@@ -57,10 +58,10 @@ public class SwerveDrive extends SubsystemBase {
     public SwerveDrive() {
         super();
         // The MaxSwerve template does this, no clue what this is
-        HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve); 
+        HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
     }
 
-    // Mostly copied from MaxSwerve template, simply updates 
+    // Mostly copied from MaxSwerve template, simply updates
     // the odometry every cycle
     @Override
     public void periodic() {
@@ -92,7 +93,8 @@ public class SwerveDrive extends SubsystemBase {
 
         SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
                 fieldRelative
-                        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+                        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered,
+                                ySpeedDelivered, rotDelivered,
                                 gyro.getRotation2d())
                         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
         SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -110,14 +112,16 @@ public class SwerveDrive extends SubsystemBase {
      */
     public Command teleopDrive() {
         return run(() -> {
+            //Done this way in order to easily enforce controller deadzones since this isn't already done in drive()
             double x = controller.getLeftX();
             x = Math.abs(x) < Hardware.CONTROLLER_DEADZONE ? 0 : x;
             double y = controller.getLeftY();
             y = Math.abs(y) < Hardware.CONTROLLER_DEADZONE ? 0 : y;
             double rot = controller.getRightX();
             rot = Math.abs(rot) < Hardware.CONTROLLER_DEADZONE ? 0 : rot;
-            drive(x, y, rot, false); //TODO: Set this back to true when robot is in better shape, false to be easier to work with for now
-            //Realistically, it needs to be possible to make it not field relative, maybe a hold or something.
+            drive(x, y, rot, false);
+            // TODO: Set this back to true when robot is in better shape, false to be easier to work with for now.
+            // Realistically, it needs to be possible to make it not field relative, maybe a hold or something.
         });
     }
 }
