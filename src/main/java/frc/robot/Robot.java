@@ -4,9 +4,16 @@
 
 package frc.robot;
 
+import java.io.ObjectInputFilter.Config;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SwerveDrive;
+import frc.robot.utils.Hardware;
+import frc.robot.utils.swerve.SwerveConfigs;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -17,6 +24,9 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
+
+  private final SwerveDrive driveSubsystem = new SwerveDrive();
+  private final Shooter shooterSubsystem = new Shooter();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -75,6 +85,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    CommandScheduler.getInstance().schedule(driveSubsystem.teleopDrive());
+    CommandScheduler.getInstance().schedule(shooterSubsystem.teleopShoot());
+
   }
 
   /** This function is called periodically during operator control. */
