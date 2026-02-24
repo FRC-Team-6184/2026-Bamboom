@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.GameController;
 import frc.robot.utils.Hardware;
+import frc.robot.utils.Utilities;
 import frc.robot.utils.swerve.MAXSwerveModule;
 import frc.robot.utils.swerve.SwerveConstants.DriveConstants;
 
@@ -114,11 +115,11 @@ public class SwerveDrive extends SubsystemBase {
         return run(() -> {
             //Done this way in order to easily enforce controller deadzones since this isn't already done in drive()
             double x = controller.getLeftX();
-            x = Math.abs(x) < Hardware.CONTROLLER_DEADZONE ? 0 : x;
+            x = Utilities.clamp(x, Hardware.CONTROLLER_DEADZONE, -Hardware.CONTROLLER_DEADZONE);
             double y = controller.getLeftY();
-            y = Math.abs(y) < Hardware.CONTROLLER_DEADZONE ? 0 : y;
+            y = Utilities.clamp(y, Hardware.CONTROLLER_DEADZONE, -Hardware.CONTROLLER_DEADZONE);
             double rot = controller.getRightX();
-            rot = Math.abs(rot) < Hardware.CONTROLLER_DEADZONE ? 0 : rot;
+            rot = Utilities.clamp(rot, Hardware.CONTROLLER_DEADZONE, -Hardware.CONTROLLER_DEADZONE);
             drive(x, y, rot, false);
             // TODO: Set this back to true when robot is in better shape, false to be easier to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a hold or something.

@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.networktables.DoubleEntry;
@@ -22,15 +21,10 @@ public class Shooter extends SubsystemBase {
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
     private DoubleEntry bottomRPMDestEntry = network.getDoubleTopic("BottomRPM Dest").getEntry(0);
 
-    // SysIdRoutine.Config conf = new SysIdRoutine.Config(); // using default config
-    // SysIdRoutine.Mechanism mech = new SysIdRoutine.Mechanism(topMotor::setVoltage, log -> {
-    //     log
-    // }, this)
-    // SysIdRoutine identification = new SysIdRoutine(topMotor::setVoltage, );
-
-    
-    //kv is in V/RPS, calculated using the data from https://www.reca.lc/motors (their kv is in RPM/V, reciprocal of desired and not in units per second)
-    // private SimpleMotorFeedforward test = new SimpleMotorFeedforward(-1, 8.9133333333333333333333333333333);
+    // kv is in V/RPS, calculated using the data from https://www.reca.lc/motors
+    // (their kv is in RPM/V, reciprocal of desired and not in units per second)
+    // private SimpleMotorFeedforward test = new SimpleMotorFeedforward(-1,
+    // 8.9133333333333333333333333333333);
 
     public Shooter() {
         super();
@@ -44,6 +38,7 @@ public class Shooter extends SubsystemBase {
 
     /**
      * Put into scheduler upon start of teleop, needs to be run periodically.
+     * 
      * @return Command regarding teleop shooter behavior
      */
     public Command teleopShoot() {
@@ -52,13 +47,12 @@ public class Shooter extends SubsystemBase {
             // pidConfig.kA = 0;
             // topMotor.getConfigurator().apply(pidConfig);
 
-
-            //TODO: make these PID controlled running at a set RPM instead of being -1.0 to 1.0
+            // TODO: make these PID controlled running at a set RPM instead of being -1.0 to
+            // 1.0
             double topPower = shooterRPMDestEntry.get();
             topPower = Utilities.clamp(topPower, 1.0, -1.0);
             double bottomPower = shooterRPMDestEntry.get();
             bottomPower = Utilities.clamp(bottomPower, 1.0, -1.0);
-
             if (controller.getRightTrigger() > (Hardware.CONTROLLER_DEADZONE * 2)) {
                 // TODO: run motors according to dashboard
 
@@ -71,7 +65,6 @@ public class Shooter extends SubsystemBase {
 
             shooterRPMEntry.set(topMotor.getVelocity().getValue().in(Units.RPM));
             bottomRPMEntry.set(bottomMotor.getVelocity().getValue().in(Units.RPM));
-
 
         });
     }

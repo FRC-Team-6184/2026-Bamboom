@@ -9,17 +9,21 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 //becomes an issue later just remove it.
 
 /** CAN IDs of Hardware:
- * Front Left Swerve Drive - 1
- * Front Left Swerve Turn - 2
- * Front Right Swerve Drive - 3
- * Front Right Swerve Turn - 4
- * Back Left Swerve Drive - 5
- * Back Left Swerve Turn - 6
- * Back Right Swerve Drive - 7
- * Back Right Swerve Turn - 8
+ * Front Left Swerve Drive - 1 | Neo (Rev)
+ * Front Left Swerve Turn - 2 | Neo 550 (Rev)
+ * Front Right Swerve Drive - 3 | Neo (Rev)
+ * Front Right Swerve Turn - 4 | Neo 550 (Rev)
+ * Back Left Swerve Drive - 5 | Neo (Rev)
+ * Back Left Swerve Turn - 6 | Neo 550 (Rev)
+ * Back Right Swerve Drive - 7 | Neo  (Rev)
+ * Back Right Swerve Turn - 8 | Neo 550 (Rev)
  * 
- * Top Wheel of Shooter - 9 (motor for the top wheel, physically this motor is actually on the bottom of the shooter)
- * Bottom Wheel of Shooter - 10
+ * Top Wheel of Shooter - 9 (motor for the top wheel, physically this motor is actually on the bottom of the shooter) | Kraken (CTRE)
+ * Bottom Wheel of Shooter - 10 | Falcon 500 (CTRE)
+ * 
+ * Intake Motor - 11 | Kraken (CTRE)
+ * 
+ * Blender Motor - 12 | Falcon 500 (CTRE)
  * 
  * Gyro (Pigeon2) - 20
  * PDH - 21
@@ -35,6 +39,8 @@ public final class Hardware {
     public static final TalonFX topShooterMotor = new TalonFX(9); 
 
     // public static final TalonFX blenderMotor = new TalonFX(-1);
+
+    //public static final TalonFX intakeMotor = new TalonFX(-1);
 
     //Not hardware related but this is the best class to put this in
     public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
