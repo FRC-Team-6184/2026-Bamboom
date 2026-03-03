@@ -38,4 +38,9 @@ public class RobotContainer {
   private void configureBindings() {
 
   }
+
+  // public Command getAutonomousCommand() {
+  //   // Hi William, I'm assuming you planned on implementing this at some point, all I know how to do rn is the declaration though
+  //   return null; 
+  // }
 }

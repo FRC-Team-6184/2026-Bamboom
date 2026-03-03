@@ -58,6 +58,32 @@ public class MAXSwerveModule {
     m_drivingEncoder.setPosition(0);
   }
 
+    /* Custom constructor to take in objects of SparkMax rather than CAN IDs and then instantiating them.
+     * We already instantiate them in the Hardware class, then just pass those objects in here.
+     */
+  public MAXSwerveModule(SparkMax drivingMotor, SparkMax turningMotor, double chassisAngularOffset) {
+    m_drivingSpark = drivingMotor;
+    m_turningSpark = turningMotor;
+
+    m_drivingEncoder = m_drivingSpark.getEncoder();
+    m_turningEncoder = m_turningSpark.getAbsoluteEncoder();
+
+    m_drivingClosedLoopController = m_drivingSpark.getClosedLoopController();
+    m_turningClosedLoopController = m_turningSpark.getClosedLoopController();
+
+    // Apply the respective configurations to the SPARKS. Reset parameters before
+    // applying the configuration to bring the SPARK to a known good state. Persist
+    // the settings to the SPARK to avoid losing them on a power cycle.
+    m_drivingSpark.configure(SwerveConfigs.MAXSwerveModule.drivingConfig, ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
+    m_turningSpark.configure(SwerveConfigs.MAXSwerveModule.turningConfig, ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
+
+    m_chassisAngularOffset = chassisAngularOffset;
+    m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
+    m_drivingEncoder.setPosition(0);
+  }
+
   /**
    * Returns the current state of the module.
    *

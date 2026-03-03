@@ -23,23 +23,23 @@ public class SwerveDrive extends SubsystemBase {
 
     // Create MAXSwerveModules
     private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
-            DriveConstants.kFrontLeftDrivingCanId,
-            DriveConstants.kFrontLeftTurningCanId,
+            Hardware.frontLeftDriveMotor,
+            Hardware.frontLeftTurnMotor,
             DriveConstants.kFrontLeftChassisAngularOffset);
 
     private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
-            DriveConstants.kFrontRightDrivingCanId,
-            DriveConstants.kFrontRightTurningCanId,
+            Hardware.frontRightDriveMotor,
+            Hardware.frontRightTurnMotor,
             DriveConstants.kFrontRightChassisAngularOffset);
 
     private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
-            DriveConstants.kRearLeftDrivingCanId,
-            DriveConstants.kRearLeftTurningCanId,
+             Hardware.rearLeftDriveMotor,
+            Hardware.rearLeftTurnMotor,
             DriveConstants.kBackLeftChassisAngularOffset);
 
     private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
-            DriveConstants.kRearRightDrivingCanId,
-            DriveConstants.kRearRightTurningCanId,
+            Hardware.rearRightDriveMotor,
+            Hardware.rearRightTurnMotor,
             DriveConstants.kBackRightChassisAngularOffset);
 
     private Pigeon2 gyro = Hardware.gyro;

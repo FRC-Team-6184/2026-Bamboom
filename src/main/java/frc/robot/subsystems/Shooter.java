@@ -12,8 +12,8 @@ import frc.robot.utils.Hardware;
 import frc.robot.utils.Utilities;
 
 public class Shooter extends SubsystemBase {
-    private TalonFX bottomMotor = Hardware.bottomShooterMotor;
-    private TalonFX topMotor = Hardware.topShooterMotor;
+    private TalonFX bottomMotor = Hardware.bottomShooterWheel;
+    private TalonFX topMotor = Hardware.topShooterWheel;
     private GameController controller = Hardware.controller;
     private NetworkTable network = Hardware.networkTableInstance.getTable("Shooter");
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);

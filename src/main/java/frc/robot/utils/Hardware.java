@@ -2,8 +2,11 @@ package frc.robot.utils;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.utils.swerve.SwerveConstants.DriveConstants;
 
 //Made the class final as everything here should be pretty much constant, but if it 
 //becomes an issue later just remove it.
@@ -30,21 +33,38 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * 
  */
 
-//Motors for Swerve Drive aren't found here as they are managed by the Swerve Drive Modules in the SwerveDrive subsystem
 public final class Hardware {
+    // Controller.. and gyro for swerve
     public static final Pigeon2 gyro = new Pigeon2(20); 
     public static final GameController controller = new GameController(0);
 
-    public static final TalonFX bottomShooterMotor = new TalonFX(10);
-    public static final TalonFX topShooterMotor = new TalonFX(9); 
+    // Shooter Motors
+    public static final TalonFX bottomShooterWheel = new TalonFX(13);
+    public static final TalonFX topShooterWheel = new TalonFX(9); 
 
-    // public static final TalonFX blenderMotor = new TalonFX(-1);
+    // Swerve
+        // Left-side Drive Motors
+    public static final SparkMax frontLeftDriveMotor = new SparkMax(DriveConstants.kFrontLeftDrivingCanId, MotorType.kBrushless);
+    public static final SparkMax rearLeftDriveMotor = new SparkMax(DriveConstants.kRearLeftDrivingCanId, MotorType.kBrushless);
+        // Left-side Turn Motors
+    public static final SparkMax frontLeftTurnMotor = new SparkMax(DriveConstants.kFrontLeftTurningCanId, MotorType.kBrushless);
+    public static final SparkMax rearLeftTurnMotor = new SparkMax(DriveConstants.kRearLeftTurningCanId, MotorType.kBrushless);
 
-    //public static final TalonFX intakeMotor = new TalonFX(-1);
 
-    //Not hardware related but this is the best class to put this in
-    public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
-    public static final double CONTROLLER_DEADZONE = 0.12;
+        // Right-side Drive Motors
+    public static final SparkMax frontRightDriveMotor = new SparkMax(DriveConstants.kFrontRightDrivingCanId, MotorType.kBrushless);
+    public static final SparkMax rearRightDriveMotor = new SparkMax(DriveConstants.kRearRightDrivingCanId, MotorType.kBrushless);
+        // Right-side Turn Motors
+    public static final SparkMax frontRightTurnMotor = new SparkMax(DriveConstants.kFrontRightTurningCanId, MotorType.kBrushless);
+    public static final SparkMax rearRightTurnMotor = new SparkMax(DriveConstants.kRearRightTurningCanId, MotorType.kBrushless);
 
+    // Blender
+        public static final TalonFX placeholder = new TalonFX(-1); // Change this arg later to I think CAN ID?
 
+    // Intake
+        public static final TalonFX placeholder1 = new TalonFX(-1); // Chang this arg later to I think CAN ID?
+
+    // Miscellaneous
+        public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
+        public static final double CONTROLLER_DEADZONE = 0.12;
 }
