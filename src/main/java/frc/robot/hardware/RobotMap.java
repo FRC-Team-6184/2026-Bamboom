@@ -30,21 +30,21 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * PDH -                      21
  */
 
-public final class HardwareManager {
-    public final class Gyro {
+public final class RobotMap {
+    public static final class Gyro {
         public static final int GYRO_ID = 20;
 
         public static final Pigeon2 GYRO = new Pigeon2(GYRO_ID); 
     }
 
-    public final class Controller {
+    public static final class Controller {
         public static final int XBOX_P = 0;
         public static final double CONTROLLER_DEADZONE = 0.12;
 
         public static final GameController GAME_CONTROLLER = new GameController(XBOX_P);
     }
 
-    public final class CAN_IDs {
+    public static final class CAN_IDs {
         // Shooter
         public static final int BACK_SHOOTER_WHEEL_ID = 13;
         public static final int TOP_SHOOTER_WHEEL_ID =  9;
@@ -69,7 +69,7 @@ public final class HardwareManager {
         public static final int BR_TURN_MOTOR_ID =  8;
     }
 
-    public final class MotorControllers {
+    public static final class MotorControllers {
         // Shooter Motors
         public static final TalonFX BOTTOM_SHOOTER_WHEEL = new TalonFX(CAN_IDs.BACK_SHOOTER_WHEEL_ID);
         public static final TalonFX TOP_SHOOTER_WHEEL = new TalonFX(CAN_IDs.TOP_SHOOTER_WHEEL_ID); 
@@ -97,7 +97,7 @@ public final class HardwareManager {
         public static final TalonFX BLENDER_MOTOR = new TalonFX(CAN_IDs.BLENDER_MOTOR_ID); // Check to make sure this ID is right
     }
 
-    public final class Chassis {
+    public static final class Chassis {
         /**
          * This assumes your robot is rectangular.
          * TRACK_WIDTH is the distance between the left and right wheels, 
@@ -116,5 +116,5 @@ public final class HardwareManager {
     // Move this somewhere else. It's not hardware
     public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
     
-    private HardwareManager() {} // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.
+    private RobotMap() {} // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.
 }

@@ -13,7 +13,7 @@ package frc.robot.swerve;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import frc.robot.hardware.HardwareManager.Chassis;
+import frc.robot.hardware.RobotMap.Chassis;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
