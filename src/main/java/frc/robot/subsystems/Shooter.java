@@ -55,7 +55,7 @@ public class Shooter extends SubsystemBase {
             double topMotorRPM = topMotor.getVelocity().getValue().in(Units.RPM);
             double bottomMotorRPM = bottomMotor.getVelocity().getValue().in(Units.RPM);
 
-            if (controller.getRightTrigger() > (Hardware.CONTROLLER_DEADZONE * 2)) {
+            if (controller.getRightTrigger() > (HardwareManager.Controller.CONTROLLER_DEADZONE * 2)) {
                 // TODO: run motors according to dashboard
                 topMotor.setControl(voltageRequest.withVelocity(2.0));
                 System.out.println(topMotorRPM);
