@@ -8,7 +8,8 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-/**  Hardware CAN IDs: (Verify that all are correct sometime)
+/* Hardware CAN IDs: (Verify that all are correct sometime)
+ * All motor controllers below, down to the Blender Motor, are TalonFX
  * Front Left Swerve Drive -  1 | Neo     (Rev Robotics) 
  * Front Left Swerve Turn -   2 | Neo 550 (Rev Robotics) 
  * Front Right Swerve Drive - 3 | Neo     (Rev Robotics) 
@@ -30,6 +31,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * PDH -                      21
  */
 
+ /** 
+  * This class holds important information regarding hardware and related
+  * things like CAN ID's, Motor controllers, Chassis measurements, etc. 
+  */
 public final class RobotMap {
     public static final class Gyro {
         public static final int GYRO_ID = 20;
