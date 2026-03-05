@@ -32,21 +32,24 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public final class HardwareManager {
     public final class Gyro {
+        // Should I put this in the CAN_IDs inner class?? Not sure if its a motor controller or not
         public static final int GYRO_ID = 20;
 
         public static final Pigeon2 GYRO = new Pigeon2(GYRO_ID); 
     }
 
     public final class Controller {
+        // Xbox port
         public static final int XBOX_P = 0;
-        public static final double CONTROLLER_DEADZONE = 0.12;
+
+        public static final double CONTROLLER_DEADZONE = 0.12; // Maybe move this elsewhere
 
         public static final GameController GAME_CONTROLLER = new GameController(XBOX_P);
     }
 
     public final class CAN_IDs {
         // Shooter
-        public static final int BACK_SHOOTER_WHEEL_ID = 13;
+        public static final int BOTTOM_SHOOTER_WHEEL_ID = 13;
         public static final int TOP_SHOOTER_WHEEL_ID =  9;
 
         // Intake
@@ -71,7 +74,7 @@ public final class HardwareManager {
 
     public final class MotorControllers {
         // Shooter Motors
-        public static final TalonFX BOTTOM_SHOOTER_WHEEL = new TalonFX(CAN_IDs.BACK_SHOOTER_WHEEL_ID);
+        public static final TalonFX BOTTOM_SHOOTER_WHEEL = new TalonFX(CAN_IDs.BOTTOM_SHOOTER_WHEEL_ID);
         public static final TalonFX TOP_SHOOTER_WHEEL = new TalonFX(CAN_IDs.TOP_SHOOTER_WHEEL_ID); 
 
         // Swerve

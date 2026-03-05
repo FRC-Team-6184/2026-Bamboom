@@ -49,8 +49,7 @@ public class Shooter extends SubsystemBase {
             // pidConfig.kA = 0;
             // topMotor.getConfigurator().apply(pidConfig);
 
-            // TODO: make these PID controlled running at a set RPM instead of being -1.0 to
-            // 1.0
+            // TODO: make these PID controlled running at a set RPM instead of being -1.0 to 1.0
             double topPower = shooterRPMDestEntry.get();
             topPower = MathUtil.clamp(topPower, 1.0, -1.0);
             double bottomPower = shooterRPMDestEntry.get();
