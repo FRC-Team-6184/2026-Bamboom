@@ -40,7 +40,7 @@ public final class Hardware {
 
     // Shooter Motors
     public static final TalonFX bottomShooterWheel = new TalonFX(13);
-    public static final TalonFX topShooterWheel = new TalonFX(9); 
+    public static final TalonFX topShooterWheel = new TalonFX(11); 
 
     // Swerve
         // Left-side Drive Motors
@@ -67,4 +67,10 @@ public final class Hardware {
     // Miscellaneous
         public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
         public static final double CONTROLLER_DEADZONE = 0.12;
+
+    //Feed Forward Values
+        public static final double topShooterWheelKv = 0.12582;
+        public static final double topShooterWheelKs = 0.11622 / (2 * Math.PI);
+        public static final double topShooterWheelKa = 0.0097241 / (2 * Math.PI);
+
 }
