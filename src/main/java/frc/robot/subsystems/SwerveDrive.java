@@ -13,12 +13,12 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.hardware.GameController;
+import frc.robot.hardware.RobotMap;
 import frc.robot.hardware.RobotMap.Controller;
 import frc.robot.hardware.RobotMap.Gyro;
 import frc.robot.hardware.RobotMap.MotorControllers;
 import frc.robot.swerve.MAXSwerveModule;
 import frc.robot.swerve.SwerveConstants.DriveConstants;
-import frc.robot.utilities.MathUtil;
 
 public class SwerveDrive extends SubsystemBase {
     // This is directly copied from MAXSwerve template
@@ -117,11 +117,11 @@ public class SwerveDrive extends SubsystemBase {
         return run(() -> {
             // Done this way in order to easily enforce controller deadzones since this isn't already done in drive()
             double x = controller.getLeftX();
-            x = MathUtil.clamp(x, Controller.CONTROLLER_DEADZONE, -Controller.CONTROLLER_DEADZONE);
+            x = Math.abs(x) > RobotMap.Controller.CONTROLLER_DEADZONE ? x : 0.0;
             double y = controller.getLeftY();
-            y = MathUtil.clamp(y, Controller.CONTROLLER_DEADZONE, -Controller.CONTROLLER_DEADZONE);
+            y = Math.abs(y) > RobotMap.Controller.CONTROLLER_DEADZONE ? y : 0.0;
             double rot = controller.getRightX();
-            rot = MathUtil.clamp(rot, Controller.CONTROLLER_DEADZONE, -Controller.CONTROLLER_DEADZONE);
+            rot = Math.abs(rot) > RobotMap.Controller.CONTROLLER_DEADZONE ? rot : 0.0;
             drive(x, y, rot, false);
             // TODO: Set this back to true when robot is in better shape, false to be easier to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a hold or something.
