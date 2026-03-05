@@ -12,39 +12,41 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.GameController;
-import frc.robot.utils.Hardware;
-import frc.robot.utils.Utilities;
-import frc.robot.utils.swerve.MAXSwerveModule;
-import frc.robot.utils.swerve.SwerveConstants.DriveConstants;
+import frc.robot.hardware.GameController;
+import frc.robot.hardware.HardwareManager.Controller;
+import frc.robot.hardware.HardwareManager.Gyro;
+import frc.robot.hardware.HardwareManager.MotorControllers;
+import frc.robot.swerve.MAXSwerveModule;
+import frc.robot.swerve.SwerveConstants.DriveConstants;
+import frc.robot.utilities.MathUtil;
 
 public class SwerveDrive extends SubsystemBase {
     // This is directly copied from MAXSwerve template
 
     // Create MAXSwerveModules
     private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
-            Hardware.frontLeftDriveMotor,
-            Hardware.frontLeftTurnMotor,
-            DriveConstants.kFrontLeftChassisAngularOffset);
+        MotorControllers.FR_DRIVE_MOTOR,
+        MotorControllers.FL_TURN_MOTOR,
+        DriveConstants.FRONT_LEFT_CHASSIS_ANGULAR_OFFSET);
 
     private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
-            Hardware.frontRightDriveMotor,
-            Hardware.frontRightTurnMotor,
-            DriveConstants.kFrontRightChassisAngularOffset);
+        MotorControllers.FR_DRIVE_MOTOR,
+        MotorControllers.FR_TURN_MOTOR,
+        DriveConstants.FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET);
 
     private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
-             Hardware.rearLeftDriveMotor,
-            Hardware.rearLeftTurnMotor,
-            DriveConstants.kBackLeftChassisAngularOffset);
+        MotorControllers.BL_DRIVE_MOTOR,
+        MotorControllers.BL_TURN_MOTOR,
+        DriveConstants.BACK_LEFT_CHASSIS_ANGULAR_OFFSET);
 
     private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
-            Hardware.rearRightDriveMotor,
-            Hardware.rearRightTurnMotor,
-            DriveConstants.kBackRightChassisAngularOffset);
+        MotorControllers.BR_DRIVE_MOTOR,
+        MotorControllers.BR_TURN_MOTOR,
+        DriveConstants.BACK_RIGHT_CHASSIS_ANGULAR_OFFSET);
 
-    private Pigeon2 gyro = Hardware.gyro;
+    private Pigeon2 gyro = Gyro.GYRO;
 
-    private GameController controller = Hardware.controller;
+    private GameController controller = Controller.GAME_CONTROLLER;
 
     private SwerveDriveOdometry odometry = new SwerveDriveOdometry(
             DriveConstants.kDriveKinematics,
@@ -88,9 +90,9 @@ public class SwerveDrive extends SubsystemBase {
      */
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         // Convert the commanded speeds into the correct units for the drivetrain
-        double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
-        double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
-        double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
+        double xSpeedDelivered = xSpeed * DriveConstants.MAX_SPEED_METERS_PER_SECOND;
+        double ySpeedDelivered = ySpeed * DriveConstants.MAX_SPEED_METERS_PER_SECOND;
+        double rotDelivered = rot * DriveConstants.MAX_ANGULAR_SPEED;
 
         SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
                 fieldRelative
@@ -99,7 +101,7 @@ public class SwerveDrive extends SubsystemBase {
                                 gyro.getRotation2d())
                         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
         SwerveDriveKinematics.desaturateWheelSpeeds(
-                swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+                swerveModuleStates, DriveConstants.MAX_SPEED_METERS_PER_SECOND);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_rearLeft.setDesiredState(swerveModuleStates[2]);
@@ -113,13 +115,13 @@ public class SwerveDrive extends SubsystemBase {
      */
     public Command teleopDrive() {
         return run(() -> {
-            //Done this way in order to easily enforce controller deadzones since this isn't already done in drive()
+            // Done this way in order to easily enforce controller deadzones since this isn't already done in drive()
             double x = controller.getLeftX();
-            x = Utilities.clamp(x, Hardware.CONTROLLER_DEADZONE, -Hardware.CONTROLLER_DEADZONE);
+            x = MathUtil.clamp(x, Controller.CONTROLLER_DEADZONE, -Controller.CONTROLLER_DEADZONE);
             double y = controller.getLeftY();
-            y = Utilities.clamp(y, Hardware.CONTROLLER_DEADZONE, -Hardware.CONTROLLER_DEADZONE);
+            y = MathUtil.clamp(y, Controller.CONTROLLER_DEADZONE, -Controller.CONTROLLER_DEADZONE);
             double rot = controller.getRightX();
-            rot = Utilities.clamp(rot, Hardware.CONTROLLER_DEADZONE, -Hardware.CONTROLLER_DEADZONE);
+            rot = MathUtil.clamp(rot, Controller.CONTROLLER_DEADZONE, -Controller.CONTROLLER_DEADZONE);
             drive(x, y, rot, false);
             // TODO: Set this back to true when robot is in better shape, false to be easier to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a hold or something.

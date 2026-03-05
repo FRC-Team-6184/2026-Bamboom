@@ -4,9 +4,9 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.hardware.HardwareManager.Controller;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,12 +18,18 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+      new CommandXboxController(Controller.XBOX_P);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /** The container for the robot. Contains subsystems, IO devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
     configureBindings();
+  }
+
+  /**
+   * Use this method to configure controller bindings
+   */
+  private void configureBindings() {
+    // Add bindings here
   }
 
   /**
@@ -35,12 +41,9 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
-
+  
+  /** TODO: Actually implement this method */
+  public void getAutonomousCommand() {
+    
   }
-
-  // public Command getAutonomousCommand() {
-  //   // Hi William, I'm assuming you planned on implementing this at some point, all I know how to do rn is the declaration though
-  //   return null; 
-  // }
 }

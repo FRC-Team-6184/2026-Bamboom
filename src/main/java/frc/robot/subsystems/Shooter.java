@@ -7,15 +7,17 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.GameController;
-import frc.robot.utils.Hardware;
-import frc.robot.utils.Utilities;
+import frc.robot.hardware.GameController;
+import frc.robot.hardware.HardwareManager;
+import frc.robot.hardware.HardwareManager.Controller;
+import frc.robot.hardware.HardwareManager.MotorControllers;
+import frc.robot.utilities.MathUtil;
 
 public class Shooter extends SubsystemBase {
-    private TalonFX bottomMotor = Hardware.bottomShooterWheel;
-    private TalonFX topMotor = Hardware.topShooterWheel;
-    private GameController controller = Hardware.controller;
-    private NetworkTable network = Hardware.networkTableInstance.getTable("Shooter");
+    private final TalonFX bottomMotor = MotorControllers.BOTTOM_SHOOTER_WHEEL;
+    private final TalonFX topMotor = MotorControllers.TOP_SHOOTER_WHEEL;
+    private final GameController controller = Controller.GAME_CONTROLLER;
+    private NetworkTable network = HardwareManager.networkTableInstance.getTable("Shooter");
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
     private DoubleEntry shooterRPMDestEntry = network.getDoubleTopic("ShooterRPM Dest.").getEntry(0);
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
@@ -50,10 +52,10 @@ public class Shooter extends SubsystemBase {
             // TODO: make these PID controlled running at a set RPM instead of being -1.0 to
             // 1.0
             double topPower = shooterRPMDestEntry.get();
-            topPower = Utilities.clamp(topPower, 1.0, -1.0);
+            topPower = MathUtil.clamp(topPower, 1.0, -1.0);
             double bottomPower = shooterRPMDestEntry.get();
-            bottomPower = Utilities.clamp(bottomPower, 1.0, -1.0);
-            if (controller.getRightTrigger() > (Hardware.CONTROLLER_DEADZONE * 2)) {
+            bottomPower = MathUtil.clamp(bottomPower, 1.0, -1.0);
+            if (controller.getRightTrigger() > (Controller.CONTROLLER_DEADZONE * 2)) {
                 // TODO: run motors according to dashboard
 
                 topMotor.set(topPower);

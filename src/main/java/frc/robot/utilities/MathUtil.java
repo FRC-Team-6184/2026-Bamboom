@@ -1,9 +1,14 @@
-package frc.robot.utils;
+package frc.robot.utilities;
 
-public class Utilities {
+import java.lang.Math;
 
-    //In the version of Java used in FRC, apparently the Clamp function does not natively exist within the Math class.
-    //The existencde of Math.clamp() is actually relatively recent (Java 21)
+public class MathUtil {
+
+    /** 
+    * In the version of Java used in FRC (Java 17), apparently the Clamp function does not natively exist within the Math class.
+    * The existencde of Math.clamp() is actually relatively recent (Java 21) 
+    */
+
     /**
      * Clamps a value between max and min
      * @param value Value to be clamped
@@ -14,5 +19,6 @@ public class Utilities {
     public static double clamp(double value, double max, double min) {
         return Math.max(Math.min(value, max), min);
     }
+    
     
 }

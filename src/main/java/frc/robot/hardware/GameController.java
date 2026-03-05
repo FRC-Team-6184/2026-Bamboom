@@ -1,4 +1,4 @@
-package frc.robot.utils;
+package frc.robot.hardware;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
@@ -7,12 +7,32 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/** Wrapper class for GenericHID which uses smart dashboard for controller selection. Xbox by default. */
 public class GameController {
     private final GameControllerOption gameControllerOption = new GameControllerOption();
     public GenericHID internalController;
 
     public GameController(int port) {
         internalController = new GenericHID(port);
+    }
+
+    public class GameControllerOption {
+        private final SendableChooser<String> option = new SendableChooser<>();
+        public static final String XBOX = "XBox";
+        public static final String PS5 = "Playstation 5";
+        public static final String PS4 = "Playstation 4";
+
+        /** Creates a SendableChooser for the smart dashboard. Xbox default. If you wish to use PS5 or PS4 controllers, change it in the smart dashboard. */       
+        public GameControllerOption() {
+            option.setDefaultOption(XBOX, XBOX);
+            option.addOption(PS5, PS5);
+            option.addOption(PS4, PS4);
+            SmartDashboard.putData("Controller Type", option);
+        }
+
+        public String getSelected() {
+            return option.getSelected();
+        }
     }
 
     public double getLeftX() {
@@ -185,21 +205,5 @@ public class GameController {
         }
     }
 
-    public class GameControllerOption {
-        private final SendableChooser<String> option = new SendableChooser<>();
-        public static final String XBOX = "XBox";
-        public static final String PS5 = "Playstation 5";
-        public static final String PS4 = "Playstation 4";
-
-        public GameControllerOption() {
-            option.setDefaultOption(XBOX, XBOX);
-            option.addOption(PS5, PS5);
-            option.addOption(PS4, PS4);
-            SmartDashboard.putData("Controller Type", option);
-        }
-
-        public String getSelected() {
-            return option.getSelected();
-        }
-    }
+   
 }
