@@ -5,18 +5,25 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.Blender;
+import frc.robot.subsystems.Intake;
 
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
-
-  private RobotContainer m_robotContainer; // Dont delete, it's used in a commented-out line of code
+  // Subsystem references
   private final SwerveDrive SwerveDrive = new SwerveDrive();
   private final Shooter Shooter = new Shooter();
+  private final Blender Blender = new Blender();
+  private final Intake Intake = new Intake();
 
+  private Command m_autonomousCommand;
+  private RobotContainer m_robotContainer; // Dont delete, it's used in a commented-out line of code
+  
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
@@ -65,6 +72,8 @@ public class Robot extends TimedRobot {
     // CommandScheduler is like teleopPeriodic, but comand-based.
     CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
+        CommandScheduler.getInstance().schedule();
+
   }
 
   @Override

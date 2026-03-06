@@ -2,8 +2,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.hardware.RobotMap.MotorControllers;
+import frc.robot.hardware.RobotMap.DigitalValues;
+
 /* TODO: 
  * 
  */
@@ -22,7 +26,7 @@ public class Blender extends SubsystemBase {
     
     public Command teleopBlender() {
         return run(() -> {
-            blender.set(0.5);
+            blender.set(DigitalValues.SUPER_LOW);
         });
     }
 }

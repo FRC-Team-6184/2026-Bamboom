@@ -134,6 +134,7 @@ public final class RobotMap {
     }
 
     public static final class DigitalValues {
+        public static final double SUPER_LOW = 0.05;
         public static final double LOW = 0.33;
         public static final double MEDIUM = 0.66;
         public static final double HIGH = 1;
