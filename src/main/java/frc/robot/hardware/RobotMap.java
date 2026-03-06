@@ -31,13 +31,9 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * PDH -                      21
  */
 
-/*Temp
- * 
- * 
- * 
- */
-
  /** 
+  * TODO: Update the readme for this class
+  * TODO: Add another inner class for keeping track of digital values
   * This class holds important information regarding hardware and related
   * things like CAN ID's, Motor controllers, Chassis measurements, etc. 
   */

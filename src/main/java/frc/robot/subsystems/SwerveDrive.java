@@ -126,12 +126,13 @@ public class SwerveDrive extends SubsystemBase {
 
             y = controller.getLeftY();
             y = Math.abs(y) > RobotMap.Controller.CONTROLLER_DEADZONE ? y : 0.0;
-            
+
             rot = controller.getRightX();
             rot = Math.abs(rot) > RobotMap.Controller.CONTROLLER_DEADZONE ? rot : 0.0;
-            drive(x, y, rot, false);
+
             // TODO: Set this back to true when robot is in better shape, false to be easier to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a hold or something.
+            drive(x, y, rot, false);
         });
     }
 }
