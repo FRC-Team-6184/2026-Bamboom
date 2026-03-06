@@ -14,8 +14,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer; // Dont delete, it's used in a commented-out line of code
-  private final SwerveDrive driveSubsystem = new SwerveDrive();
-  private final Shooter shooterSubsystem = new Shooter();
+  private final SwerveDrive SwerveDrive = new SwerveDrive();
+  private final Shooter Shooter = new Shooter();
 
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
@@ -62,8 +62,9 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    CommandScheduler.getInstance().schedule(driveSubsystem.teleopDrive());
-    CommandScheduler.getInstance().schedule(shooterSubsystem.teleopShoot());
+    // CommandScheduler is like teleopPeriodic, but comand-based.
+    CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
+    CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
   }
 
   @Override
