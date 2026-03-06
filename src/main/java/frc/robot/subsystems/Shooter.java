@@ -11,15 +11,15 @@ import edu.wpi.first.units.Units;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.MotorControllers;
-import frc.robot.hardware.GameController;
 
 public class Shooter extends SubsystemBase {
     private final TalonFX bottomMotor = MotorControllers.BOTTOM_SHOOTER_WHEEL;
     private final TalonFX topMotor = MotorControllers.TOP_SHOOTER_WHEEL;
-    private final GameController controller = Controller.GAME_CONTROLLER;
+    private final CommandXboxController controller = Controller.XBOX;
     private NetworkTable network = RobotMap.OtherDigitalStuff.networkTableInstance.getTable("Shooter");
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
     private DoubleEntry shooterRPMDestEntry = network.getDoubleTopic("ShooterRPM Dest.").getEntry(0);
@@ -60,7 +60,7 @@ public class Shooter extends SubsystemBase {
             double topMotorRPM = topMotor.getVelocity().getValue().in(Units.RPM);
             double bottomMotorRPM = bottomMotor.getVelocity().getValue().in(Units.RPM);
 
-            if (controller.getRightTrigger() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
+            if (controller.getRightTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
                 // TODO: run motors according to dashboard
                 topMotor.setControl(voltageRequest.withVelocity(2.0));
                 System.out.println(topMotorRPM);

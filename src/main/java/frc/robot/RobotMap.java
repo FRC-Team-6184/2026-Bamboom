@@ -2,13 +2,18 @@ package frc.robot;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
+
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.util.Units;
+
 import edu.wpi.first.networktables.NetworkTableInstance;
+
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.hardware.GameController;
+
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /* Hardware CAN IDs: (Verify that all are correct sometime)
  * All motor controllers below, down to the BR Swerve Turn, are SparkMax
@@ -47,9 +52,8 @@ public final class RobotMap {
 
     public static final class Controller {
         public static final int XBOX_P = 0;
-        
 
-        public static final GameController GAME_CONTROLLER = new GameController(XBOX_P);
+        public static final CommandXboxController XBOX = new CommandXboxController(XBOX_P);
     }
 
     //TODO: reorder can ids and make them more logical than what is currently here (hardware side)
