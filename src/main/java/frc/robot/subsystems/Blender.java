@@ -8,4 +8,9 @@ public class Blender extends SubsystemBase {
         super();
     }
     
+    public Command teleopBlender() {
+        return run(() -> {
+
+        });
+    }
 }

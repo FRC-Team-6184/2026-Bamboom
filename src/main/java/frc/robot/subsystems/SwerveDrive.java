@@ -47,6 +47,10 @@ public class SwerveDrive extends SubsystemBase {
     private Pigeon2 gyro = Gyro.GYRO;
 
     private GameController controller = Controller.GAME_CONTROLLER;
+    // Variables used in the run lambda:
+    private double x;
+    private double y;
+    private double rot;
 
     private SwerveDriveOdometry odometry = new SwerveDriveOdometry(
             DriveConstants.kDriveKinematics,
@@ -113,14 +117,17 @@ public class SwerveDrive extends SubsystemBase {
      * 
      * @return
      */
+    
     public Command teleopDrive() {
         return run(() -> {
             // Done this way in order to easily enforce controller deadzones since this isn't already done in drive()
-            double x = controller.getLeftX();
+            x = controller.getLeftX();
             x = Math.abs(x) > RobotMap.Controller.CONTROLLER_DEADZONE ? x : 0.0;
-            double y = controller.getLeftY();
+
+            y = controller.getLeftY();
             y = Math.abs(y) > RobotMap.Controller.CONTROLLER_DEADZONE ? y : 0.0;
-            double rot = controller.getRightX();
+            
+            rot = controller.getRightX();
             rot = Math.abs(rot) > RobotMap.Controller.CONTROLLER_DEADZONE ? rot : 0.0;
             drive(x, y, rot, false);
             // TODO: Set this back to true when robot is in better shape, false to be easier to work with for now.
