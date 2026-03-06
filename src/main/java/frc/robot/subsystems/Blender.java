@@ -11,6 +11,11 @@ import frc.robot.hardware.RobotMap.MotorControllers;
 public class Blender extends SubsystemBase {
     private final TalonFX blender = MotorControllers.BLENDER_MOTOR;
 
+    // TODO: Move this into RobotMap.java sometime, underneath the category for digital values.
+    private enum Speeds {
+        
+    }
+
     public Blender() {
         super();
     }
