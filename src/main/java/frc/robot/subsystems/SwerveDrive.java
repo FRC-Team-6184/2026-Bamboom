@@ -5,9 +5,10 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,7 +49,7 @@ public class SwerveDrive extends SubsystemBase {
 
     private GameController controller = Controller.GAME_CONTROLLER;
 
-    private SwerveDriveOdometry odometry = new SwerveDriveOdometry(
+    private SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(
             DriveConstants.kDriveKinematics,
             gyro.getRotation2d(),
             new SwerveModulePosition[] {
@@ -56,7 +57,8 @@ public class SwerveDrive extends SubsystemBase {
                     m_frontRight.getPosition(),
                     m_rearLeft.getPosition(),
                     m_rearRight.getPosition()
-            });
+            },
+            new Pose2d());
 
     public SwerveDrive() {
         super();

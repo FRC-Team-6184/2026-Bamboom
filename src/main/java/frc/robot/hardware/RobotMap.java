@@ -116,6 +116,8 @@ public final class RobotMap {
 
         // Distance between front and back wheels on robot
         public static final double WHEEL_BASE = Units.inchesToMeters(21.525);
+
+        //Array with 
     }
 
     // Move this somewhere else. It's not hardware

@@ -4,7 +4,6 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.units.Units;
@@ -42,6 +41,11 @@ public class Shooter extends SubsystemBase {
         topShooterPIDConfig.kS = 0.12582;
         topShooterPIDConfig.kD = 0.0; //What SysID gave me
         topMotor.getConfigurator().apply(topShooterPIDConfig);
+    }
+
+    @Override
+    public void periodic() {
+
     }
 
     /**
