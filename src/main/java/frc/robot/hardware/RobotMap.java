@@ -7,6 +7,7 @@ import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /* Hardware CAN IDs: (Verify that all are correct sometime)
  * All motor controllers below, down to the BR Swerve Turn, are SparkMax
@@ -23,7 +24,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * Top Wheel of Shooter -     9  | Kraken     (CTRE) (Motor for the top wheel, physically this motor is actually on the bottom of the shooter)
  * Bottom Wheel of Shooter -  13 | Falcon 500 (CTRE) 
  * 
- * Intake Motor -             11 | Kraken     (CTRE) 
+ * Up and Down Intake Motor - 11 | Kraken     (CTRE) 
+ * Active Intake Motor -      14 | Falcon 500 (CTRE) (Not entirely sure this is actually a Falcon 500)
  * 
  * Blender Motor -            12 | Falcon 500 (CTRE) 
  * 
@@ -43,9 +45,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
   */
 public final class RobotMap {
     public static final class Gyro {
-        public static final int GYRO_ID = 20;
-
-        public static final Pigeon2 GYRO = new Pigeon2(GYRO_ID); 
+        public static final Pigeon2 GYRO = new Pigeon2(CAN_IDs.GYRO_ID); 
     }
 
     public static final class Controller {
@@ -55,13 +55,15 @@ public final class RobotMap {
         public static final GameController GAME_CONTROLLER = new GameController(XBOX_P);
     }
 
+    //TODO: reorder can ids and make them more logical than what is currently here (hardware side)
     public static final class CAN_IDs {
         // Shooter
         public static final int BACK_SHOOTER_WHEEL_ID = 13;
         public static final int TOP_SHOOTER_WHEEL_ID =  9;
 
         // Intake
-        public static final int INTAKE_MOTOR_ID = 11;
+        public static final int UPANDDOWN_INTAKE_MOTOR_ID = 11;
+        public static final int ACTIVE_INTAKE_MOTOR_ID = 14;
 
         // Blender
         public static final int BLENDER_MOTOR_ID = 12;
@@ -78,6 +80,9 @@ public final class RobotMap {
 
         public static final int BR_DRIVE_MOTOR_ID = 7;
         public static final int BR_TURN_MOTOR_ID =  8;
+        
+        // Other
+        public static final int GYRO_ID = 20;
     }
 
     public static final class MotorControllers {
@@ -102,7 +107,8 @@ public final class RobotMap {
         public static final SparkMax BR_TURN_MOTOR = new SparkMax(CAN_IDs.BR_TURN_MOTOR_ID, MotorType.kBrushless);
 
         // Intake
-        public static final TalonFX INTAKE_MOTOR = new TalonFX(CAN_IDs.INTAKE_MOTOR_ID); // Check to make sure this ID is right
+        public static final TalonFX UPANDDOWN_INTAKE_MOTOR = new TalonFX(CAN_IDs.UPANDDOWN_INTAKE_MOTOR_ID); // Check to make sure this ID is right
+        public static final TalonFX ACTIVE_INTAKE_MOTOR = new TalonFX(CAN_IDs.ACTIVE_INTAKE_MOTOR_ID);
 
         // Blender
         public static final TalonFX BLENDER_MOTOR = new TalonFX(CAN_IDs.BLENDER_MOTOR_ID); // Check to make sure this ID is right
@@ -126,7 +132,12 @@ public final class RobotMap {
         //Array with 
     }
 
-    // Move this somewhere else. It's not hardware
+    public static final class DigitalInputOutput {
+        public static final DigitalInput INTAKE_TOP_LIMIT_SWITCH = new DigitalInput(0);
+        public static final DigitalInput INTAKE_BOTTOM_LIMIT_SWITCH = new DigitalInput(1);
+    }
+
+    // TODO: Move this somewhere else. It's not hardware
     public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
     
     private RobotMap() {} // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.
