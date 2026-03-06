@@ -7,6 +7,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/*TODO:
+ * Rewrite this class to work with the command-based stuff
+ */
+
 /** Wrapper class for GenericHID which uses smart dashboard for controller selection. Xbox by default. */
 public class GameController {
     private final GameControllerOption gameControllerOption = new GameControllerOption();

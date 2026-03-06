@@ -9,7 +9,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 /* Hardware CAN IDs: (Verify that all are correct sometime)
- * All motor controllers below, down to the Blender Motor, are TalonFX
+ * All motor controllers below, down to the BR Swerve Turn, are SparkMax
  * Front Left Swerve Drive -  1 | Neo     (Rev Robotics) 
  * Front Left Swerve Turn -   2 | Neo 550 (Rev Robotics) 
  * Front Right Swerve Drive - 3 | Neo     (Rev Robotics) 
@@ -19,7 +19,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * Back Right Swerve Drive -  7 | Neo     (Rev Robotics) 
  * Back Right Swerve Turn -   8 | Neo 550 (Rev Robotics) 
  * 
- * 
+ * All motor controllers below, down to the blender motor, are TalonFX
  * Top Wheel of Shooter -     9  | Kraken     (CTRE) (Motor for the top wheel, physically this motor is actually on the bottom of the shooter)
  * Bottom Wheel of Shooter -  13 | Falcon 500 (CTRE) 
  * 
@@ -29,6 +29,12 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * 
  * Gyro (Pigeon2) -           20
  * PDH -                      21
+ */
+
+/*Temp
+ * 
+ * 
+ * 
  */
 
  /** 
