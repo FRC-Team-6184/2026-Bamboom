@@ -133,8 +133,15 @@ public final class RobotMap {
         public static final DigitalInput INTAKE_BOTTOM_LIMIT_SWITCH = new DigitalInput(1);
     }
 
-    // TODO: Move this somewhere else. It's not hardware
-    public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
+    public static final class DigitalValues {
+        public static final double LOW = 0.33;
+        public static final double MEDIUM = 0.66;
+        public static final double HIGH = 1;
+    }
+
+    public static final class OtherDigitalStuff {
+        public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
+    }
     
     private RobotMap() {} // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.
 }
