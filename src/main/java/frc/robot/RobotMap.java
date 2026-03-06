@@ -47,7 +47,7 @@ public final class RobotMap {
 
     public static final class Controller {
         public static final int XBOX_P = 0;
-        public static final double CONTROLLER_DEADZONE = 0.12;
+        
 
         public static final GameController GAME_CONTROLLER = new GameController(XBOX_P);
     }
@@ -140,6 +140,8 @@ public final class RobotMap {
         public static final double LOW = 0.33;
         public static final double MEDIUM = 0.66;
         public static final double HIGH = 1;
+
+        public static final double CONTROLLER_DEADZONE = 0.12;
     }
     // TODO: Find a more apt name for this class
     public static final class OtherDigitalStuff {

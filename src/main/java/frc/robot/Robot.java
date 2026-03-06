@@ -55,7 +55,6 @@ public class Robot extends TimedRobot {
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
-  /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {}
 
@@ -69,7 +68,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    // CommandScheduler is like teleopPeriodic, but comand-based.
+    // CommandScheduler is like teleopPeriodic, but command-based.
     // ROBOT MIGHT START MOVING THE BLENDER IN TELEOPINIT MODE WITH NO USER INPUT
     CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     CommandScheduler.getInstance().schedule(Shooter.teleopShoot());

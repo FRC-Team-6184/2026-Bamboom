@@ -124,13 +124,13 @@ public class SwerveDrive extends SubsystemBase {
         return run(() -> {
             // Done this way in order to easily enforce controller deadzones since this isn't already done in drive()
             x = controller.getLeftX();
-            x = Math.abs(x) > RobotMap.Controller.CONTROLLER_DEADZONE ? x : 0.0;
+            x = Math.abs(x) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? x : 0.0;
 
             y = controller.getLeftY();
-            y = Math.abs(y) > RobotMap.Controller.CONTROLLER_DEADZONE ? y : 0.0;
+            y = Math.abs(y) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? y : 0.0;
 
             rot = controller.getRightX();
-            rot = Math.abs(rot) > RobotMap.Controller.CONTROLLER_DEADZONE ? rot : 0.0;
+            rot = Math.abs(rot) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? rot : 0.0;
 
             // TODO: Set this back to true when robot is in better shape, false to be easier to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a hold or something.
