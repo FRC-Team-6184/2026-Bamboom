@@ -1,4 +1,3 @@
-# Hardware Assignments
-All objects related to hardware (motor controllers, driver controller, sensors, etc.) should be done in the `HardwareManager.java` class.
-
-Associated CAN ID's and such should also be commented at the top of the `HardwareManager.java` class for future reference.
+# Hardware/Software Constants
+All constants relating to both hardware and software should be declared in and accessed from the 'RobotMap.java' class.
+All CAN ID's will also be displayed at the top of 'RobotMap.java' for quick reference.
