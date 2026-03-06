@@ -11,17 +11,16 @@ import edu.wpi.first.units.Units;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.RobotMap;
+import frc.robot.RobotMap.Controller;
+import frc.robot.RobotMap.MotorControllers;
 import frc.robot.hardware.GameController;
-import frc.robot.hardware.RobotMap;
-import frc.robot.hardware.RobotMap.Controller;
-import frc.robot.hardware.RobotMap.MotorControllers;
 
 public class Shooter extends SubsystemBase {
     private final TalonFX bottomMotor = MotorControllers.BOTTOM_SHOOTER_WHEEL;
     private final TalonFX topMotor = MotorControllers.TOP_SHOOTER_WHEEL;
     private final GameController controller = Controller.GAME_CONTROLLER;
-    private NetworkTable network = RobotMap.networkTableInstance.getTable("Shooter");
+    private NetworkTable network = RobotMap.OtherDigitalStuff.networkTableInstance.getTable("Shooter");
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
     private DoubleEntry shooterRPMDestEntry = network.getDoubleTopic("ShooterRPM Dest.").getEntry(0);
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);

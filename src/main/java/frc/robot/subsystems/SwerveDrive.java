@@ -13,11 +13,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
+import frc.robot.RobotMap.Controller;
+import frc.robot.RobotMap.Gyro;
+import frc.robot.RobotMap.MotorControllers;
 import frc.robot.hardware.GameController;
-import frc.robot.hardware.RobotMap;
-import frc.robot.hardware.RobotMap.Controller;
-import frc.robot.hardware.RobotMap.Gyro;
-import frc.robot.hardware.RobotMap.MotorControllers;
 import frc.robot.swerve.MAXSwerveModule;
 import frc.robot.swerve.SwerveConstants.DriveConstants;
 

@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
     // CommandScheduler is like teleopPeriodic, but comand-based.
     CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
-        CommandScheduler.getInstance().schedule();
+    CommandScheduler.getInstance().schedule(Blender.teleopBlender());
 
   }
 

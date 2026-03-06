@@ -4,9 +4,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.hardware.RobotMap.MotorControllers;
-import frc.robot.hardware.RobotMap.DigitalValues;
+import frc.robot.RobotMap.DigitalValues;
+import frc.robot.RobotMap.MotorControllers;
 
 /* TODO: 
  * 
@@ -14,11 +13,6 @@ import frc.robot.hardware.RobotMap.DigitalValues;
 
 public class Blender extends SubsystemBase {
     private final TalonFX blender = MotorControllers.BLENDER_MOTOR;
-
-    // TODO: Move this into RobotMap.java sometime, underneath the category for digital values.
-    private enum Speeds {
-        
-    }
 
     public Blender() {
         super();

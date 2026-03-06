@@ -1,4 +1,4 @@
-package frc.robot.hardware;
+package frc.robot;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.hardware.GameController;
 
 /* Hardware CAN IDs: (Verify that all are correct sometime)
  * All motor controllers below, down to the BR Swerve Turn, are SparkMax
@@ -139,7 +140,7 @@ public final class RobotMap {
         public static final double MEDIUM = 0.66;
         public static final double HIGH = 1;
     }
-
+    // TODO: Find a more apt name for this class
     public static final class OtherDigitalStuff {
         public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
     }
