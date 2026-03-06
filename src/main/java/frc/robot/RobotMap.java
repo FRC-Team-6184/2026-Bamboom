@@ -129,6 +129,7 @@ public final class RobotMap {
         //Array with 
     }
 
+    // Software things below
     public static final class DigitalInputOutput {
         public static final DigitalInput INTAKE_TOP_LIMIT_SWITCH = new DigitalInput(0);
         public static final DigitalInput INTAKE_BOTTOM_LIMIT_SWITCH = new DigitalInput(1);

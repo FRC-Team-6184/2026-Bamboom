@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
     }
 
     // CommandScheduler is like teleopPeriodic, but comand-based.
+    // ROBOT MIGHT START MOVING THE BLENDER IN TELEOPINIT MODE WITH NO USER INPUT
     CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
     CommandScheduler.getInstance().schedule(Blender.teleopBlender());
