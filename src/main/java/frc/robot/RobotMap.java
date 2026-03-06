@@ -56,7 +56,7 @@ public final class RobotMap {
         public static final CommandXboxController XBOX = new CommandXboxController(XBOX_P);
     }
 
-    //TODO: reorder can ids and make them more logical than what is currently here (hardware side)
+    // TODO: reorder can ids and make them more logical than what is currently here (hardware side)
     public static final class CAN_IDs {
         // Shooter
         public static final int BACK_SHOOTER_WHEEL_ID = 13;
