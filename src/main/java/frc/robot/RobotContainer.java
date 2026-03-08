@@ -11,8 +11,6 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
-/* TODO: Figure out how to make variables final, while still initalizing them in the constructor and declaring them at the top of the class */
-
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls). Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
  */
@@ -22,6 +20,8 @@ public class RobotContainer {
   private Intake kIntakeSubsystem;
   private Shooter kShooterSubsystem;
   private SwerveDrive kSwerveSubsystem;
+
+  // Command
 
   /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
   public RobotContainer() {
@@ -48,6 +48,7 @@ public class RobotContainer {
     // TODO: Actually implement this method
   }
 
+  /** Returns a teleop command */
   public void getTeleopCommand() {
 
   }

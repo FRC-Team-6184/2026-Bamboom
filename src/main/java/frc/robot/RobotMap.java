@@ -1,4 +1,4 @@
-package frc.robot.constants;
+package frc.robot;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;

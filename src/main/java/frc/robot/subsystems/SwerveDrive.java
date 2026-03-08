@@ -14,10 +14,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.constants.RobotMap;
-import frc.robot.constants.RobotMap.Controller;
-import frc.robot.constants.RobotMap.Gyro;
-import frc.robot.constants.RobotMap.MotorControllers;
+import frc.robot.RobotMap;
+import frc.robot.RobotMap.Controller;
+import frc.robot.RobotMap.Gyro;
+import frc.robot.RobotMap.MotorControllers;
 import frc.robot.swerve.MAXSwerveModule;
 import frc.robot.swerve.SwerveConstants.DriveConstants;
 
@@ -32,38 +32,17 @@ public class SwerveDrive extends SubsystemBase {
         private final CommandXboxController controller = Controller.XBOX;
 
         // Create MAXSwerveModules
-        private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
-                        MotorControllers.FR_DRIVE_MOTOR,
-                        MotorControllers.FL_TURN_MOTOR,
-                        DriveConstants.FRONT_LEFT_CHASSIS_ANGULAR_OFFSET);
+        private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(MotorControllers.FR_DRIVE_MOTOR, MotorControllers.FL_TURN_MOTOR, DriveConstants.FRONT_LEFT_CHASSIS_ANGULAR_OFFSET);
 
-        private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
-                        MotorControllers.FR_DRIVE_MOTOR,
-                        MotorControllers.FR_TURN_MOTOR,
-                        DriveConstants.FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET);
+        private final MAXSwerveModule m_frontRight = new MAXSwerveModule(MotorControllers.FR_DRIVE_MOTOR, MotorControllers.FR_TURN_MOTOR, DriveConstants.FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET);
 
-        private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
-                        MotorControllers.BL_DRIVE_MOTOR,
-                        MotorControllers.BL_TURN_MOTOR,
-                        DriveConstants.BACK_LEFT_CHASSIS_ANGULAR_OFFSET);
+        private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(MotorControllers.BL_DRIVE_MOTOR, MotorControllers.BL_TURN_MOTOR, DriveConstants.BACK_LEFT_CHASSIS_ANGULAR_OFFSET);
 
-        private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
-                        MotorControllers.BR_DRIVE_MOTOR,
-                        MotorControllers.BR_TURN_MOTOR,
-                        DriveConstants.BACK_RIGHT_CHASSIS_ANGULAR_OFFSET);
+        private final MAXSwerveModule m_rearRight = new MAXSwerveModule(MotorControllers.BR_DRIVE_MOTOR, MotorControllers.BR_TURN_MOTOR, DriveConstants.BACK_RIGHT_CHASSIS_ANGULAR_OFFSET);
 
         private Pigeon2 gyro = Gyro.GYRO;
 
-        private SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(
-                        DriveConstants.kDriveKinematics,
-                        gyro.getRotation2d(),
-                        new SwerveModulePosition[] {
-                                        m_frontLeft.getPosition(),
-                                        m_frontRight.getPosition(),
-                                        m_rearLeft.getPosition(),
-                                        m_rearRight.getPosition()
-                        },
-                        new Pose2d());
+        private SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getRotation2d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose2d());
 
         public SwerveDrive() {
                 super();
@@ -76,14 +55,7 @@ public class SwerveDrive extends SubsystemBase {
         @Override
         public void periodic() {
                 // Update the odometry in the periodic block
-                odometry.update(
-                                gyro.getRotation2d(),
-                                new SwerveModulePosition[] {
-                                                m_frontLeft.getPosition(),
-                                                m_frontRight.getPosition(),
-                                                m_rearLeft.getPosition(),
-                                                m_rearRight.getPosition()
-                                });
+                odometry.update(gyro.getRotation2d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()});
         }
 
         /**
@@ -101,14 +73,8 @@ public class SwerveDrive extends SubsystemBase {
                 double ySpeedDelivered = ySpeed * DriveConstants.MAX_SPEED_METERS_PER_SECOND;
                 double rotDelivered = rot * DriveConstants.MAX_ANGULAR_SPEED;
 
-                SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-                                fieldRelative
-                                                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered,
-                                                                ySpeedDelivered, rotDelivered,
-                                                                gyro.getRotation2d())
-                                                : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
-                SwerveDriveKinematics.desaturateWheelSpeeds(
-                                swerveModuleStates, DriveConstants.MAX_SPEED_METERS_PER_SECOND);
+                SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, gyro.getRotation2d()) : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+                SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.MAX_SPEED_METERS_PER_SECOND);
                 m_frontLeft.setDesiredState(swerveModuleStates[0]);
                 m_frontRight.setDesiredState(swerveModuleStates[1]);
                 m_rearLeft.setDesiredState(swerveModuleStates[2]);

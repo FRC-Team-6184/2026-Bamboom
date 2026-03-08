@@ -2,30 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-/* 
-* Note from William H. :
-* Stole this straight from the REV MaxSwerve Template, added additional notes and such 
-* though to help make this more approachable and understandable 
-*/
+/*
+ * Note from William H. : Stole this straight from the REV MaxSwerve Template, added additional notes and such though to help make this more approachable and understandable
+ */
 
 package frc.robot.swerve;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import frc.robot.constants.RobotMap.Chassis;
+import frc.robot.RobotMap.Chassis;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide
- * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
- * should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
+ * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean constants. This class should not be used for any other purpose. All constants should be declared globally (i.e. public static). Do not put anything functional in this class.
  *
  * <p>
- * It is advised to statically import this class (or one of its inner classes)
- * wherever the
- * constants are needed, to reduce verbosity.
+ * It is advised to statically import this class (or one of its inner classes) wherever the constants are needed, to reduce verbosity.
  */
 public final class SwerveConstants {
     /**
@@ -51,11 +43,7 @@ public final class SwerveConstants {
          * this is just making sure the robot knows where the wheels are relative to the
          * center of the robot.
          */
-        public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-                new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
-                new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2),
-                new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
-                new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2));
+        public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2), new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2), new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2));
 
         // Angular offsets of the modules relative to the chassis in radians
         /**
@@ -94,9 +82,7 @@ public final class SwerveConstants {
         // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
         // teeth on the bevel pinion
         public static final double DRIVING_MOTOR_REDUCTION = (45.0 * 22) / (DRIVING_MOTOR_PINION_TEETH * 15);
-        public static final double DRIVE_WHEEL_FREE_SPEED_RPS = (DRIVING_MOTOR_FREE_SPEED_RPS
-                * WHEEL_CIRCUMFERENCE_METERS)
-                / DRIVING_MOTOR_REDUCTION;
+        public static final double DRIVE_WHEEL_FREE_SPEED_RPS = (DRIVING_MOTOR_FREE_SPEED_RPS * WHEEL_CIRCUMFERENCE_METERS) / DRIVING_MOTOR_REDUCTION;
     }
 
     /**
@@ -116,8 +102,7 @@ public final class SwerveConstants {
         public static final double P_THETA_CONTROLLER = 1;
 
         // Constraint for the motion profiled robot angle controller
-        public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
-                MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
+        public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
     }
 
     /**
