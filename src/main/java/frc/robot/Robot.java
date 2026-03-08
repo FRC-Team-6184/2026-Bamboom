@@ -22,8 +22,7 @@ public class Robot extends TimedRobot {
   private Blender Blender;
   private Intake Intake;
 
-  // idk
-  private Command autonomousCommand;
+  // Robot container
   private RobotContainer robotContainer;
 
   // TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
@@ -67,9 +66,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // if (m_autonomousCommand != null) {
-    // m_autonomousCommand.cancel();
-    // }
+    // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
 
     // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     // CommandScheduler.getInstance().schedule(Shooter.teleopShoot());

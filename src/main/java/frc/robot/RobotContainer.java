@@ -21,8 +21,6 @@ public class RobotContainer {
   private Shooter kShooterSubsystem;
   private SwerveDrive kSwerveSubsystem;
 
-  // Command
-
   /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
   public RobotContainer() {
     configureBindings();
@@ -43,15 +41,18 @@ public class RobotContainer {
   }
 
   // API to get commands, subsytems, etc.
-  /** Returns an autonomous command */
-  public void getAutonomousCommand() {
-    // TODO: Actually implement this method
-  }
+  /** Returns the teleop command for the swerve drive subsystem */
+  public void getTeleopBlender() {}
 
-  /** Returns a teleop command */
-  public void getTeleopCommand() {
+  /** Returns the teleop command for the swerve drive subsystem */
+  public void getTeleopIntake() {}
 
-  }
+  /** Returns the teleop command for the swerve drive subsystem */
+  public void getTeleopShooter() {}
+
+  /** Returns the teleop command for the swerve drive subsystem */
+  public void getTeleopDrive() {}
+
 
   /** Returns the object of a subsystem based on String subsys */
   public SubsystemBase getSubsystem(String subsys) {
