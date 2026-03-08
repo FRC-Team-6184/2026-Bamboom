@@ -69,8 +69,13 @@ public class RobotContainer {
   }
 
   // API to get commands, subsytems, etc.
+  /** Returns an autonomous command */
   public void getAutonomousCommand() {
     // TODO: Actually implement this method
+  }
+
+  public void getTeleopCommand() {
+
   }
 
   /** Returns the object of a subsystem based on String subsys */
