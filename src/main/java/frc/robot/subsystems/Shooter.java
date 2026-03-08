@@ -12,9 +12,9 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.RobotMap;
-import frc.robot.RobotMap.Controller;
-import frc.robot.RobotMap.MotorControllers;
+import frc.robot.constants.RobotMap;
+import frc.robot.constants.RobotMap.Controller;
+import frc.robot.constants.RobotMap.MotorControllers;
 
 public class Shooter extends SubsystemBase {
     private final TalonFX bottomMotor = MotorControllers.BOTTOM_SHOOTER_WHEEL;

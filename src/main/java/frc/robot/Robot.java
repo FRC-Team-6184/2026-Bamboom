@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Blender;
 import frc.robot.subsystems.Intake;
+
+import frc.robot.RobotContainer;
 
 public class Robot extends TimedRobot {
   // Subsystem references
@@ -21,14 +23,20 @@ public class Robot extends TimedRobot {
   private final Blender Blender = new Blender();
   private final Intake Intake = new Intake();
 
-  private Command m_autonomousCommand;
-  private RobotContainer m_robotContainer; // Dont delete, it's used in a commented-out line of code
+  private Command autonomousCommand;
+  private RobotContainer robotContainer;
 
+  /**
+   * Robot Constructor. Instantiates RobotContainer and performs various
+   * initializations
+   */
   public Robot() {
-    // Instantiate our RobotContainer. This will perform all our button bindings,
-    // and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
+
+    final SwerveDrive SwerveDrive = (SwerveDrive) robotContainer.getSubsystem("Swerve");
+    final SwerveDrive Shooter = (SwerveDrive) robotContainer.getSubsystem("Shooter");
+    final SwerveDrive Blender = (SwerveDrive) robotContainer.getSubsystem("Blender");
+    final SwerveDrive Intake = (SwerveDrive) robotContainer.getSubsystem("Intake");
   }
 
   /**
@@ -82,7 +90,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
     CommandScheduler.getInstance().schedule(Blender.teleopBlender());
-
+    CommandScheduler.getInstance().schedule(Intake.teleopIntake());
   }
 
   @Override
