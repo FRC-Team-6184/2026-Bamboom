@@ -53,7 +53,7 @@ public class Shooter extends SubsystemBase {
         topShooterPIDConfig.kA = 0.0097241;
         topShooterPIDConfig.kV = 0.11622;
         topShooterPIDConfig.kS = 0.12582;
-        topShooterPIDConfig.kD = 0.0; //What SysID gave me
+        topShooterPIDConfig.kD = 0.0; // What SysID gave me
         topMotor.getConfigurator().apply(topShooterPIDConfig);
 
         Slot0Configs bottomShooterPIDConfig = new Slot0Configs();

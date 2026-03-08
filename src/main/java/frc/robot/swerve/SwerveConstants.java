@@ -29,15 +29,16 @@ import frc.robot.RobotMap.Chassis;
  */
 public final class SwerveConstants {
     /**
-     * Generic constants regarding the overall use of Swerve, including the CAN IDs of the motors.
+     * Generic constants regarding the overall use of Swerve, including the CAN IDs
+     * of the motors.
      */
     public static final class DriveConstants {
         private static final double TRACK_WIDTH = Chassis.TRACK_WIDTH;
         private static final double WHEEL_BASE = Chassis.WHEEL_BASE;
-        
+
         /*
          * Driving Parameters - Note that these are not the maximum capable speeds of
-         * the robot, but rather the allowed maximum speeds 
+         * the robot, but rather the allowed maximum speeds
          */
 
         /** Hard set max speed for the overall robot */
@@ -46,8 +47,9 @@ public final class SwerveConstants {
         public static final double MAX_ANGULAR_SPEED = 2 * Math.PI; // radians per second
 
         /**
-         * You shouldn't have to touch this at all ever, 
-         * this is just making sure the robot knows where the wheels are relative to the center of the robot.
+         * You shouldn't have to touch this at all ever,
+         * this is just making sure the robot knows where the wheels are relative to the
+         * center of the robot.
          */
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
                 new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
@@ -57,8 +59,10 @@ public final class SwerveConstants {
 
         // Angular offsets of the modules relative to the chassis in radians
         /**
-         * Yet another way for the robot to keep reference of where the modules are in reference to the center of the robot.
-         * You shouldn't have to touch this if you have a square frame, possibly if it's rectangular.
+         * Yet another way for the robot to keep reference of where the modules are in
+         * reference to the center of the robot.
+         * You shouldn't have to touch this if you have a square frame, possibly if it's
+         * rectangular.
          */
         public static final double FRONT_LEFT_CHASSIS_ANGULAR_OFFSET = -Math.PI / 2;
         public static final double FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET = 0;
@@ -69,10 +73,13 @@ public final class SwerveConstants {
     }
 
     /**
-     * This is concerning the actual math of some of the mechanisms of the swerve modules.
-     * You shouldn't ever need to touch anything other than DRIVING_MOTOR_PINION_TEETH.
+     * This is concerning the actual math of some of the mechanisms of the swerve
+     * modules.
+     * You shouldn't ever need to touch anything other than
+     * DRIVING_MOTOR_PINION_TEETH.
      * 
-     * Only do so if you know what you're doing or if you have swapped out of the pinion gears.
+     * Only do so if you know what you're doing or if you have swapped out of the
+     * pinion gears.
      */
     public static final class ModuleConstants {
         // The MAXSwerve module can be configured with one of three pinion gears: 12T,
@@ -87,13 +94,15 @@ public final class SwerveConstants {
         // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
         // teeth on the bevel pinion
         public static final double DRIVING_MOTOR_REDUCTION = (45.0 * 22) / (DRIVING_MOTOR_PINION_TEETH * 15);
-        public static final double DRIVE_WHEEL_FREE_SPEED_RPS = (DRIVING_MOTOR_FREE_SPEED_RPS * WHEEL_CIRCUMFERENCE_METERS)
+        public static final double DRIVE_WHEEL_FREE_SPEED_RPS = (DRIVING_MOTOR_FREE_SPEED_RPS
+                * WHEEL_CIRCUMFERENCE_METERS)
                 / DRIVING_MOTOR_REDUCTION;
     }
 
     /**
      * These are constants that are only relevant during Autonomous Mode.
-     * Any duplicate settings that exist elsewhere are overriden by the ones here during auto.
+     * Any duplicate settings that exist elsewhere are overriden by the ones here
+     * during auto.
      */
     public static final class AutoConstants {
         public static final double MAX_SPEED_METERS_PER_SECOND = 3;
@@ -112,7 +121,8 @@ public final class SwerveConstants {
     }
 
     /**
-     * So, I think this is the max speed of the big ol' Neo with no load, but I frankly have not a single clue.
+     * So, I think this is the max speed of the big ol' Neo with no load, but I
+     * frankly have not a single clue.
      * I'm just trusting this number because I don't know what this is.
      */
     public static final class NeoMotorConstants {

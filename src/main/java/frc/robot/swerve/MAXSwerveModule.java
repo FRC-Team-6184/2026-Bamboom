@@ -58,9 +58,12 @@ public class MAXSwerveModule {
     m_drivingEncoder.setPosition(0);
   }
 
-    /* Custom constructor to take in objects of SparkMax rather than CAN IDs and then instantiating them.
-     * We already instantiate them in the Hardware class, then just pass those objects in here.
-     */
+  /*
+   * Custom constructor to take in objects of SparkMax rather than CAN IDs and
+   * then instantiating them.
+   * We already instantiate them in the Hardware class, then just pass those
+   * objects in here.
+   */
   public MAXSwerveModule(SparkMax drivingMotor, SparkMax turningMotor, double chassisAngularOffset) {
     m_drivingSpark = drivingMotor;
     m_turningSpark = turningMotor;

@@ -16,11 +16,10 @@ public class Blender extends SubsystemBase {
     public Blender() {
         super();
     }
-    
+
     public Command teleopBlender() {
         return run(() -> {
-            
-            
+
         });
     }
 }

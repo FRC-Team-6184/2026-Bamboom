@@ -39,15 +39,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * PDH -                      21
  */
 
- /** 
-  * TODO: Update the readme for this class
-  * TODO: Add another inner class for keeping track of digital values?
-  * This class holds important information regarding hardware and related
-  * things like CAN ID's, Motor controllers, Chassis measurements, etc. 
-  */
+/**
+ * TODO: Update the readme for this class
+ * TODO: Add another inner class for keeping track of digital values?
+ * This class holds important information regarding hardware and related
+ * things like CAN ID's, Motor controllers, Chassis measurements, etc.
+ */
 public final class RobotMap {
     public static final class Gyro {
-        public static final Pigeon2 GYRO = new Pigeon2(CAN_IDs.GYRO_ID); 
+        public static final Pigeon2 GYRO = new Pigeon2(CAN_IDs.GYRO_ID);
     }
 
     public static final class Controller {
@@ -56,7 +56,8 @@ public final class RobotMap {
         public static final CommandXboxController XBOX = new CommandXboxController(XBOX_P);
     }
 
-    // TODO: reorder can ids and make them more logical than what is currently here (hardware side)
+    // TODO: reorder can ids and make them more logical than what is currently here
+    // (hardware side)
     public static final class CAN_IDs {
         // Shooter
         public static final int BACK_SHOOTER_WHEEL_ID = 13;
@@ -71,17 +72,17 @@ public final class RobotMap {
 
         // Swerve
         public static final int FL_DRIVE_MOTOR_ID = 1;
-        public static final int FL_TURN_MOTOR_ID =  2;
+        public static final int FL_TURN_MOTOR_ID = 2;
 
         public static final int FR_DRIVE_MOTOR_ID = 3;
-        public static final int FR_TURN_MOTOR_ID =  4;
+        public static final int FR_TURN_MOTOR_ID = 4;
 
         public static final int BL_DRIVE_MOTOR_ID = 5;
-        public static final int BL_TURN_MOTOR_ID =  6;
+        public static final int BL_TURN_MOTOR_ID = 6;
 
         public static final int BR_DRIVE_MOTOR_ID = 7;
-        public static final int BR_TURN_MOTOR_ID =  8;
-        
+        public static final int BR_TURN_MOTOR_ID = 8;
+
         // Other
         public static final int GYRO_ID = 20;
     }
@@ -89,48 +90,53 @@ public final class RobotMap {
     public static final class MotorControllers {
         // Shooter Motors
         public static final TalonFX BOTTOM_SHOOTER_WHEEL = new TalonFX(CAN_IDs.BACK_SHOOTER_WHEEL_ID);
-        public static final TalonFX TOP_SHOOTER_WHEEL = new TalonFX(CAN_IDs.TOP_SHOOTER_WHEEL_ID); 
+        public static final TalonFX TOP_SHOOTER_WHEEL = new TalonFX(CAN_IDs.TOP_SHOOTER_WHEEL_ID);
 
         // Swerve
-            // Left-side Drive Motors
+        // Left-side Drive Motors
         public static final SparkMax FL_DRIVE_MOTOR = new SparkMax(CAN_IDs.FL_DRIVE_MOTOR_ID, MotorType.kBrushless);
         public static final SparkMax BL_DRIVE_MOTOR = new SparkMax(CAN_IDs.BL_DRIVE_MOTOR_ID, MotorType.kBrushless);
-            // Left-side Turn Motors
+        // Left-side Turn Motors
         public static final SparkMax FL_TURN_MOTOR = new SparkMax(CAN_IDs.FL_TURN_MOTOR_ID, MotorType.kBrushless);
         public static final SparkMax BL_TURN_MOTOR = new SparkMax(CAN_IDs.BL_TURN_MOTOR_ID, MotorType.kBrushless);
 
-
-            // Right-side Drive Motors
+        // Right-side Drive Motors
         public static final SparkMax FR_DRIVE_MOTOR = new SparkMax(CAN_IDs.FR_DRIVE_MOTOR_ID, MotorType.kBrushless);
         public static final SparkMax BR_DRIVE_MOTOR = new SparkMax(CAN_IDs.BR_DRIVE_MOTOR_ID, MotorType.kBrushless);
-            // Right-side Turn Motors
+        // Right-side Turn Motors
         public static final SparkMax FR_TURN_MOTOR = new SparkMax(CAN_IDs.FR_TURN_MOTOR_ID, MotorType.kBrushless);
         public static final SparkMax BR_TURN_MOTOR = new SparkMax(CAN_IDs.BR_TURN_MOTOR_ID, MotorType.kBrushless);
 
         // Intake
-        public static final TalonFX UPANDDOWN_INTAKE_MOTOR = new TalonFX(CAN_IDs.UPANDDOWN_INTAKE_MOTOR_ID); // Check to make sure this ID is right
+        public static final TalonFX UPANDDOWN_INTAKE_MOTOR = new TalonFX(CAN_IDs.UPANDDOWN_INTAKE_MOTOR_ID); // Check to
+                                                                                                             // make
+                                                                                                             // sure
+                                                                                                             // this ID
+                                                                                                             // is right
         public static final TalonFX ACTIVE_INTAKE_MOTOR = new TalonFX(CAN_IDs.ACTIVE_INTAKE_MOTOR_ID);
 
         // Blender
-        public static final TalonFX BLENDER_MOTOR = new TalonFX(CAN_IDs.BLENDER_MOTOR_ID); // Check to make sure this ID is right
+        public static final TalonFX BLENDER_MOTOR = new TalonFX(CAN_IDs.BLENDER_MOTOR_ID); // Check to make sure this ID
+                                                                                           // is right
     }
 
     public static final class Chassis {
         /**
          * This assumes your robot is rectangular.
-         * TRACK_WIDTH is the distance between the left and right wheels, 
+         * TRACK_WIDTH is the distance between the left and right wheels,
          * I'm using the distance between the left and right drive motors for this.
-         * WHEEL_BASE is the distance between the front and back wheels, 
-         * I'm using the same reference point for this: centers of motors. 
+         * WHEEL_BASE is the distance between the front and back wheels,
+         * I'm using the same reference point for this: centers of motors.
          */
 
         // Distance between centers of right and left wheels on robot
-        public static final double TRACK_WIDTH = Units.inchesToMeters(21.525); // This may be off, but we'll see. Measurement taken via CAD
+        public static final double TRACK_WIDTH = Units.inchesToMeters(21.525); // This may be off, but we'll see.
+                                                                               // Measurement taken via CAD
 
         // Distance between front and back wheels on robot
         public static final double WHEEL_BASE = Units.inchesToMeters(21.525);
 
-        //Array with 
+        // Array with
     }
 
     // Software things below
@@ -147,10 +153,13 @@ public final class RobotMap {
 
         public static final double CONTROLLER_DEADZONE = 0.12;
     }
+
     // TODO: Find a more apt name for this class
     public static final class OtherDigitalStuff {
         public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
     }
-    
-    private RobotMap() {} // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.
+
+    private RobotMap() {
+    } // Overrides default constructor. Don't want anybody instantiating this class,
+      // even though likely no one would.
 }
