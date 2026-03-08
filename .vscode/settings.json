@@ -75,5 +75,7 @@
   "workbench.colorTheme": "Ayu Dark Bordered",
   "workbench.preferredDarkColorTheme": "Abyss",
   "workbench.tips.enabled": false,
-  "workbench.view.alwaysShowHeaderActions": true
+  "workbench.view.alwaysShowHeaderActions": true,
+  "java.format.settings.url": "google-java-formatter.xml",
+  "java.format.comments.enabled": false
 }
