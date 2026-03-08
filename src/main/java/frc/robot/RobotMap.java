@@ -27,13 +27,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * Back Right Swerve Turn -   8 | Neo 550 (Rev Robotics) 
  * 
  * All motor controllers below, down to the blender motor, are TalonFX
- * Top Wheel of Shooter -     9  | Kraken     (CTRE) (Motor for the top wheel, physically this motor is actually on the bottom of the shooter)
+ * Top Wheel of Shooter -     11 | Kraken     (CTRE) (Motor for the top wheel, physically this motor is actually on the bottom of the shooter)
  * Bottom Wheel of Shooter -  13 | Falcon 500 (CTRE) 
  * 
- * Up and Down Intake Motor - 11 | Kraken     (CTRE) 
- * Active Intake Motor -      14 | Falcon 500 (CTRE) (Not entirely sure this is actually a Falcon 500)
+ * Up and Down Intake Motor - 10 | Kraken     (CTRE) 
+ * Active Intake Motor -      12 | Falcon 500 (CTRE) (Not entirely sure this is actually a Falcon 500)
  * 
- * Blender Motor -            12 | Falcon 500 (CTRE) 
+ * Blender Motor -            9 | Falcon 500 (CTRE) 
  * 
  * Gyro (Pigeon2) -           20
  * PDH -                      21
@@ -61,14 +61,14 @@ public final class RobotMap {
     public static final class CAN_IDs {
         // Shooter
         public static final int BACK_SHOOTER_WHEEL_ID = 13;
-        public static final int TOP_SHOOTER_WHEEL_ID = 9;
+        public static final int TOP_SHOOTER_WHEEL_ID =  11;
 
         // Intake
-        public static final int UPANDDOWN_INTAKE_MOTOR_ID = 11;
-        public static final int ACTIVE_INTAKE_MOTOR_ID = 14;
+        public static final int UPANDDOWN_INTAKE_MOTOR_ID = 10;
+        public static final int ACTIVE_INTAKE_MOTOR_ID = 12;
 
         // Blender
-        public static final int BLENDER_MOTOR_ID = 12;
+        public static final int BLENDER_MOTOR_ID = 9;
 
         // Swerve
         public static final int FL_DRIVE_MOTOR_ID = 1;
