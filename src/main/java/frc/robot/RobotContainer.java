@@ -41,17 +41,29 @@ public class RobotContainer {
   }
 
   // API to get commands, subsytems, etc.
-  /** Returns the teleop command for the swerve drive subsystem */
+  /** Returns the teleop command for the blender subsystem */
   public void getTeleopBlender() {}
 
-  /** Returns the teleop command for the swerve drive subsystem */
+  /** Returns the teleop command for the intake subsystem */
   public void getTeleopIntake() {}
 
-  /** Returns the teleop command for the swerve drive subsystem */
+  /** Returns the teleop command for the shooter subsystem */
   public void getTeleopShooter() {}
 
   /** Returns the teleop command for the swerve drive subsystem */
   public void getTeleopDrive() {}
+
+  /** Returns the autonomous command for the blender subsystem */
+  public void getAutonomousBlender() {}
+
+  /** Returns the teleop command for the intake subsystem */
+  public void getAutonomousIntake() {}
+
+  /** Returns the teleop command for the shooter subsystem */
+  public void getAutonomousShooter() {}
+
+  /** Returns the teleop command for the swerve drive subsystem */
+  public void getAutonomousDrive() {}
 
 
   /** Returns the object of a subsystem based on String subsys */
