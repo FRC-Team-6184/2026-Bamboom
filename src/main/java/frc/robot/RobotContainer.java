@@ -11,6 +11,8 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
+import edu.wpi.first.wpilibj2.command.Command;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls). Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
  */
@@ -42,7 +44,9 @@ public class RobotContainer {
 
   // API to get commands, subsytems, etc.
   /** Returns the teleop command for the blender subsystem */
-  public void getTeleopBlender() {}
+  public Command getTeleopBlender() {
+
+  }
 
   /** Returns the teleop command for the intake subsystem */
   public void getTeleopIntake() {}
