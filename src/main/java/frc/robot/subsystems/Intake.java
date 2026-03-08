@@ -26,6 +26,8 @@ public class Intake extends SubsystemBase {
             // TODO: Implement bringing the motor up and down.
             // Unimplemented as of right now due to the fact that the limit switches are not
             // currently on the robot.
+
+            activeMotor.set(0.1);
         });
     }
 

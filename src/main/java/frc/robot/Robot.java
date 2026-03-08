@@ -34,9 +34,9 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
 
     final SwerveDrive SwerveDrive = (SwerveDrive) robotContainer.getSubsystem("Swerve");
-    final SwerveDrive Shooter = (SwerveDrive) robotContainer.getSubsystem("Shooter");
-    final SwerveDrive Blender = (SwerveDrive) robotContainer.getSubsystem("Blender");
-    final SwerveDrive Intake = (SwerveDrive) robotContainer.getSubsystem("Intake");
+    final Shooter Shooter = (Shooter) robotContainer.getSubsystem("Shooter");
+    final Blender Blender = (Blender) robotContainer.getSubsystem("Blender");
+    final Intake Intake = (Intake) robotContainer.getSubsystem("Intake");
   }
 
   /**
@@ -55,12 +55,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {
-  }
+  public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {
-  }
+  public void disabledPeriodic() {}
 
   /**
    * This autonomous runs the autonomous command selected by your
@@ -72,8 +70,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
@@ -82,10 +79,10 @@ public class Robot extends TimedRobot {
     // }
 
     // CommandScheduler is like teleopPeriodic, but command-based.
-    // ROBOT MIGHT START MOVING THE BLENDER IN TELEOPINIT MODE WITH NO USER INPUT
-    CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
-    CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
-    CommandScheduler.getInstance().schedule(Blender.teleopBlender());
+
+    // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
+    // CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
+    // CommandScheduler.getInstance().schedule(Blender.teleopBlender());
     CommandScheduler.getInstance().schedule(Intake.teleopIntake());
   }
 
@@ -101,14 +98,11 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testPeriodic() {
-  }
+  public void testPeriodic() {}
 
   @Override
-  public void simulationInit() {
-  }
+  public void simulationInit() {}
 
   @Override
-  public void simulationPeriodic() {
-  }
+  public void simulationPeriodic() {}
 }

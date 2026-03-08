@@ -4,13 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
-import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-
-import frc.robot.constants.RobotMap.Controller;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Blender;
 import frc.robot.subsystems.Intake;
@@ -21,13 +14,7 @@ import frc.robot.subsystems.Vision;
 /* TODO: Figure out how to make variables final, while still initalizing them in the constructor and declaring them at the top of the class */
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls). Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
   // Subsystems
@@ -69,6 +56,9 @@ public class RobotContainer {
   }
 
   // API to get commands, subsytems, etc.
+
+  // TODO: Make these return commands, not void
+
   /** Returns an autonomous command */
   public void getAutonomousCommand() {
     // TODO: Actually implement this method
@@ -92,6 +82,6 @@ public class RobotContainer {
     }
 
     System.out.println("Invalid subsystem name");
-    return null;
+    return null; // Maybe change this so it throws an exception or something, but idk how to do custom exceptions. It doesn't matter much either way
   }
 }

@@ -19,7 +19,7 @@ public class Blender extends SubsystemBase {
 
     public Command teleopBlender() {
         return run(() -> {
-
+            blender.set(0.1);
         });
     }
 }
