@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Blender;
@@ -17,28 +16,26 @@ import frc.robot.subsystems.Intake;
 import frc.robot.RobotContainer;
 
 public class Robot extends TimedRobot {
-  // Subsystem references
-  private final SwerveDrive SwerveDrive = new SwerveDrive();
-  private final Shooter Shooter = new Shooter();
-  private final Blender Blender = new Blender();
-  private final Intake Intake = new Intake();
+  // Subsystems
+  private SwerveDrive SwerveDrive;
+  private Shooter Shooter;
+  private Blender Blender;
+  private Intake Intake;
 
+  // idk
   private Command autonomousCommand;
   private RobotContainer robotContainer;
 
   // TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
 
-  /**
-   * Robot Constructor. Instantiates RobotContainer and performs various
-   * initializations
-   */
+  /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
     robotContainer = new RobotContainer();
 
-    // final SwerveDrive SwerveDrive = (SwerveDrive) robotContainer.getSubsystem("Swerve");
-    // final Shooter Shooter = (Shooter) robotContainer.getSubsystem("Shooter");
-    // final Blender Blender = (Blender) robotContainer.getSubsystem("Blender");
-    final Intake Intake = (Intake) robotContainer.getSubsystem("Intake");
+    SwerveDrive = (SwerveDrive) robotContainer.getSubsystem("Swerve");
+    Shooter = (Shooter) robotContainer.getSubsystem("Shooter");
+    Blender = (Blender) robotContainer.getSubsystem("Blender");
+    Intake = (Intake) robotContainer.getSubsystem("Intake");
   }
 
   /**
@@ -50,8 +47,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // Ask William if you have any questions about the line below
-    CommandScheduler.getInstance().run();
+    CommandScheduler.getInstance().run(); // Ask William if you have any questions about this line 
   }
 
   @Override
