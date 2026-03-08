@@ -32,10 +32,7 @@ public class Intake extends SubsystemBase {
 
     public Command teleopIntake() {
         return run(() -> {
-            // TODO: Implement bringing the motor up and down.
-            // Unimplemented as of right now due to the fact that the limit switches are not
-            // currently on the robot.
-
+            // Will run as long as the top and bottom limit switches are not hit
             if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
                 kPivotMotor.set(MathUtil.clamp(kXboxController.getLeftY(), 0, -0.2));
             }
