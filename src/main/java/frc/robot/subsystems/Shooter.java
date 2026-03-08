@@ -41,7 +41,7 @@ public class Shooter extends SubsystemBase {
         topShooterPIDConfig.kA = 0.0097241;
         topShooterPIDConfig.kV = 0.11622;
         topShooterPIDConfig.kS = 0.12582;
-        topShooterPIDConfig.kD = 0.0; //What SysID gave me
+        topShooterPIDConfig.kD = 0.0; // What SysID gave me
         topMotor.getConfigurator().apply(topShooterPIDConfig);
     }
 
@@ -64,7 +64,7 @@ public class Shooter extends SubsystemBase {
                 // TODO: run motors according to dashboard
                 topMotor.setControl(voltageRequest.withVelocity(2.0));
                 System.out.println(topMotorRPM);
-                bottomMotor.set(0.1); //TODO: this isn't running at a proper speed fix later
+                bottomMotor.set(0.1); // TODO: this isn't running at a proper speed fix later
             } else {
                 topMotor.set(0);
                 bottomMotor.set(0);

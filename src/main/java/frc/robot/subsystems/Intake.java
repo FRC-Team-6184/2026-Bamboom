@@ -16,9 +16,8 @@ public class Intake extends SubsystemBase {
 
     public Command teleopIntake() {
         return run(() -> {
-            //does nothing so far
+            // does nothing so far
         });
     }
-
 
 }
