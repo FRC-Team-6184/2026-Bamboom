@@ -56,9 +56,6 @@ public class RobotContainer {
   }
 
   // API to get commands, subsytems, etc.
-
-  // TODO: Make these return commands, not void
-
   /** Returns an autonomous command */
   public void getAutonomousCommand() {
     // TODO: Actually implement this method

@@ -26,6 +26,8 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
 
+  // TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
+
   /**
    * Robot Constructor. Instantiates RobotContainer and performs various
    * initializations
@@ -33,19 +35,17 @@ public class Robot extends TimedRobot {
   public Robot() {
     robotContainer = new RobotContainer();
 
-    final SwerveDrive SwerveDrive = (SwerveDrive) robotContainer.getSubsystem("Swerve");
-    final Shooter Shooter = (Shooter) robotContainer.getSubsystem("Shooter");
-    final Blender Blender = (Blender) robotContainer.getSubsystem("Blender");
+    // final SwerveDrive SwerveDrive = (SwerveDrive) robotContainer.getSubsystem("Swerve");
+    // final Shooter Shooter = (Shooter) robotContainer.getSubsystem("Shooter");
+    // final Blender Blender = (Blender) robotContainer.getSubsystem("Blender");
     final Intake Intake = (Intake) robotContainer.getSubsystem("Intake");
   }
 
   /**
-   * This function is called every 20 ms, no matter the mode. Use this for items
-   * like diagnostics
+   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
-   * This runs after the mode specific periodic functions, but before LiveWindow
-   * and
+   * This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
   @Override
@@ -60,10 +60,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {}
 
-  /**
-   * This autonomous runs the autonomous command selected by your
-   * {@link RobotContainer} class.
-   */
+  /** This autonomous runs the autonomous command selected by your{@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -77,8 +74,6 @@ public class Robot extends TimedRobot {
     // if (m_autonomousCommand != null) {
     // m_autonomousCommand.cancel();
     // }
-
-    // CommandScheduler is like teleopPeriodic, but command-based.
 
     // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     // CommandScheduler.getInstance().schedule(Shooter.teleopShoot());

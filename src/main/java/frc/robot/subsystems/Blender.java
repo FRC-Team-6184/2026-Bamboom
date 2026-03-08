@@ -9,12 +9,15 @@ import frc.robot.constants.RobotMap.Controller;
 import frc.robot.constants.RobotMap.DigitalValues;
 import frc.robot.constants.RobotMap.MotorControllers;
 
+// TODO: Make this class structured like the Intake subsystem class, it looks nicer over there.
 public class Blender extends SubsystemBase {
-    private final TalonFX blender = MotorControllers.BLENDER_MOTOR;
-    private final CommandXboxController XBOX = Controller.XBOX;
+    private TalonFX blender = MotorControllers.BLENDER_MOTOR;
+    private CommandXboxController XBOX = Controller.XBOX;
 
     public Blender() {
         super();
+
+
     }
 
     public Command teleopBlender() {
