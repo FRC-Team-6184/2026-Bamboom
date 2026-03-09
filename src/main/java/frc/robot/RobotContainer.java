@@ -5,7 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.commands.BlenderCommand;
 import frc.robot.commands.IntakeInCommand;
+import frc.robot.commands.IntakeOutCommand;
+import frc.robot.commands.ShooterCommand;
+
 import frc.robot.subsystems.BlenderSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
@@ -24,11 +29,11 @@ public class RobotContainer {
   private final ShooterSubsys kShooterSubsystem;
   private final SwerveSubsys kSwerveSubsystem;
 
-  // Commands TODO: define these guys in the constructor
-  private final BlenderCommand kBlenderCommand;
-  private final IntakeInCommand kIntakeInCommand;
-  private final IntakeOutCommand kIntakeOutCommand;
-  private final ShooterCommand kShooterCommand;
+  // Commands TODO: define these guys in the constructor, and make them final
+  private BlenderCommand kBlenderCommand;
+  private IntakeInCommand kIntakeInCommand;
+  private IntakeOutCommand kIntakeOutCommand;
+  private ShooterCommand kShooterCommand;
 
   /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
   public RobotContainer() {
