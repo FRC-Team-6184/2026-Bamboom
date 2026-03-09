@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.swerve;
+package frc.robot.subsystems.swerve;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -48,10 +48,8 @@ public class MAXSwerveModule {
     // Apply the respective configurations to the SPARKS. Reset parameters before
     // applying the configuration to bring the SPARK to a known good state. Persist
     // the settings to the SPARK to avoid losing them on a power cycle.
-    m_drivingSpark.configure(SwerveConfigs.MAXSwerveModule.drivingConfig, ResetMode.kResetSafeParameters,
-        PersistMode.kPersistParameters);
-    m_turningSpark.configure(SwerveConfigs.MAXSwerveModule.turningConfig, ResetMode.kResetSafeParameters,
-        PersistMode.kPersistParameters);
+    m_drivingSpark.configure(SwerveConfigs.MAXSwerveModule.drivingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_turningSpark.configure(SwerveConfigs.MAXSwerveModule.turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     m_chassisAngularOffset = chassisAngularOffset;
     m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
@@ -77,10 +75,8 @@ public class MAXSwerveModule {
     // Apply the respective configurations to the SPARKS. Reset parameters before
     // applying the configuration to bring the SPARK to a known good state. Persist
     // the settings to the SPARK to avoid losing them on a power cycle.
-    m_drivingSpark.configure(SwerveConfigs.MAXSwerveModule.drivingConfig, ResetMode.kResetSafeParameters,
-        PersistMode.kPersistParameters);
-    m_turningSpark.configure(SwerveConfigs.MAXSwerveModule.turningConfig, ResetMode.kResetSafeParameters,
-        PersistMode.kPersistParameters);
+    m_drivingSpark.configure(SwerveConfigs.MAXSwerveModule.drivingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_turningSpark.configure(SwerveConfigs.MAXSwerveModule.turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     m_chassisAngularOffset = chassisAngularOffset;
     m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
@@ -95,8 +91,7 @@ public class MAXSwerveModule {
   public SwerveModuleState getState() {
     // Apply chassis angular offset to the encoder position to get the position
     // relative to the chassis.
-    return new SwerveModuleState(m_drivingEncoder.getVelocity(),
-        new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
+    return new SwerveModuleState(m_drivingEncoder.getVelocity(), new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
   }
 
   /**
@@ -107,9 +102,7 @@ public class MAXSwerveModule {
   public SwerveModulePosition getPosition() {
     // Apply chassis angular offset to the encoder position to get the position
     // relative to the chassis.
-    return new SwerveModulePosition(
-        m_drivingEncoder.getPosition(),
-        new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
+    return new SwerveModulePosition(m_drivingEncoder.getPosition(), new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
   }
 
   /**

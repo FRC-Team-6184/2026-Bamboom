@@ -5,10 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.Blender;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.BlenderSubsys;
+import frc.robot.subsystems.IntakeSubsys;
+import frc.robot.subsystems.ShooterSubsys;
+import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.Vision;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,10 +18,10 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // Subsystems
-  private Blender kBlenderSubsystem;
-  private Intake kIntakeSubsystem;
-  private Shooter kShooterSubsystem;
-  private SwerveDrive kSwerveSubsystem;
+  private BlenderSubsys kBlenderSubsystem;
+  private IntakeSubsys kIntakeSubsystem;
+  private ShooterSubsys kShooterSubsystem;
+  private SwerveSubsys kSwerveSubsystem;
 
   /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
   public RobotContainer() {
@@ -35,11 +35,11 @@ public class RobotContainer {
   }
 
   /** Declare subsystems at the top of the class, then define them here */
-  private void initializeSubsystems() {
-    kBlenderSubsystem = new Blender();
-    kIntakeSubsystem = new Intake();
-    kShooterSubsystem = new Shooter();
-    kSwerveSubsystem = new SwerveDrive();
+  private void initializeSubsystems(BlenderSubsys blender, IntakeSubsys intake, ShooterSubsys shooter, SwerveSubsys swerve) {
+    kBlenderSubsystem = new BlenderSubsys();
+    kIntakeSubsystem = new IntakeSubsys();
+    kShooterSubsystem = new ShooterSubsys();
+    kSwerveSubsystem = new SwerveSubsys();
   }
 
   // API to get commands, subsytems, etc.

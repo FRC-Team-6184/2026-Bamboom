@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 // TODO: Blender and intake might be better as one subsystem rather than two separate since neither should be very complicated.
 // Evaluate this once they're both implemented and mush them together later if need be.
-public class Intake extends SubsystemBase {
+public class IntakeSubsys extends SubsystemBase {
     DigitalInput kTopLimitSwitch;
     DigitalInput kBottomLimitSwitch;
     TalonFX kPivotMotor;
@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase {
     CommandXboxController kXboxController;
 
     /** Intake constructor. Perform all initializing regarding related motors here */
-    public Intake() {
+    public IntakeSubsys() {
         super();
 
         kTopLimitSwitch = DigitalInputOutput.INTAKE_TOP_LIMIT_SWITCH;

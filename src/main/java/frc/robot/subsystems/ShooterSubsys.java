@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
-public class Shooter extends SubsystemBase {
+public class ShooterSubsys extends SubsystemBase {
     private final TalonFX bottomMotor = MotorControllers.BOTTOM_SHOOTER_WHEEL;
     private final TalonFX topMotor = MotorControllers.TOP_SHOOTER_WHEEL;
     private final CommandXboxController controller = Controller.XBOX;
@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
     private VelocityVoltage bottomMotorSpeedRequest = new VelocityVoltage(0);
 
 
-    public Shooter() {
+    public ShooterSubsys() {
         super();
 
         shooterRPMEntry.set(0.0);
@@ -95,6 +95,18 @@ public class Shooter extends SubsystemBase {
             shooterRPMEntry.set(topMotorRPM);
             bottomRPMEntry.set(bottomMotorRPM);
 
+        });
+    }
+
+    public Command testShoot() {
+        return run(() -> {
+            controller.x().onTrue(run(() -> {
+                topMotor.set(.3);
+            }));
+
+            controller.a().onTrue(run(() -> {
+                bottomMotor.set(.2);
+            }));
         });
     }
 

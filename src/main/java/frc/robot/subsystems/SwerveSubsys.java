@@ -18,10 +18,10 @@ import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.Gyro;
 import frc.robot.RobotMap.MotorControllers;
-import frc.robot.swerve.MAXSwerveModule;
-import frc.robot.swerve.SwerveConstants.DriveConstants;
+import frc.robot.subsystems.swerve.MAXSwerveModule;
+import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
 
-public class SwerveDrive extends SubsystemBase {
+public class SwerveSubsys extends SubsystemBase {
         // This is directly copied from MAXSwerve template
 
         // private GameController controller = Controller.GAME_CONTROLLER;
@@ -44,7 +44,7 @@ public class SwerveDrive extends SubsystemBase {
 
         private SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getRotation2d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose2d());
 
-        public SwerveDrive() {
+        public SwerveSubsys() {
                 super();
                 // The MaxSwerve template does this, no clue what this is
                 HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);

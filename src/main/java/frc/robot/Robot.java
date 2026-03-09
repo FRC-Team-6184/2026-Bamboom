@@ -8,19 +8,19 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.Blender;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.ShooterSubsys;
+import frc.robot.subsystems.SwerveSubsys;
+import frc.robot.subsystems.BlenderSubsys;
+import frc.robot.subsystems.IntakeSubsys;
 
 import frc.robot.RobotContainer;
 
 public class Robot extends TimedRobot {
   // Subsystems
-  private SwerveDrive SwerveDrive;
-  private Shooter Shooter;
-  private Blender Blender;
-  private Intake Intake;
+  private SwerveSubsys SwerveDrive;
+  private ShooterSubsys Shooter;
+  private BlenderSubsys Blender;
+  private IntakeSubsys Intake;
 
   // Robot container
   private RobotContainer robotContainer;
@@ -32,10 +32,12 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
 
     // TODO: Figure out a type safer way to cast the returned SubsystemBase back into its respective subclass
-    SwerveDrive = (SwerveDrive) robotContainer.getSubsystem("Swerve");
-    Shooter = (Shooter) robotContainer.getSubsystem("Shooter");
-    Blender = (Blender) robotContainer.getSubsystem("Blender");
-    Intake = (Intake) robotContainer.getSubsystem("Intake");
+    SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
+    Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
+    Blender = (BlenderSubsys) robotContainer.getSubsystem("Blender");
+    Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
+
+    SwerveDrive = robotContainer.getSubsystem("Swerve") instanceof SwerveSubsys ? (SwerveSubsys) robotContainer.getSubsystem("Swerve") : null;
   }
 
   /**
@@ -68,6 +70,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
+    CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
     // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     // CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
@@ -84,6 +87,10 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
+    CommandScheduler.getInstance().schedule(Shooter.testShoot()); // This is jank but its fine for now. Will be removed in the future
+    CommandScheduler.getInstance().schedule(Blender.testBlender());
+    // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
   }
 
   @Override

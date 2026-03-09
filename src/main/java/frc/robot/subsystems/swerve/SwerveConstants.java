@@ -6,7 +6,7 @@
  * Note from William H. : Stole this straight from the REV MaxSwerve Template, added additional notes and such though to help make this more approachable and understandable
  */
 
-package frc.robot.swerve;
+package frc.robot.subsystems.swerve;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
