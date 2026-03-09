@@ -44,7 +44,7 @@ public class RobotContainer {
 
   // API to get commands, subsytems, etc.
   /** Returns the teleop command for the blender subsystem */
-  public Command getTeleopBlender() {
+  public void getTeleopBlender() {
 
   }
 
