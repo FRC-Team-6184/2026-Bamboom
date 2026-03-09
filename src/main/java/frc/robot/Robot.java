@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
   public Robot() {
     robotContainer = new RobotContainer();
 
+    // TODO: Figure out a type safer way to cast the returned SubsystemBase back into its respective subclass
     SwerveDrive = (SwerveDrive) robotContainer.getSubsystem("Swerve");
     Shooter = (Shooter) robotContainer.getSubsystem("Shooter");
     Blender = (Blender) robotContainer.getSubsystem("Blender");

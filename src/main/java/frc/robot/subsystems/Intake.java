@@ -36,7 +36,6 @@ public class Intake extends SubsystemBase {
             if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
                 kPivotMotor.set(MathUtil.clamp(kXboxController.getLeftY(), 0, -0.2));
             }
-
         });
     }
 }
