@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.IntakeInCommand;
 import frc.robot.subsystems.BlenderSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
@@ -18,28 +19,31 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // Subsystems
-  private BlenderSubsys kBlenderSubsystem;
-  private IntakeSubsys kIntakeSubsystem;
-  private ShooterSubsys kShooterSubsystem;
-  private SwerveSubsys kSwerveSubsystem;
+  private final BlenderSubsys kBlenderSubsystem;
+  private final IntakeSubsys kIntakeSubsystem;
+  private final ShooterSubsys kShooterSubsystem;
+  private final SwerveSubsys kSwerveSubsystem;
+
+  // Commands TODO: define these guys in the constructor
+  private final BlenderCommand kBlenderCommand;
+  private final IntakeInCommand kIntakeInCommand;
+  private final IntakeOutCommand kIntakeOutCommand;
+  private final ShooterCommand kShooterCommand;
 
   /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
   public RobotContainer() {
     configureBindings();
-    initializeSubsystems();
+
+    // Init subsystems TODO: Encapsulate this stuff
+    this.kBlenderSubsystem = new BlenderSubsys();
+    this.kIntakeSubsystem = new IntakeSubsys();
+    this.kShooterSubsystem = new ShooterSubsys();
+    this.kSwerveSubsystem = new SwerveSubsys();
   }
 
   // Check the wpilib docs (Advanced Programming > Structuring a Command-Based Robot Project > Scroll down) for more information on this method
   private void configureBindings() {
     // Add bindings here
-  }
-
-  /** Declare subsystems at the top of the class, then define them here */
-  private void initializeSubsystems(BlenderSubsys blender, IntakeSubsys intake, ShooterSubsys shooter, SwerveSubsys swerve) {
-    kBlenderSubsystem = new BlenderSubsys();
-    kIntakeSubsystem = new IntakeSubsys();
-    kShooterSubsystem = new ShooterSubsys();
-    kSwerveSubsystem = new SwerveSubsys();
   }
 
   // API to get commands, subsytems, etc.

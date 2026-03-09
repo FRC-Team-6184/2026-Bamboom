@@ -3,12 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.BlenderSubsys;
 
-/** Command to spin the blender */
-public class BlenderCommand extends Command {
+public class IntakeOutCommand extends Command {
     // Blender subsystem, and maybe other crucial things.
     private final BlenderSubsys kBlenderSubsystem;
 
-    public BlenderCommand(BlenderSubsys blender) {
+    public IntakeOutCommand(BlenderSubsys blender) {
         this.kBlenderSubsystem = blender;
     }
 
@@ -26,4 +25,5 @@ public class BlenderCommand extends Command {
     public void end(boolean interrupted) {
 
     }
+
 }
