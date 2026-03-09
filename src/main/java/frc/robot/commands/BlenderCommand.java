@@ -8,7 +8,7 @@ public class BlenderCommand extends Command {
     // Blender subsystem, and maybe other crucial things.
     private final BlenderSubsys kBlenderSubsystem;
 
-    public BlenderCommand(BlenderSubsys blender) {
+    public BlenderCommand(BlenderSubsys blender) { // Add various other settings here?
         this.kBlenderSubsystem = blender;
     }
 
@@ -25,5 +25,12 @@ public class BlenderCommand extends Command {
     @Override
     public void end(boolean interrupted) {
 
+    }
+
+    /** Factory to return an initialized BlenderCommand */
+    public static final class BlenderCommandFactory {
+        public BlenderCommand getBlenderCommand() {
+            return new BlenderCommand(new BlenderSubsys());
+        }
     }
 }
