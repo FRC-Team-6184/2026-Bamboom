@@ -69,7 +69,7 @@ public class RobotContainer {
   /** Returns the teleop command for the swerve drive subsystem */
   public void getAutonomousDrive() {}
 
-
+  // TODO: Use enums here instead of a String subsys, that way you can't accidentally type in "sweve" instead of "swerve" and not know somethings wrong until runtime
   /** Returns the object of a subsystem based on String subsys */
   public SubsystemBase getSubsystem(String subsys) {
     switch (subsys) {
