@@ -27,7 +27,7 @@ public class BlenderCommand extends Command {
 
     }
 
-    /** Factory to return an initialized BlenderCommand */
+    /** Factory to return an initialized BlenderCommand */ // TODO: Make this a seperate file, because doing BlenderCommand.BlenderCommandFactory.getBlenderCommand() is weird
     public static final class BlenderCommandFactory {
         public BlenderCommand getBlenderCommand() {
             return new BlenderCommand(new BlenderSubsys());
