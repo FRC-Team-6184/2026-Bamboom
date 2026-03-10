@@ -73,8 +73,8 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
     // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
-    // CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
-    // CommandScheduler.getInstance().schedule(Blender.teleopBlender());
+    CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
+    CommandScheduler.getInstance().schedule(Blender.teleopBlender());
     CommandScheduler.getInstance().schedule(Intake.teleopIntake());
   }
 

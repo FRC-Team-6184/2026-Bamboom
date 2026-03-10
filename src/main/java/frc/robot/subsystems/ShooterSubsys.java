@@ -85,7 +85,7 @@ public class ShooterSubsys extends SubsystemBase {
                 // TODO: run motors according to dashboard
                 topMotor.setControl(topMotorSpeedRequest.withVelocity(MathUtil.clamp(shooterRPMDestEntry.get(0.0) / 60.0, 6000.0, -6000.0)));
                 // System.out.println(topMotorRPM);
-                bottomMotor.set(-0.5);
+                bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(1000 / 60.0));
                 // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(bottomRPMDestEntry.get(0.0)));
             } else {
                 topMotor.set(0);
@@ -108,6 +108,14 @@ public class ShooterSubsys extends SubsystemBase {
                 bottomMotor.set(.2);
             }));
         });
+    }
+
+    public void shooterOn() {
+
+    }
+
+    public void shooterOff() {
+
     }
 
 }

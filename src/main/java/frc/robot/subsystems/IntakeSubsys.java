@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.DigitalInputOutput;
 import frc.robot.RobotMap.MotorControllers;
@@ -33,9 +34,14 @@ public class IntakeSubsys extends SubsystemBase {
     public Command teleopIntake() {
         return run(() -> {
             // Will run as long as the top and bottom limit switches are not hit
-            if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
-                kPivotMotor.set(MathUtil.clamp(kXboxController.getLeftY(), 0, -0.2));
+            // if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
+            // kPivotMotor.set(MathUtil.clamp(kXboxController.getLeftY(), 0, -0.2));
+            // }
+
+            if (kXboxController.getLeftTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
+                kIntakeMotor.set(0.5);
             }
+            kIntakeMotor.set(0.0);
         });
     }
 }

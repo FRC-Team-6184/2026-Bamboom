@@ -48,7 +48,7 @@ public class RobotContainer {
 
   // Check the wpilib docs (Advanced Programming > Structuring a Command-Based Robot Project > Scroll down) for more information on this method
   private void configureBindings() {
-    // Add bindings here
+
   }
 
   // API to get commands, subsytems, etc.

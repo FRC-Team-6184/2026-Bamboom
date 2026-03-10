@@ -5,6 +5,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.DigitalValues;
 import frc.robot.RobotMap.MotorControllers;
@@ -22,7 +23,11 @@ public class BlenderSubsys extends SubsystemBase {
 
     public Command teleopBlender() {
         return run(() -> {
-            blender.set(0.1);
+            if (XBOX.getRightTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
+                blender.set(-0.5);
+            } else {
+                blender.set(0.0);
+            }
         });
     }
 
