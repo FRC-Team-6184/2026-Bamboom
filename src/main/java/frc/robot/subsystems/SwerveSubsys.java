@@ -32,7 +32,7 @@ public class SwerveSubsys extends SubsystemBase {
         private final CommandXboxController controller = Controller.XBOX;
 
         // Create MAXSwerveModules
-        private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(MotorControllers.FR_DRIVE_MOTOR, MotorControllers.FL_TURN_MOTOR, DriveConstants.FRONT_LEFT_CHASSIS_ANGULAR_OFFSET);
+        private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(MotorControllers.FL_DRIVE_MOTOR, MotorControllers.FL_TURN_MOTOR, DriveConstants.FRONT_LEFT_CHASSIS_ANGULAR_OFFSET);
 
         private final MAXSwerveModule m_frontRight = new MAXSwerveModule(MotorControllers.FR_DRIVE_MOTOR, MotorControllers.FR_TURN_MOTOR, DriveConstants.FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET);
 
