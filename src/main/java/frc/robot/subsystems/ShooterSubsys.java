@@ -60,7 +60,7 @@ public class ShooterSubsys extends SubsystemBase {
         topShooterPIDConfig.kP = 0.13694;
         topShooterPIDConfig.kA = 0.0019461;
         topShooterPIDConfig.kV = 0.11021;
-        topShooterPIDConfig.kS = 0.027235;
+        topShooterPIDConfig.kS = 0.087235;
         topShooterPIDConfig.kD = 0.0; //What SysID gave me
         bottomMotor.getConfigurator().apply(bottomShooterPIDConfig);
 
@@ -85,7 +85,7 @@ public class ShooterSubsys extends SubsystemBase {
                 // TODO: run motors according to dashboard
                 topMotor.setControl(topMotorSpeedRequest.withVelocity(MathUtil.clamp(shooterRPMDestEntry.get(0.0) / 60.0, 6000.0, -6000.0)));
                 // System.out.println(topMotorRPM);
-                bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(1000 / 60.0));
+                bottomMotor.set(-0.2);
                 // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(bottomRPMDestEntry.get(0.0)));
             } else {
                 topMotor.set(0);

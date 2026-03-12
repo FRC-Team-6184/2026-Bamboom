@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
-    // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
+    CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
     CommandScheduler.getInstance().schedule(Blender.teleopBlender());
     CommandScheduler.getInstance().schedule(Intake.teleopIntake());
@@ -88,13 +88,23 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
-    CommandScheduler.getInstance().schedule(Shooter.testShoot()); // This is jank but its fine for now. Will be removed in the future
-    CommandScheduler.getInstance().schedule(Blender.testBlender());
+    // CommandScheduler.getInstance().schedule(Shooter.testShoot()); // This is jank but its fine for now. Will be removed in the future
+    // CommandScheduler.getInstance().schedule(Blender.testBlender());
     // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
   }
 
+  double power = 0;
+
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    power += 0.0001;
+    if (power > 1.0) {
+      power = 0;
+    }
+    System.out.println(power);
+    RobotMap.MotorControllers.FL_DRIVE_MOTOR.set(power);
+
+  }
 
   @Override
   public void simulationInit() {}

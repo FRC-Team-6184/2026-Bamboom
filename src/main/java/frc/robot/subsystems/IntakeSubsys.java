@@ -39,9 +39,11 @@ public class IntakeSubsys extends SubsystemBase {
             // }
 
             if (kXboxController.getLeftTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
-                kIntakeMotor.set(0.5);
+                kIntakeMotor.set(-0.3);
+                // System.out.println("REEEE");
+            } else {
+                kIntakeMotor.set(0.0);
             }
-            kIntakeMotor.set(0.0);
         });
     }
 }
