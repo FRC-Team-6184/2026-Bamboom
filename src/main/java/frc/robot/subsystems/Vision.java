@@ -24,7 +24,7 @@ public class Vision extends SubsystemBase {
     PhotonPoseEstimator leftEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded), null);
 
     //Global drive pose estimation
-    SwerveDrivePoseEstimator3d globalEstimator = RobotMap.OtherDigitalStuff.poseEstimator;
+    SwerveDrivePoseEstimator3d globalEstimator = RobotMap.SoftwareObjects.poseEstimator;
 
     public Vision() {
         super();

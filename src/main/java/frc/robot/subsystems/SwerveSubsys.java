@@ -33,16 +33,16 @@ public class SwerveSubsys extends SubsystemBase {
     private final CommandXboxController controller = Controller.XBOX;
 
     // Create MAXSwerveModules
-    private final MAXSwerveModule m_frontLeft = RobotMap.OtherDigitalStuff.FRONT_LEFT_MODULE;
-    private final MAXSwerveModule m_frontRight = RobotMap.OtherDigitalStuff.FRONT_RIGHT_MODULE;
-    private final MAXSwerveModule m_rearLeft = RobotMap.OtherDigitalStuff.BACK_LEFT_MODULE;
-    private final MAXSwerveModule m_rearRight = RobotMap.OtherDigitalStuff.BACK_RIGHT_MODULE;
+    private final MAXSwerveModule m_frontLeft = RobotMap.SoftwareObjects.FRONT_LEFT_MODULE;
+    private final MAXSwerveModule m_frontRight = RobotMap.SoftwareObjects.FRONT_RIGHT_MODULE;
+    private final MAXSwerveModule m_rearLeft = RobotMap.SoftwareObjects.BACK_LEFT_MODULE;
+    private final MAXSwerveModule m_rearRight = RobotMap.SoftwareObjects.BACK_RIGHT_MODULE;
 
     private Pigeon2 gyro = Gyro.GYRO;
 
-    private SwerveDrivePoseEstimator3d odometry = RobotMap.OtherDigitalStuff.poseEstimator;
+    private SwerveDrivePoseEstimator3d odometry = RobotMap.SoftwareObjects.poseEstimator;
 
-    public SwerveDrive() {
+    public SwerveSubsys() {
         super();
         // The MaxSwerve template does this, no clue what this is
         HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);

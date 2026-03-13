@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.swerve.MAXSwerveModule;
-import frc.robot.swerve.SwerveConstants.DriveConstants;
+import frc.robot.subsystems.swerve.MAXSwerveModule;
+import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
 
 /*
  * Hardware CAN IDs: (Verify that all are correct sometime) All motor controllers below, down to the BR Swerve Turn, are SparkMax Front Left Swerve Drive - 1 | Neo (Rev Robotics) Front Left Swerve Turn - 2 | Neo 550 (Rev Robotics) Front Right Swerve Drive - 3 | Neo (Rev Robotics) Front Right Swerve Turn - 4 | Neo 550 (Rev Robotics) Back Left Swerve Drive - 5 | Neo (Rev Robotics) Back Left Swerve Turn - 6 | Neo 550 (Rev Robotics) Back Right Swerve Drive - 7 | Neo (Rev Robotics) Back Right Swerve Turn - 8 | Neo 550 (Rev Robotics)
@@ -55,7 +55,6 @@ public final class RobotMap {
     public static final class CAN_IDs {
         // Shooter
         public static final int BACK_SHOOTER_WHEEL_ID = 13;
-        public static final int TOP_SHOOTER_WHEEL_ID = 11;
         public static final int TOP_SHOOTER_WHEEL_ID = 11;
 
         // Intake
@@ -141,8 +140,7 @@ public final class RobotMap {
         public static final double CONTROLLER_DEADZONE = 0.12;
     }
 
-    // TODO: Find a more apt name for this class
-    public static final class OtherDigitalStuff {
+    public static final class SoftwareObjects {
         public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
 
         public static final MAXSwerveModule FRONT_LEFT_MODULE = new MAXSwerveModule(MotorControllers.FR_DRIVE_MOTOR, MotorControllers.FL_TURN_MOTOR, DriveConstants.FRONT_LEFT_CHASSIS_ANGULAR_OFFSET);
