@@ -9,16 +9,16 @@ import edu.wpi.first.networktables.IntegerEntry;
 import edu.wpi.first.networktables.NetworkTable;
 
 import edu.wpi.first.units.Units;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.MotorControllers;
 import frc.robot.utilities.MathUtil;
 
-public class Shooter extends SubsystemBase {
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
+public class ShooterSubsys extends SubsystemBase {
     private final TalonFX bottomMotor = MotorControllers.BOTTOM_SHOOTER_WHEEL;
     private final TalonFX topMotor = MotorControllers.TOP_SHOOTER_WHEEL;
     private final CommandXboxController controller = Controller.XBOX;
@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
     private VelocityVoltage bottomMotorSpeedRequest = new VelocityVoltage(0);
 
 
-    public Shooter() {
+    public ShooterSubsys() {
         super();
 
         shooterRPMEntry.set(0.0);
@@ -60,7 +60,7 @@ public class Shooter extends SubsystemBase {
         topShooterPIDConfig.kP = 0.13694;
         topShooterPIDConfig.kA = 0.0019461;
         topShooterPIDConfig.kV = 0.11021;
-        topShooterPIDConfig.kS = 0.027235;
+        topShooterPIDConfig.kS = 0.087235;
         topShooterPIDConfig.kD = 0.0; //What SysID gave me
         bottomMotor.getConfigurator().apply(bottomShooterPIDConfig);
 
@@ -85,7 +85,7 @@ public class Shooter extends SubsystemBase {
                 // TODO: run motors according to dashboard
                 topMotor.setControl(topMotorSpeedRequest.withVelocity(MathUtil.clamp(shooterRPMDestEntry.get(0.0) / 60.0, 6000.0, -6000.0)));
                 // System.out.println(topMotorRPM);
-                bottomMotor.set(-0.5);
+                bottomMotor.set(-0.2);
                 // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(bottomRPMDestEntry.get(0.0)));
             } else {
                 topMotor.set(0);
@@ -96,6 +96,26 @@ public class Shooter extends SubsystemBase {
             bottomRPMEntry.set(bottomMotorRPM);
 
         });
+    }
+
+    public Command testShoot() {
+        return run(() -> {
+            controller.x().onTrue(run(() -> {
+                topMotor.set(.3);
+            }));
+
+            controller.a().onTrue(run(() -> {
+                bottomMotor.set(.2);
+            }));
+        });
+    }
+
+    public void shooterOn() {
+
+    }
+
+    public void shooterOff() {
+
     }
 
 }

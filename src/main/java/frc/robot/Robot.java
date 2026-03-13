@@ -8,81 +8,74 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.ShooterSubsys;
+import frc.robot.subsystems.SwerveSubsys;
+import frc.robot.subsystems.BlenderSubsys;
+import frc.robot.subsystems.IntakeSubsys;
 
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.Blender;
-import frc.robot.subsystems.Intake;
+import frc.robot.RobotContainer;
 
 public class Robot extends TimedRobot {
-  // Subsystem references
-  private final SwerveDrive SwerveDrive = new SwerveDrive();
-  private final Shooter Shooter = new Shooter();
-  private final Blender Blender = new Blender();
-  private final Intake Intake = new Intake();
+  // Subsystems
+  private SwerveSubsys SwerveDrive;
+  private ShooterSubsys Shooter;
+  private BlenderSubsys Blender;
+  private IntakeSubsys Intake;
 
-  private Command m_autonomousCommand;
-  private RobotContainer m_robotContainer; // Dont delete, it's used in a commented-out line of code
+  // Robot container
+  private RobotContainer robotContainer;
 
+  // TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
+
+  /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
-    // Instantiate our RobotContainer. This will perform all our button bindings,
-    // and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
+
+    // TODO: Figure out a type safer way to cast the returned SubsystemBase back into its respective subclass
+    SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
+    Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
+    Blender = (BlenderSubsys) robotContainer.getSubsystem("Blender");
+    Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
+
+    SwerveDrive = robotContainer.getSubsystem("Swerve") instanceof SwerveSubsys ? (SwerveSubsys) robotContainer.getSubsystem("Swerve") : null;
   }
 
   /**
-   * This function is called every 20 ms, no matter the mode. Use this for items
-   * like diagnostics
+   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
-   * This runs after the mode specific periodic functions, but before LiveWindow
-   * and
+   * This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
-    // Ask William if you have any questions about the line below
-    CommandScheduler.getInstance().run();
+    CommandScheduler.getInstance().run(); // Ask William if you have any questions about this line 
   }
 
   @Override
-  public void disabledInit() {
-  }
+  public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {
-  }
+  public void disabledPeriodic() {}
 
-  /**
-   * This autonomous runs the autonomous command selected by your
-   * {@link RobotContainer} class.
-   */
+  /** This autonomous runs the autonomous command selected by your{@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
   @Override
-  public void autonomousPeriodic() {
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+    // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
+    CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
-    // CommandScheduler is like teleopPeriodic, but command-based.
-    // ROBOT MIGHT START MOVING THE BLENDER IN TELEOPINIT MODE WITH NO USER INPUT
     CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
     CommandScheduler.getInstance().schedule(Blender.teleopBlender());
-
+    CommandScheduler.getInstance().schedule(Intake.teleopIntake());
   }
 
   @Override
@@ -94,17 +87,28 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
+    // CommandScheduler.getInstance().schedule(Shooter.testShoot()); // This is jank but its fine for now. Will be removed in the future
+    // CommandScheduler.getInstance().schedule(Blender.testBlender());
+    // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
   }
+
+  double power = 0;
 
   @Override
   public void testPeriodic() {
+    power += 0.0001;
+    if (power > 1.0) {
+      power = 0;
+    }
+    System.out.println(power);
+    RobotMap.MotorControllers.FL_DRIVE_MOTOR.set(power);
+
   }
 
   @Override
-  public void simulationInit() {
-  }
+  public void simulationInit() {}
 
   @Override
-  public void simulationPeriodic() {
-  }
+  public void simulationPeriodic() {}
 }
