@@ -77,25 +77,25 @@ public class ShooterSubsys extends SubsystemBase {
      * @return Command regarding teleop shooter behavior
      */
     public Command teleopShoot() {
-        return run(() -> {
-            double topMotorRPM = topMotor.getVelocity().getValue().in(Units.RPM);
-            double bottomMotorRPM = bottomMotor.getVelocity().getValue().in(Units.RPM);
+        // return run(() -> {
+        //     double topMotorRPM = topMotor.getVelocity().getValue().in(Units.RPM);
+        //     double bottomMotorRPM = bottomMotor.getVelocity().getValue().in(Units.RPM);
 
-            if (controller.getRightTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
-                // TODO: run motors according to dashboard
-                topMotor.setControl(topMotorSpeedRequest.withVelocity(MathUtil.clamp(shooterRPMDestEntry.get(0.0) / 60.0, 6000.0, -6000.0)));
-                // System.out.println(topMotorRPM);
-                bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(-34));
-                // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(bottomRPMDestEntry.get(0.0)));
-            } else {
-                topMotor.set(0);
-                bottomMotor.set(0);
-            }
+        //     if (controller.getRightTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
+        //         // TODO: run motors according to dashboard
+        //         topMotor.setControl(topMotorSpeedRequest.withVelocity(MathUtil.clamp(shooterRPMDestEntry.get(0.0) / 60.0, 6000.0, -6000.0)));
+        //         // System.out.println(topMotorRPM);
+        //         bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(-34));
+        //         // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(bottomRPMDestEntry.get(0.0)));
+        //     } else {
+        //         topMotor.set(0);
+        //         bottomMotor.set(0);
+        //     }
 
-            shooterRPMEntry.set(topMotorRPM);
-            bottomRPMEntry.set(bottomMotorRPM);
+        //     shooterRPMEntry.set(topMotorRPM);
+        //     bottomRPMEntry.set(bottomMotorRPM);
 
-        });
+        // });
     }
 
     public Command testShoot() {
@@ -112,12 +112,14 @@ public class ShooterSubsys extends SubsystemBase {
 
     public void shooterOn() {
         topMotor.setControl(topMotorSpeedRequest.withVelocity(RobotMap.DigitalValues.SHOOTER_TOP_RPS));
-        // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(RobotMap.DigitalValues.SHOOTER_BOT_RPS));
+    }
+
+    public void shooterOn(double rotationsPerSecond) {
+        topMotor.setControl(topMotorSpeedRequest.withVelocity(rotationsPerSecond));
     }
 
     public void shooterOff() {
         topMotor.setControl(topMotorSpeedRequest.withVelocity(0));
-        // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(0));
     }
 
     public void bottomOn() {

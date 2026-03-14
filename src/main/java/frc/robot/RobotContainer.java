@@ -55,6 +55,8 @@ public class RobotContainer {
 
         controller.a().onTrue(cmdDown.withTimeout(Seconds.of(0.5)));
         controller.b().onTrue(cmdUp.withTimeout(Seconds.of(0.625)));
+
+        controller.rightTrigger(0.85).onTrue(cmdDown)
     }
 
     // API to get commands, subsytems, etc.
