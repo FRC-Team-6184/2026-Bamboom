@@ -26,9 +26,7 @@ public class ShooterSubsys extends SubsystemBase {
     private final CommandXboxController controller = Controller.XBOX;
     private NetworkTable network = RobotMap.SoftwareObjects.networkTableInstance.getTable("Shooter");
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
-    private DoubleEntry shooterRPMDestEntry = network.getDoubleTopic("ShooterRPM Dest.").getEntry(0);
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
-    private DoubleEntry bottomRPMDestEntry = network.getDoubleTopic("BottomRPM Dest").getEntry(0);
 
     /**
      * Units are in RPS, Rotations Per Second, rather than RPM due to how I recorded the data used in FeedForward
@@ -42,10 +40,8 @@ public class ShooterSubsys extends SubsystemBase {
         super();
 
         shooterRPMEntry.set(0.0);
-        shooterRPMDestEntry.set(0.0);
 
         bottomRPMEntry.set(0.0);
-        bottomRPMDestEntry.set(0.0);
 
         //Data collected from System Identification (whole complicated thing don't worry about it)
         //These are constants 
@@ -70,7 +66,8 @@ public class ShooterSubsys extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble());
+        bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble());
     }
 
     public Command testShoot() {
