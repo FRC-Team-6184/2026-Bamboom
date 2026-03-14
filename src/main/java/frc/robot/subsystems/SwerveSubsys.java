@@ -89,14 +89,17 @@ public class SwerveSubsys extends SubsystemBase {
         return run(() -> {
             // Done this way in order to easily enforce controller deadzones since this
             // isn't already done in drive()
+
+            //TODO: Lock direction to straight forward, left, right, and back when stick is in the extreme of that direction.
+            //Videogames do this very often and I figure for the same reason videogames do it, we should too.
             x = controller.getLeftX();
-            x = Math.abs(x) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? x : 0.0;
+            x = Math.abs(x) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? -x : 0.0;
 
             y = controller.getLeftY();
-            y = Math.abs(y) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? y : 0.0;
+            y = Math.abs(y) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? -y : 0.0; // Both X and Y are reversed in order to make the shooter the front of the robot
 
             rot = controller.getRightX();
-            rot = Math.abs(rot) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? rot : 0.0;
+            rot = Math.abs(rot) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? rot * -0.85 : 0.0; //rot * -0.85 to reverse direction of rotation and slow it down since it was overly responsive
 
             // TODO: Set this back to true when robot is in better shape, false to be easier
             // to work with for now.
