@@ -65,17 +65,17 @@ public final class RobotMap {
         public static final int BLENDER_MOTOR_ID = 9;
 
         // Swerve
-        public static final int FL_DRIVE_MOTOR_ID = 1;
-        public static final int FL_TURN_MOTOR_ID = 2;
+        public static final int FL_DRIVE_MOTOR_ID = 7;
+        public static final int FL_TURN_MOTOR_ID = 8;
 
-        public static final int FR_DRIVE_MOTOR_ID = 3;
-        public static final int FR_TURN_MOTOR_ID = 4;
+        public static final int FR_DRIVE_MOTOR_ID = 5;
+        public static final int FR_TURN_MOTOR_ID = 6;
 
-        public static final int BL_DRIVE_MOTOR_ID = 5;
-        public static final int BL_TURN_MOTOR_ID = 6;
+        public static final int BL_DRIVE_MOTOR_ID = 3;
+        public static final int BL_TURN_MOTOR_ID = 4;
 
-        public static final int BR_DRIVE_MOTOR_ID = 7;
-        public static final int BR_TURN_MOTOR_ID = 8;
+        public static final int BR_DRIVE_MOTOR_ID = 1;
+        public static final int BR_TURN_MOTOR_ID = 2;
 
         // Other
         public static final int GYRO_ID = 20;
@@ -137,13 +137,18 @@ public final class RobotMap {
         public static final double MEDIUM = 0.66;
         public static final double HIGH = 1;
 
+        public static final double INTAKE_PIVOT = 0.15;
+
+        public static final double SHOOTER_TOP_RPS = 67;
+        public static final double SHOOTER_BOT_RPS = -34;
+
         public static final double CONTROLLER_DEADZONE = 0.12;
     }
 
     public static final class SoftwareObjects {
         public static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
 
-        public static final MAXSwerveModule FRONT_LEFT_MODULE = new MAXSwerveModule(MotorControllers.FR_DRIVE_MOTOR, MotorControllers.FL_TURN_MOTOR, DriveConstants.FRONT_LEFT_CHASSIS_ANGULAR_OFFSET);
+        public static final MAXSwerveModule FRONT_LEFT_MODULE = new MAXSwerveModule(MotorControllers.FL_DRIVE_MOTOR, MotorControllers.FL_TURN_MOTOR, DriveConstants.FRONT_LEFT_CHASSIS_ANGULAR_OFFSET);
         public static final MAXSwerveModule FRONT_RIGHT_MODULE = new MAXSwerveModule(MotorControllers.FR_DRIVE_MOTOR, MotorControllers.FR_TURN_MOTOR, DriveConstants.FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET);
         public static final MAXSwerveModule BACK_LEFT_MODULE = new MAXSwerveModule(MotorControllers.BL_DRIVE_MOTOR, MotorControllers.BL_TURN_MOTOR, DriveConstants.BACK_LEFT_CHASSIS_ANGULAR_OFFSET);
         public static final MAXSwerveModule BACK_RIGHT_MODULE = new MAXSwerveModule(MotorControllers.BR_DRIVE_MOTOR, MotorControllers.BR_TURN_MOTOR, DriveConstants.BACK_RIGHT_CHASSIS_ANGULAR_OFFSET);

@@ -57,11 +57,11 @@ public class ShooterSubsys extends SubsystemBase {
         topMotor.getConfigurator().apply(topShooterPIDConfig);
 
         Slot0Configs bottomShooterPIDConfig = new Slot0Configs();
-        topShooterPIDConfig.kP = 0.13694;
-        topShooterPIDConfig.kA = 0.0019461;
-        topShooterPIDConfig.kV = 0.11021;
-        topShooterPIDConfig.kS = 0.087235;
-        topShooterPIDConfig.kD = 0.0; //What SysID gave me
+        bottomShooterPIDConfig.kP = 0.13694;
+        bottomShooterPIDConfig.kA = 0.0019461;
+        bottomShooterPIDConfig.kV = 0.11021;
+        bottomShooterPIDConfig.kS = 0.027235;
+        bottomShooterPIDConfig.kD = 0.0; //What SysID gave me
         bottomMotor.getConfigurator().apply(bottomShooterPIDConfig);
 
     }
@@ -85,7 +85,7 @@ public class ShooterSubsys extends SubsystemBase {
                 // TODO: run motors according to dashboard
                 topMotor.setControl(topMotorSpeedRequest.withVelocity(MathUtil.clamp(shooterRPMDestEntry.get(0.0) / 60.0, 6000.0, -6000.0)));
                 // System.out.println(topMotorRPM);
-                bottomMotor.set(-0.2);
+                bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(-34));
                 // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(bottomRPMDestEntry.get(0.0)));
             } else {
                 topMotor.set(0);
@@ -111,11 +111,25 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void shooterOn() {
-
+        topMotor.setControl(topMotorSpeedRequest.withVelocity(RobotMap.DigitalValues.SHOOTER_TOP_RPS));
+        // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(RobotMap.DigitalValues.SHOOTER_BOT_RPS));
     }
 
     public void shooterOff() {
+        topMotor.setControl(topMotorSpeedRequest.withVelocity(0));
+        // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(0));
+    }
 
+    public void bottomOn() {
+        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(RobotMap.DigitalValues.SHOOTER_BOT_RPS));
+    }
+
+    public void bottomOn(double rotationsPerSecond) {
+        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(rotationsPerSecond));
+    }
+
+    public void buttonOff() {
+        bottomMotor.set(0);
     }
 
 }

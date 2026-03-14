@@ -93,13 +93,23 @@ public class SwerveSubsys extends SubsystemBase {
             //TODO: Lock direction to straight forward, left, right, and back when stick is in the extreme of that direction.
             //Videogames do this very often and I figure for the same reason videogames do it, we should too.
             x = controller.getLeftX();
-            x = Math.abs(x) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? -x : 0.0;
+            x = Math.abs(x) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? x : 0.0;
 
             y = controller.getLeftY();
-            y = Math.abs(y) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? -y : 0.0; // Both X and Y are reversed in order to make the shooter the front of the robot
+            y = Math.abs(y) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? y : 0.0; // Both X and Y are reversed in order to make the shooter the front of the robot
+
+            if (Math.abs(x) >= 0.99 && Math.abs(y) <= 0.2) {
+                x = 1 * Math.signum(x);
+                y = 0;
+            } else if (Math.abs(y) >= 0.99 && Math.abs(x) <= 0.2) {
+                x = 0;
+                y = 1 * Math.signum(y);
+            }
+
+            // System.out.println(x + " | " + y);
 
             rot = controller.getRightX();
-            rot = Math.abs(rot) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? rot * -0.85 : 0.0; //rot * -0.85 to reverse direction of rotation and slow it down since it was overly responsive
+            rot = Math.abs(rot) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? rot * 0.85 : 0.0; //rot * -0.85 to reverse direction of rotation and slow it down since it was overly responsive
 
             // TODO: Set this back to true when robot is in better shape, false to be easier
             // to work with for now.

@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
     Blender = (BlenderSubsys) robotContainer.getSubsystem("Blender");
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
 
-    SwerveDrive = robotContainer.getSubsystem("Swerve") instanceof SwerveSubsys ? (SwerveSubsys) robotContainer.getSubsystem("Swerve") : null;
+    // SwerveDrive = robotContainer.getSubsystem("Swerve") instanceof SwerveSubsys ? (SwerveSubsys) robotContainer.getSubsystem("Swerve") : null;
   }
 
   /**
@@ -93,16 +93,16 @@ public class Robot extends TimedRobot {
     // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
   }
 
-  double power = 0;
+  // double power = 0;
 
   @Override
   public void testPeriodic() {
-    power += 0.0001;
-    if (power > 1.0) {
-      power = 0;
-    }
-    System.out.println(power);
-    RobotMap.MotorControllers.FL_DRIVE_MOTOR.set(power);
+    // power += 0.0001;
+    // if (power > 1.0) {
+    //   power = 0;
+    // }
+    // System.out.println(power);
+    // RobotMap.MotorControllers.FL_DRIVE_MOTOR.set(power);
 
   }
 
