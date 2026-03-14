@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.IntegerEntry;
 import edu.wpi.first.networktables.NetworkTable;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.MotorControllers;
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class ShooterSubsys extends SubsystemBase {
     private final TalonFX bottomMotor = MotorControllers.BOTTOM_SHOOTER_WHEEL;
     private final TalonFX topMotor = MotorControllers.TOP_SHOOTER_WHEEL;
+    private final TalonFX blenderMotor = MotorControllers.BLENDER_MOTOR; //NOTE: usually runs at -0.5
     private final CommandXboxController controller = Controller.XBOX;
     private NetworkTable network = RobotMap.SoftwareObjects.networkTableInstance.getTable("Shooter");
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
@@ -71,33 +73,6 @@ public class ShooterSubsys extends SubsystemBase {
 
     }
 
-    /**
-     * Put into scheduler upon start of teleop, needs to be run periodically.
-     * 
-     * @return Command regarding teleop shooter behavior
-     */
-    public Command teleopShoot() {
-        // return run(() -> {
-        //     double topMotorRPM = topMotor.getVelocity().getValue().in(Units.RPM);
-        //     double bottomMotorRPM = bottomMotor.getVelocity().getValue().in(Units.RPM);
-
-        //     if (controller.getRightTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
-        //         // TODO: run motors according to dashboard
-        //         topMotor.setControl(topMotorSpeedRequest.withVelocity(MathUtil.clamp(shooterRPMDestEntry.get(0.0) / 60.0, 6000.0, -6000.0)));
-        //         // System.out.println(topMotorRPM);
-        //         bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(-34));
-        //         // bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(bottomRPMDestEntry.get(0.0)));
-        //     } else {
-        //         topMotor.set(0);
-        //         bottomMotor.set(0);
-        //     }
-
-        //     shooterRPMEntry.set(topMotorRPM);
-        //     bottomRPMEntry.set(bottomMotorRPM);
-
-        // });
-    }
-
     public Command testShoot() {
         return run(() -> {
             controller.x().onTrue(run(() -> {
@@ -130,8 +105,20 @@ public class ShooterSubsys extends SubsystemBase {
         bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(rotationsPerSecond));
     }
 
-    public void buttonOff() {
+    public void bottomOff() {
         bottomMotor.set(0);
+    }
+
+    public void blenderOn() {
+        blenderMotor.set(-0.5);
+    }
+
+    public void blenderOn(double power) {
+        blenderMotor.set(MathUtil.clamp(power, 1.0, -1.0));
+    }
+
+    public void blenderOff() {
+        blenderMotor.set(0.0);
     }
 
 }

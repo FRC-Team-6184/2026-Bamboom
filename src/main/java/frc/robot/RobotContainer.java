@@ -7,11 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.BlenderCommand;
+import frc.robot.commands.FlywheelCommand;
 import frc.robot.commands.IntakeInCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePivotUpCommand;
 import frc.robot.commands.IntakePivotDownCommand;
-import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.FlywheelCommand;
 
 import frc.robot.subsystems.BlenderSubsys;
 import frc.robot.subsystems.IntakeSubsys;
@@ -52,11 +53,15 @@ public class RobotContainer {
     private void configureBindings() {
         IntakePivotUpCommand cmdUp = new IntakePivotUpCommand(kIntakeSubsystem);
         IntakePivotDownCommand cmdDown = new IntakePivotDownCommand(kIntakeSubsystem);
+        FlywheelCommand cmdFlywheel = new FlywheelCommand(kShooterSubsystem);
+        BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
+
 
         controller.a().onTrue(cmdDown.withTimeout(Seconds.of(0.5)));
         controller.b().onTrue(cmdUp.withTimeout(Seconds.of(0.625)));
 
-        controller.rightTrigger(0.85).onTrue(cmdDown)
+        controller.rightTrigger(0.85).whileTrue(cmdFlywheel);
+        controller.x().whileTrue(cmdBlender);
     }
 
     // API to get commands, subsytems, etc.

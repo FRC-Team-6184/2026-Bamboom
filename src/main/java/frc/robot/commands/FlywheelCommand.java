@@ -2,13 +2,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.BlenderSubsys;
+import frc.robot.subsystems.ShooterSubsys;
 
-public class ShooterCommand extends Command {
+public class FlywheelCommand extends Command {
     // Blender subsystem, and maybe other crucial things.
-    private final BlenderSubsys kBlenderSubsystem;
+    private final ShooterSubsys kShooterSubsystem;
 
-    public ShooterCommand(BlenderSubsys blender) {
-        this.kBlenderSubsystem = blender;
+    public FlywheelCommand(ShooterSubsys shooter) {
+        this.kShooterSubsystem = shooter;
     }
 
     @Override
@@ -18,12 +19,12 @@ public class ShooterCommand extends Command {
 
     @Override
     public void execute() {
-
+        kShooterSubsystem.shooterOn(2200);
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        kShooterSubsystem.shooterOff();
     }
 
 }

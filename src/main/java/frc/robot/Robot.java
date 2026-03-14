@@ -19,7 +19,6 @@ public class Robot extends TimedRobot {
   // Subsystems
   private SwerveSubsys SwerveDrive;
   private ShooterSubsys Shooter;
-  private BlenderSubsys Blender;
   private IntakeSubsys Intake;
 
   // Robot container
@@ -34,7 +33,6 @@ public class Robot extends TimedRobot {
     // TODO: Figure out a type safer way to cast the returned SubsystemBase back into its respective subclass
     SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
     Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
-    Blender = (BlenderSubsys) robotContainer.getSubsystem("Blender");
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
 
     // SwerveDrive = robotContainer.getSubsystem("Swerve") instanceof SwerveSubsys ? (SwerveSubsys) robotContainer.getSubsystem("Swerve") : null;
@@ -73,8 +71,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
     CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
-    CommandScheduler.getInstance().schedule(Shooter.teleopShoot());
-    CommandScheduler.getInstance().schedule(Blender.teleopBlender());
     CommandScheduler.getInstance().schedule(Intake.teleopIntake());
   }
 
