@@ -5,11 +5,8 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.networktables.DoubleEntry;
-import edu.wpi.first.networktables.IntegerEntry;
 import edu.wpi.first.networktables.NetworkTable;
 
-import edu.wpi.first.units.Units;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.MotorControllers;

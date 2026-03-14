@@ -5,9 +5,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -18,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.Gyro;
-import frc.robot.RobotMap.MotorControllers;
 import frc.robot.subsystems.swerve.MAXSwerveModule;
 import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
 

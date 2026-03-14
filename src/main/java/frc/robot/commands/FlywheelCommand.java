@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.BlenderSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 
 public class FlywheelCommand extends Command {

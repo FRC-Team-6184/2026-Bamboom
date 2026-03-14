@@ -8,20 +8,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.BlenderCommand;
 import frc.robot.commands.FlywheelCommand;
-import frc.robot.commands.IntakeInCommand;
-import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePivotUpCommand;
 import frc.robot.commands.IntakePivotDownCommand;
-import frc.robot.commands.FlywheelCommand;
-
-import frc.robot.subsystems.BlenderSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
-import frc.robot.subsystems.Vision;
 import static edu.wpi.first.units.Units.Seconds;
-import com.ctre.phoenix6.hardware.jni.HardwareJNI;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -29,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class RobotContainer {
     // Subsystems
-    private final BlenderSubsys kBlenderSubsystem = new BlenderSubsys();
     private final IntakeSubsys kIntakeSubsystem = new IntakeSubsys();
     private final ShooterSubsys kShooterSubsystem = new ShooterSubsys();
     private final SwerveSubsys kSwerveSubsystem = new SwerveSubsys();
@@ -97,8 +88,6 @@ public class RobotContainer {
         switch (subsys) {
             case "Swerve":
                 return kSwerveSubsystem;
-            case "Blender":
-                return kBlenderSubsystem;
             case "Intake":
                 return kIntakeSubsystem;
             case "Shooter":
