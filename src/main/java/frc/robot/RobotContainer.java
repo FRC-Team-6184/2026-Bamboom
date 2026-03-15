@@ -13,6 +13,7 @@ import frc.robot.commands.IntakePivotDownCommand;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
+import frc.robot.subsystems.VisionSubsys;
 import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -24,6 +25,7 @@ public class RobotContainer {
     private final IntakeSubsys kIntakeSubsystem = new IntakeSubsys();
     private final ShooterSubsys kShooterSubsystem = new ShooterSubsys();
     private final SwerveSubsys kSwerveSubsystem = new SwerveSubsys();
+    private final VisionSubsys kVisionSubsystem = new VisionSubsys();
 
     private final CommandXboxController controller = RobotMap.Controller.XBOX;
 
@@ -92,6 +94,8 @@ public class RobotContainer {
                 return kIntakeSubsystem;
             case "Shooter":
                 return kShooterSubsystem;
+            case "Vision":
+                return kVisionSubsystem;
         }
 
         System.out.println("Invalid subsystem name");

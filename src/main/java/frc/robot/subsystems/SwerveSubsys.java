@@ -6,10 +6,21 @@ import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.DoubleArrayEntry;
+import edu.wpi.first.networktables.DoubleEntry;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NTSendable;
+import edu.wpi.first.networktables.NTSendableBuilder;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.util.struct.Struct;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -34,15 +45,31 @@ public class SwerveSubsys extends SubsystemBase {
     private final MAXSwerveModule m_frontRight = RobotMap.SoftwareObjects.FRONT_RIGHT_MODULE;
     private final MAXSwerveModule m_rearLeft = RobotMap.SoftwareObjects.BACK_LEFT_MODULE;
     private final MAXSwerveModule m_rearRight = RobotMap.SoftwareObjects.BACK_RIGHT_MODULE;
+    private final NetworkTableInstance network = RobotMap.SoftwareObjects.networkTableInstance;
+
+    private DoubleEntry positionXEntry = network.getDoubleTopic("PositionX").getEntry(0);
+    private DoubleEntry positionYEntry = network.getDoubleTopic("PositionY").getEntry(0);
+    private DoubleEntry positionZEntry = network.getDoubleTopic("PositionZ").getEntry(0);
+
+    private Field2d field2d = new Field2d();
+    private GenericEntry field2dEntry = network.getTopic("Field2d").getGenericEntry();
 
     private Pigeon2 gyro = Gyro.GYRO;
-
     private SwerveDrivePoseEstimator3d odometry = RobotMap.SoftwareObjects.poseEstimator;
 
     public SwerveSubsys() {
         super();
         // The MaxSwerve template does this, no clue what this is
         HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
+
+        positionXEntry.set(0.0);
+        positionYEntry.set(0.0);
+        positionZEntry.set(0.0);
+
+        field2d.setRobotPose(0, 0, new Rotation2d());
+        // field2dEntry.set(field2d);
+
+        // network.struct
     }
 
     // Mostly copied from MaxSwerve template, simply updates
@@ -51,6 +78,13 @@ public class SwerveSubsys extends SubsystemBase {
     public void periodic() {
         // Update the odometry in the periodic block
         odometry.update(gyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()});
+
+        Pose3d pos = odometry.getEstimatedPosition();
+        positionXEntry.set(pos.getX());
+        positionYEntry.set(pos.getY());
+        positionZEntry.set(pos.getZ());
+
+        field2d.setRobotPose(pos.toPose2d());
     }
 
     /**

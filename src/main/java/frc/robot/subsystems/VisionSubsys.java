@@ -13,14 +13,15 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Vision extends SubsystemBase {
+public class VisionSubsys extends SubsystemBase {
     // Define the cameras
     PhotonCamera limeLight = new PhotonCamera("Limelight");
-    PhotonCamera leftCam = new PhotonCamera("LeftCam");
-    PhotonCamera rightCam = new PhotonCamera("RightCam");
+    PhotonCamera leftCam = new PhotonCamera("LeftCameraReal");
+    PhotonCamera rightCam = new PhotonCamera("RightCameraReal");
     // Each camera needs its own pose estimator, these will end up talking to the pose estimator for drive
     Transform3d limeLightTransform = new Transform3d(Inches.of(9.72), Inches.of(2), Inches.of(20.5), new Rotation3d(0, 0, 0)); //8.5 + limelight thickness (1.22) x, 20.5 z, 2 y all in inches
     Transform3d rightTransform = new Transform3d(Inches.of(6.0), Inches.of(-12.5), Inches.of(21.25), new Rotation3d(0, 0, 0));
@@ -33,7 +34,7 @@ public class Vision extends SubsystemBase {
     //Global drive pose estimation
     SwerveDrivePoseEstimator3d globalEstimator = RobotMap.SoftwareObjects.poseEstimator;
 
-    public Vision() {
+    public VisionSubsys() {
         super();
 
         limeLight.setDriverMode(true);
@@ -55,10 +56,13 @@ public class Vision extends SubsystemBase {
             //If it's still empty somehow after this then it's simply not meant to be
             if (poseHolder.isPresent()) {
                 EstimatedRobotPose pose = poseHolder.get();
-
                 globalEstimator.addVisionMeasurement(pose.estimatedPose, pose.timestampSeconds);
             }
         }
+    }
+
+    private void dynamicStandardDeviation(EstimatedRobotPose test) {
+        // Photo
     }
 
 }

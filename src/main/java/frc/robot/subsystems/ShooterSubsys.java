@@ -25,6 +25,7 @@ public class ShooterSubsys extends SubsystemBase {
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
 
+
     /**
      * Units are in RPS, Rotations Per Second, rather than RPM due to how I recorded the data used in FeedForward
      * <p>Since you're probably used to RPM, Rotations Per Minute, divide the value by 60 before putting it in.
@@ -37,7 +38,6 @@ public class ShooterSubsys extends SubsystemBase {
         super();
 
         shooterRPMEntry.set(0.0);
-
         bottomRPMEntry.set(0.0);
 
         //Data collected from System Identification (whole complicated thing don't worry about it)

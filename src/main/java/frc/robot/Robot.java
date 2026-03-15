@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
+import frc.robot.subsystems.VisionSubsys;
+import frc.robot.subsystems.ledSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 
 public class Robot extends TimedRobot {
@@ -16,6 +18,8 @@ public class Robot extends TimedRobot {
   private SwerveSubsys SwerveDrive;
   private ShooterSubsys Shooter;
   private IntakeSubsys Intake;
+  private VisionSubsys Vision;
+  private ledSubsys leds;
 
   // Robot container
   private RobotContainer robotContainer;
@@ -30,6 +34,9 @@ public class Robot extends TimedRobot {
     SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
     Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
+    Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
+
+    leds = new ledSubsys();
 
     // SwerveDrive = robotContainer.getSubsystem("Swerve") instanceof SwerveSubsys ? (SwerveSubsys) robotContainer.getSubsystem("Swerve") : null;
   }
@@ -68,6 +75,7 @@ public class Robot extends TimedRobot {
 
     CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     CommandScheduler.getInstance().schedule(Intake.teleopIntake());
+    // CommandScheduler.getInstance().schedule(Vision);
   }
 
   @Override

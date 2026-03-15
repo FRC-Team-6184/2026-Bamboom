@@ -28,6 +28,8 @@ import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
  * Blender Motor - 9 | Falcon 500 (CTRE) Blender Motor - 9 | Falcon 500 (CTRE)
  * 
  * Gyro (Pigeon2) - 20 PDH - 21 Gyro (Pigeon2) - 20 PDH - 21
+ * 
+ * PWM Port 3 for LEDs
  */
 
 /**
