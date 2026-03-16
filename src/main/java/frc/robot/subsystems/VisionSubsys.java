@@ -7,12 +7,17 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
-
+import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N4;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -40,29 +45,55 @@ public class VisionSubsys extends SubsystemBase {
         limeLight.setDriverMode(true);
     }
 
+    int count = 0;
+
     @Override
     public void periodic() {
         applyEstimations(limeLight.getAllUnreadResults());
         applyEstimations(leftCam.getAllUnreadResults());
         applyEstimations(rightCam.getAllUnreadResults());
+
+        // count++;
+        // if (count >= 100) {
+        // System.out.println("Vision stuff is in fact actually running");
+        // }
     }
 
     private void applyEstimations(List<PhotonPipelineResult> unreadResults) {
-        for (PhotonPipelineResult result : limeLight.getAllUnreadResults()) {
-            Optional<EstimatedRobotPose> poseHolder = limeLightEstimator.estimateCoprocMultiTagPose(result);
-            if (poseHolder.isEmpty()) {
-                limeLightEstimator.estimateLowestAmbiguityPose(result);
-            }
-            //If it's still empty somehow after this then it's simply not meant to be
-            if (poseHolder.isPresent()) {
-                EstimatedRobotPose pose = poseHolder.get();
-                globalEstimator.addVisionMeasurement(pose.estimatedPose, pose.timestampSeconds);
+        if (!unreadResults.isEmpty()) {
+            for (PhotonPipelineResult result : limeLight.getAllUnreadResults()) {
+                Optional<EstimatedRobotPose> poseHolder = limeLightEstimator.estimateCoprocMultiTagPose(result);
+                if (poseHolder.isEmpty()) {
+                    limeLightEstimator.estimateLowestAmbiguityPose(result);
+                }
+                //If it's still empty somehow after this then it's simply not meant to be
+                if (poseHolder.isPresent()) {
+                    dynamicStandardDeviation(result);
+                    EstimatedRobotPose pose = poseHolder.get();
+                    globalEstimator.addVisionMeasurement(pose.estimatedPose, pose.timestampSeconds);
+                }
             }
         }
     }
 
-    private void dynamicStandardDeviation(EstimatedRobotPose test) {
-        // Photo
+    private void dynamicStandardDeviation(PhotonPipelineResult result) {
+        PhotonTrackedTarget target = result.getBestTarget();
+
+        if (!(target == null)) {
+            Transform3d camToTarget = target.getBestCameraToTarget();
+            double distance = camToTarget.getTranslation().getDistance(new Translation3d(0, 0, 0));
+
+            //Basic placeholder equation for dynamic stddev based on distance, 0.16x^2, theta always being at 0
+            double calcValue = 0.16 * Math.pow(distance, 2);
+            Matrix<N4, N1> stddevs = new Matrix<N4, N1>(Nat.N4(), Nat.N1());
+            stddevs.set(1, 1, calcValue);
+            stddevs.set(2, 1, calcValue);
+            stddevs.set(3, 1, calcValue);
+            stddevs.set(4, 1, 0);
+            globalEstimator.setVisionMeasurementStdDevs(stddevs);
+        } else {
+            return;
+        }
     }
 
 }

@@ -5,10 +5,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.BlenderCommand;
 import frc.robot.commands.FlywheelCommand;
+import frc.robot.commands.HighShooterRPMCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakePivotUpCommand;
+import frc.robot.commands.LowShooterRPMCommand;
 import frc.robot.commands.IntakePivotDownCommand;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
@@ -27,7 +31,8 @@ public class RobotContainer {
     private final SwerveSubsys kSwerveSubsystem = new SwerveSubsys();
     private final VisionSubsys kVisionSubsystem = new VisionSubsys();
 
-    private final CommandXboxController controller = RobotMap.Controller.XBOX;
+    private final CommandXboxController mainController = RobotMap.Controller.XBOX;
+    private final CommandPS5Controller codriveController = RobotMap.Controller.PS5;
 
     // Commands TODO: define these guys in the constructor, and make them final
     // private final BlenderCommand kBlenderCommand;
@@ -44,17 +49,24 @@ public class RobotContainer {
 
     // Check the wpilib docs (Advanced Programming > Structuring a Command-Based Robot Project > Scroll down) for more information on this method
     private void configureBindings() {
-        IntakePivotUpCommand cmdUp = new IntakePivotUpCommand(kIntakeSubsystem);
-        IntakePivotDownCommand cmdDown = new IntakePivotDownCommand(kIntakeSubsystem);
+        IntakePivotUpCommand cmdIntakeUp = new IntakePivotUpCommand(kIntakeSubsystem);
+        IntakePivotDownCommand cmdIntakeDown = new IntakePivotDownCommand(kIntakeSubsystem);
         FlywheelCommand cmdFlywheel = new FlywheelCommand(kShooterSubsystem);
         BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
+        HighShooterRPMCommand cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
+        LowShooterRPMCommand cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
+        IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
 
+        codriveController.L1().toggleOnTrue(cmdFlywheel);
+        codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
 
-        controller.a().onTrue(cmdDown.withTimeout(Seconds.of(0.5)));
-        controller.b().onTrue(cmdUp.withTimeout(Seconds.of(0.625)));
+        codriveController.povUp().onTrue(cmdHighSpeed);
+        codriveController.povDown().onTrue(cmdLowSpeed);
 
-        controller.rightTrigger(0.85).whileTrue(cmdFlywheel);
-        controller.x().whileTrue(cmdBlender);
+        codriveController.R1().toggleOnTrue(cmdIntake);
+        codriveController.cross().onTrue(cmdIntakeDown.withTimeout(Seconds.of(0.5)));
+        codriveController.circle().onTrue(cmdIntakeUp.withTimeout(Seconds.of(0.625)));
+
     }
 
     // API to get commands, subsytems, etc.

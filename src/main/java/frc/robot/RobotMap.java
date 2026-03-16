@@ -13,7 +13,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.swerve.MAXSwerveModule;
 import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
@@ -45,8 +45,10 @@ public final class RobotMap {
 
     public static final class Controller {
         public static final int XBOX_P = 0;
+        public static final int PS5_P = 1;
 
         public static final CommandXboxController XBOX = new CommandXboxController(XBOX_P);
+        public static final CommandPS5Controller PS5 = new CommandPS5Controller(PS5_P);
     }
 
     // TODO: reorder can ids and make them more logical than what is currently here
@@ -64,17 +66,17 @@ public final class RobotMap {
         public static final int BLENDER_MOTOR_ID = 9;
 
         // Swerve
-        public static final int FL_DRIVE_MOTOR_ID = 7;
-        public static final int FL_TURN_MOTOR_ID = 8;
+        public static final int FL_DRIVE_MOTOR_ID = 1;
+        public static final int FL_TURN_MOTOR_ID = 2;
 
-        public static final int FR_DRIVE_MOTOR_ID = 5;
-        public static final int FR_TURN_MOTOR_ID = 6;
+        public static final int FR_DRIVE_MOTOR_ID = 3;
+        public static final int FR_TURN_MOTOR_ID = 4;
 
-        public static final int BL_DRIVE_MOTOR_ID = 3;
-        public static final int BL_TURN_MOTOR_ID = 4;
+        public static final int BL_DRIVE_MOTOR_ID = 5;
+        public static final int BL_TURN_MOTOR_ID = 6;
 
-        public static final int BR_DRIVE_MOTOR_ID = 1;
-        public static final int BR_TURN_MOTOR_ID = 2;
+        public static final int BR_DRIVE_MOTOR_ID = 7;
+        public static final int BR_TURN_MOTOR_ID = 8;
 
         // Other
         public static final int GYRO_ID = 20;
@@ -137,11 +139,13 @@ public final class RobotMap {
         public static final double HIGH = 1;
 
         public static final double INTAKE_PIVOT = 0.15;
-
-        public static final double SHOOTER_TOP_RPS = 67;
-        public static final double SHOOTER_BOT_RPS = -34;
+        public static final double INTAKE_SPEED = -0.3;
 
         public static final double CONTROLLER_DEADZONE = 0.12;
+
+        public static final double SHOOTER_LOW_SPEED = 1000.0 / 60.0;
+        public static final double SHOOTER_HIGH_SPEED = 2000.0 / 60.0;
+        public static final double SHOOTER_BOTTOM_SPEED = -34;
     }
 
     public static final class SoftwareObjects {

@@ -12,15 +12,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.DoubleArrayEntry;
 import edu.wpi.first.networktables.DoubleEntry;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.networktables.NTSendable;
-import edu.wpi.first.networktables.NTSendableBuilder;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.util.struct.Struct;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -38,6 +33,8 @@ public class SwerveSubsys extends SubsystemBase {
     private double x;
     private double y;
     private double rot;
+    private boolean canRotate = true;
+    private boolean canMove = true;
     private final CommandXboxController controller = Controller.XBOX;
 
     // Create MAXSwerveModules
@@ -52,7 +49,7 @@ public class SwerveSubsys extends SubsystemBase {
     private DoubleEntry positionZEntry = network.getDoubleTopic("PositionZ").getEntry(0);
 
     private Field2d field2d = new Field2d();
-    private GenericEntry field2dEntry = network.getTopic("Field2d").getGenericEntry();
+    // private GenericEntry field2dEntry = network.getTopic("Field2d").getGenericEntry();
 
     private Pigeon2 gyro = Gyro.GYRO;
     private SwerveDrivePoseEstimator3d odometry = RobotMap.SoftwareObjects.poseEstimator;
@@ -67,9 +64,11 @@ public class SwerveSubsys extends SubsystemBase {
         positionZEntry.set(0.0);
 
         field2d.setRobotPose(0, 0, new Rotation2d());
-        // field2dEntry.set(field2d);
+        SmartDashboard.putData(field2d);
+        SmartDashboard.updateValues();
 
-        // network.struct
+        gyro.reset();
+
     }
 
     // Mostly copied from MaxSwerve template, simply updates
@@ -85,6 +84,8 @@ public class SwerveSubsys extends SubsystemBase {
         positionZEntry.set(pos.getZ());
 
         field2d.setRobotPose(pos.toPose2d());
+        SmartDashboard.putData(field2d);
+        SmartDashboard.updateValues();
     }
 
     /**
@@ -118,35 +119,57 @@ public class SwerveSubsys extends SubsystemBase {
 
     public Command teleopDrive() {
         return run(() -> {
-            // Done this way in order to easily enforce controller deadzones since this
-            // isn't already done in drive()
+            if (canMove) {
+                // Done this way in order to easily enforce controller deadzones since this
+                // isn't already done in drive()
+                x = controller.getLeftX();
+                x = Math.abs(x) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? x : 0.0;
 
-            //TODO: Lock direction to straight forward, left, right, and back when stick is in the extreme of that direction.
-            //Videogames do this very often and I figure for the same reason videogames do it, we should too.
-            x = controller.getLeftX();
-            x = Math.abs(x) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? x : 0.0;
+                y = controller.getLeftY();
+                y = Math.abs(y) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? y : 0.0; // Both X and Y are reversed in order to make the shooter the front of the robot
 
-            y = controller.getLeftY();
-            y = Math.abs(y) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? y : 0.0; // Both X and Y are reversed in order to make the shooter the front of the robot
-
-            if (Math.abs(x) >= 0.99 && Math.abs(y) <= 0.2) {
-                x = 1 * Math.signum(x);
-                y = 0;
-            } else if (Math.abs(y) >= 0.99 && Math.abs(x) <= 0.2) {
+                if (Math.abs(x) >= 0.99 && Math.abs(y) <= 0.2) {
+                    x = 1 * Math.signum(x);
+                    y = 0;
+                } else if (Math.abs(y) >= 0.99 && Math.abs(x) <= 0.2) {
+                    x = 0;
+                    y = 1 * Math.signum(y);
+                }
+            } else {
                 x = 0;
-                y = 1 * Math.signum(y);
+                y = 0;
             }
 
             // System.out.println(x + " | " + y);
-
-            rot = controller.getRightX();
-            rot = Math.abs(rot) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? rot * 0.85 : 0.0; //rot * -0.85 to reverse direction of rotation and slow it down since it was overly responsive
-
+            if (canRotate) {
+                rot = controller.getRightX();
+                rot = Math.abs(rot) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? rot * 0.85 : 0.0; //rot * -0.85 to reverse direction of rotation and slow it down since it was overly responsive
+            } else {
+                rot = 0;
+            }
             // TODO: Set this back to true when robot is in better shape, false to be easier
             // to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a
             // hold or something.
-            drive(x, y, rot, false);
+            drive(x * 0.5, y * 0.5, rot, true);
         });
     }
+
+    public boolean getCanMove() {
+        return canMove;
+    }
+
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
+    }
+
+    public boolean getCanRotate() {
+        return canRotate;
+    }
+
+    public void setCanRotate(boolean canRotate) {
+        this.canRotate = canRotate;
+    }
 }
+
+

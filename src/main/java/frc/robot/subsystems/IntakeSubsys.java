@@ -30,21 +30,21 @@ public class IntakeSubsys extends SubsystemBase {
         kXboxController = Controller.XBOX;
     }
 
-    public Command teleopIntake() {
-        return run(() -> {
-            // Will run as long as the top and bottom limit switches are not hit
-            // if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
-            // kPivotMotor.set(MathUtil.clamp(kXboxController.getLeftY(), 0, -0.2));
-            // }
+    // public Command teleopIntake() {
+    // return run(() -> {
+    // Will run as long as the top and bottom limit switches are not hit
+    // if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
+    // kPivotMotor.set(MathUtil.clamp(kXboxController.getLeftY(), 0, -0.2));
+    // }
 
-            if (kXboxController.getLeftTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
-                kIntakeMotor.set(-0.3);
-                // System.out.println("REEEE");
-            } else {
-                kIntakeMotor.set(0.0);
-            }
-        });
-    }
+    // if (kXboxController.getLeftTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
+    // kIntakeMotor.set(-0.3);
+    // System.out.println("REEEE");
+    // } else {
+    // kIntakeMotor.set(0.0);
+    // }
+    // });
+    // }
 
     public void pivotDown() {
         kPivotMotor.set(RobotMap.DigitalValues.INTAKE_PIVOT);
@@ -57,5 +57,13 @@ public class IntakeSubsys extends SubsystemBase {
 
     public void pivotUp() {
         kPivotMotor.set(-RobotMap.DigitalValues.INTAKE_PIVOT);
+    }
+
+    public void startIntake() {
+        kIntakeMotor.set(-0.3);
+    }
+
+    public void stopIntake() {
+        kIntakeMotor.set(0.0);
     }
 }

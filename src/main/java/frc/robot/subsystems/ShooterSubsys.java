@@ -7,9 +7,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTable;
 
-import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
+import frc.robot.RobotMap.DigitalValues;
 import frc.robot.RobotMap.MotorControllers;
+import frc.robot.RobotMap.SoftwareObjects;
 import frc.robot.utilities.MathUtil;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,9 +22,10 @@ public class ShooterSubsys extends SubsystemBase {
     private final TalonFX topMotor = MotorControllers.TOP_SHOOTER_WHEEL;
     private final TalonFX blenderMotor = MotorControllers.BLENDER_MOTOR; //NOTE: usually runs at -0.5
     private final CommandXboxController controller = Controller.XBOX;
-    private NetworkTable network = RobotMap.SoftwareObjects.networkTableInstance.getTable("Shooter");
+    private NetworkTable network = SoftwareObjects.networkTableInstance.getTable("Shooter");
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
+    private double shooterRPMDest = DigitalValues.SHOOTER_LOW_SPEED;
 
 
     /**
@@ -32,7 +34,6 @@ public class ShooterSubsys extends SubsystemBase {
      */
     private VelocityVoltage topMotorSpeedRequest = new VelocityVoltage(0);
     private VelocityVoltage bottomMotorSpeedRequest = new VelocityVoltage(0);
-
 
     public ShooterSubsys() {
         super();
@@ -80,7 +81,7 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void shooterOn() {
-        topMotor.setControl(topMotorSpeedRequest.withVelocity(RobotMap.DigitalValues.SHOOTER_TOP_RPS));
+        topMotor.setControl(topMotorSpeedRequest.withVelocity(shooterRPMDest));
     }
 
     public void shooterOn(double rotationsPerSecond) {
@@ -92,7 +93,7 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void bottomOn() {
-        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(RobotMap.DigitalValues.SHOOTER_BOT_RPS));
+        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(DigitalValues.SHOOTER_BOTTOM_SPEED));
     }
 
     public void bottomOn(double rotationsPerSecond) {
@@ -113,6 +114,14 @@ public class ShooterSubsys extends SubsystemBase {
 
     public void blenderOff() {
         blenderMotor.set(0.0);
+    }
+
+    public double getRPMDDest() {
+        return shooterRPMDest;
+    }
+
+    public void setRPMDest(double shooterRPMDest) {
+        this.shooterRPMDest = shooterRPMDest;
     }
 
 }

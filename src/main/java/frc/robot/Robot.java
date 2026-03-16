@@ -62,6 +62,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your{@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    RobotMap.Gyro.GYRO.reset();
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
@@ -70,11 +71,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    RobotMap.Gyro.GYRO.reset();
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
     CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
-    CommandScheduler.getInstance().schedule(Intake.teleopIntake());
+    // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
     // CommandScheduler.getInstance().schedule(Vision);
   }
 
