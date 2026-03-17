@@ -13,6 +13,8 @@ import frc.robot.subsystems.VisionSubsys;
 import frc.robot.subsystems.ledSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 
+// TODO: Hook up status of things running to dashboard
+// ie: when shooter is running, when intake is running, etc. etc.
 public class Robot extends TimedRobot {
   // Subsystems
   private SwerveSubsys SwerveDrive;

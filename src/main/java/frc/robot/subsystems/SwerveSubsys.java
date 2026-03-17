@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Inch;
+import static edu.wpi.first.units.Units.Meter;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.hal.FRCNetComm.tInstances;
@@ -63,7 +65,7 @@ public class SwerveSubsys extends SubsystemBase {
         positionYEntry.set(0.0);
         positionZEntry.set(0.0);
 
-        field2d.setRobotPose(0, 0, new Rotation2d());
+        field2d.setRobotPose(Meter.convertFrom(651.22, Inch) - 1.88, Meter.convertFrom(158.84, Inch), new Rotation2d());
         SmartDashboard.putData(field2d);
         SmartDashboard.updateValues();
 

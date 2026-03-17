@@ -86,10 +86,10 @@ public class VisionSubsys extends SubsystemBase {
             //Basic placeholder equation for dynamic stddev based on distance, 0.16x^2, theta always being at 0
             double calcValue = 0.16 * Math.pow(distance, 2);
             Matrix<N4, N1> stddevs = new Matrix<N4, N1>(Nat.N4(), Nat.N1());
-            stddevs.set(1, 1, calcValue);
-            stddevs.set(2, 1, calcValue);
-            stddevs.set(3, 1, calcValue);
-            stddevs.set(4, 1, 0);
+            stddevs.set(0, 0, calcValue);
+            stddevs.set(1, 0, calcValue);
+            stddevs.set(2, 0, calcValue);
+            stddevs.set(3, 0, 0);
             globalEstimator.setVisionMeasurementStdDevs(stddevs);
         } else {
             return;
