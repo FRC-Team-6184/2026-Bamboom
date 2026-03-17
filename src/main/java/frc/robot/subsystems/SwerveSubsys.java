@@ -142,7 +142,7 @@ public class SwerveSubsys extends SubsystemBase {
 
             // System.out.println(x + " | " + y);
             if (canRotate) {
-                rot = controller.getRightX();
+                rot = -controller.getRightX();
                 rot = Math.abs(rot) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? rot * 0.85 : 0.0; //rot * -0.85 to reverse direction of rotation and slow it down since it was overly responsive
             } else {
                 rot = 0;
@@ -151,7 +151,7 @@ public class SwerveSubsys extends SubsystemBase {
             // to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a
             // hold or something.
-            drive(x * 0.5, y * 0.5, rot, true);
+            drive(-y * 0.5, -x * 0.5, rot, true);
         });
     }
 

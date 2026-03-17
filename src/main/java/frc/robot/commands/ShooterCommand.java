@@ -25,6 +25,7 @@ public class ShooterCommand extends Command {
     public void initialize() {
         swerve.setCanMove(false);
         swerve.setCanRotate(false);
+        shooter.shooterOn();
     }
 
     @Override

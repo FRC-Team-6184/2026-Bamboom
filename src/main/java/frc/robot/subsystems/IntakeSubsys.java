@@ -60,7 +60,7 @@ public class IntakeSubsys extends SubsystemBase {
     }
 
     public void startIntake() {
-        kIntakeMotor.set(-0.3);
+        kIntakeMotor.set(-0.55);
     }
 
     public void stopIntake() {

@@ -58,7 +58,7 @@ public class RobotContainer {
         IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
 
         codriveController.L1().toggleOnTrue(cmdFlywheel);
-        codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
+        codriveController.axisGreaterThan(3, 0.8).and(codriveController.axisGreaterThan(4, 0.8)).whileTrue(cmdBlender);
 
         codriveController.povUp().onTrue(cmdHighSpeed);
         codriveController.povDown().onTrue(cmdLowSpeed);
