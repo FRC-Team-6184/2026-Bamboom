@@ -5,9 +5,12 @@ import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.DigitalInputOutput;
 import frc.robot.RobotMap.MotorControllers;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 // TODO: Blender and intake might be better as one subsystem rather than two separate since neither should be very complicated.
@@ -18,6 +21,7 @@ public class IntakeSubsys extends SubsystemBase {
     TalonFX kPivotMotor;
     TalonFX kIntakeMotor;
     CommandXboxController kXboxController;
+    CommandPS5Controller PS5Controller;
 
     /** Intake constructor. Perform all initializing regarding related motors here */
     public IntakeSubsys() {
@@ -28,6 +32,7 @@ public class IntakeSubsys extends SubsystemBase {
         kPivotMotor = MotorControllers.PIVOT_INTAKE_MOTOR;
         kIntakeMotor = MotorControllers.ACTIVE_INTAKE_MOTOR;
         kXboxController = Controller.XBOX;
+        PS5Controller = Controller.PS5;
     }
 
     // public Command teleopIntake() {
@@ -45,6 +50,14 @@ public class IntakeSubsys extends SubsystemBase {
     // }
     // });
     // }
+
+    public Command teleOpPivot() {
+        return run(() -> {
+            if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
+                kPivotMotor.set(MathUtil.clamp(PS5Controller.getLeftY(), 0, -0.2));
+            }
+        });
+    }
 
     public void pivotDown() {
         kPivotMotor.set(RobotMap.DigitalValues.INTAKE_PIVOT);

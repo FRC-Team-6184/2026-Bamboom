@@ -49,8 +49,8 @@ public class RobotContainer {
 
     // Check the wpilib docs (Advanced Programming > Structuring a Command-Based Robot Project > Scroll down) for more information on this method
     private void configureBindings() {
-        IntakePivotUpCommand cmdIntakeUp = new IntakePivotUpCommand(kIntakeSubsystem);
-        IntakePivotDownCommand cmdIntakeDown = new IntakePivotDownCommand(kIntakeSubsystem);
+        // IntakePivotUpCommand cmdIntakeUp = new IntakePivotUpCommand(kIntakeSubsystem);
+        // IntakePivotDownCommand cmdIntakeDown = new IntakePivotDownCommand(kIntakeSubsystem);
         FlywheelCommand cmdFlywheel = new FlywheelCommand(kShooterSubsystem);
         BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
         HighShooterRPMCommand cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
@@ -64,8 +64,6 @@ public class RobotContainer {
         codriveController.povDown().onTrue(cmdLowSpeed);
 
         codriveController.R1().toggleOnTrue(cmdIntake);
-        codriveController.cross().onTrue(cmdIntakeDown.withTimeout(Seconds.of(0.5)));
-        codriveController.circle().onTrue(cmdIntakeUp.withTimeout(Seconds.of(0.625)));
 
     }
 

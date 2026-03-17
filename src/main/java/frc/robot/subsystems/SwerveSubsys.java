@@ -1,7 +1,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
@@ -14,9 +19,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotMap;
@@ -55,19 +62,60 @@ public class SwerveSubsys extends SubsystemBase {
     private SwerveDrivePoseEstimator3d odometry = RobotMap.SoftwareObjects.poseEstimator;
 
     public SwerveSubsys() {
+
+      m_odometry = new DifferentialDriveOdometry(
+      m_gyro.getRotation2d(),
+      m_leftEncoder.getDistance(),
+      m_rightEncoder.getDistance(),
+      new Pose2d(0, 0, new Rotation2d()) // Starting position
+
         super();
-        // The MaxSwerve template does this, no clue what this is
-        HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
 
-        positionXEntry.set(0.0);
-        positionYEntry.set(0.0);
-        positionZEntry.set(0.0);
+        RobotConfig config;
+        try {
+            config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+            // Handle exception as needed
+            e.printStackTrace();
+        }
 
-        field2d.setRobotPose(0, 0, new Rotation2d());
-        SmartDashboard.putData(field2d);
-        SmartDashboard.updateValues();
+    public getPose() {
+        return m_odometry.getPoseMeters();
+    }
 
-        gyro.reset();
+    );}
+
+    }
+
+    // Configure AutoBuilder last
+    AutoBuilder.configure(this::getPose, // Robot pose supplier
+    this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+    this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+    (speeds,feedforwards)->driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+    new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+    new PIDConstants(5.0,0.0,0.0), // Translation PID constants
+    new PIDConstants(5.0,0.0,0.0) // Rotation PID constants
+    ),config, // The robot configuration
+    ()->{
+    // Boolean supplier that controls when the path will be mirrored for the red alliance
+    // This will flip the path being followed to the red side of the field.
+    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+    var alliance = DriverStation.getAlliance();if(alliance.isPresent())
+    {
+        return alliance.get() == DriverStation.Alliance.Red;
+    }return false;
+    },this // Reference to this subsystem to set requirements
+    );
+
+    // The MaxSwerve template does this, no clue what this is
+    HAL.report(tResourceType.kResourceType_RobotDrive,tInstances.kRobotDriveSwerve_MaxSwerve);
+
+    positionXEntry.set(0.0);positionYEntry.set(0.0);positionZEntry.set(0.0);
+
+    field2d.setRobotPose(0,0,new Rotation2d());SmartDashboard.putData(field2d);SmartDashboard.updateValues();
+
+    gyro.reset();
 
     }
 
@@ -170,6 +218,39 @@ public class SwerveSubsys extends SubsystemBase {
     public void setCanRotate(boolean canRotate) {
         this.canRotate = canRotate;
     }
+
+
+
+    public Command followPathCommand(String pathName) {
+        try {
+
+            PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+
+            return new FollowPathCommand(path, this::getPose, // Robot pose supplier
+                    this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                    this::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds, AND feedforwards
+                    new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                            new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+                    ), Constants.robotConfig, // The robot configuration
+                    () -> {
+                        // Boolean supplier that controls when the path will be mirrored for the red alliance
+                        // This will flip the path being followed to the red side of the field.
+                        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                        var alliance = DriverStation.getAlliance();
+                        if (alliance.isPresent()) {
+                            return alliance.get() == DriverStation.Alliance.Red;
+                        }
+                        return false;
+                    }, this // Reference to this subsystem to set requirements
+            );
+        } catch (Exception e) {
+            DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
+            return Commands.none();
+        }
+    }
+
 }
 
 
