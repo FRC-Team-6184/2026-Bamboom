@@ -67,4 +67,8 @@ public class IntakeSubsys extends SubsystemBase {
     public void purgeIntake() {
         kIntakeMotor.set(0.55);
     }
+
+    public TalonFX getPivotMotor() {
+        return kIntakeMotor;
+    }
 }

@@ -11,6 +11,7 @@ import frc.robot.commands.BlenderCommand;
 import frc.robot.commands.FlywheelCommand;
 import frc.robot.commands.HighShooterRPMCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakePivotCommand;
 import frc.robot.commands.IntakePivotUpCommand;
 import frc.robot.commands.IntakePurgeCommand;
 import frc.robot.commands.LowShooterRPMCommand;
@@ -60,8 +61,9 @@ public class RobotContainer {
         IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
         ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
         IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
-        IntakePivotUpCommand cmdIntakeUp = new IntakePivotUpCommand(kIntakeSubsystem);
-        IntakePivotDownCommand cmdIntakeDown = new IntakePivotDownCommand(kIntakeSubsystem);
+        // IntakePivotUpCommand cmdIntakeUp = new IntakePivotUpCommand(kIntakeSubsystem);
+        // IntakePivotDownCommand cmdIntakeDown = new IntakePivotDownCommand(kIntakeSubsystem);
+        IntakePivotCommand cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
 
         codriveController.L1().toggleOnTrue(cmdFlywheel);
         codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
@@ -71,11 +73,11 @@ public class RobotContainer {
 
         codriveController.R1().toggleOnTrue(cmdIntake);
         codriveController.axisGreaterThan(4, 0.8).whileTrue(cmdIntakePurge);
-        codriveController.axisLessThan(5, -0.8).onTrue(cmdIntakeDown);
-        codriveController.axisGreaterThan(5, 0.8).onTrue(cmdIntakeUp);
+        // codriveController.axisLessThan(5, -0.8).onTrue(cmdIntakeDown);
+        // codriveController.axisGreaterThan(5, 0.8).onTrue(cmdIntakeUp);
         codriveController.triangle().whileTrue(cmdShooter);
 
-        codriveController.axisGreaterThan(0, 0.12).or(codriveController.axisLessThan(0, -0.12)).whileTrue(cmdIntakeDown); //TODO: make this go to a proportional intake pivot command
+        codriveController.axisGreaterThan(0, 0.12).or(codriveController.axisLessThan(0, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
 
     }
 
