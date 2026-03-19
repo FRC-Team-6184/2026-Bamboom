@@ -9,10 +9,13 @@ public class intakeManagerCommand extends Command {
     private final IntakeSubsys intake;
     private final Timer unjamTimer = new Timer();
     private final Timer timeStalled = new Timer();
+    private final Timer sinceLastUnjam = new Timer();
     private boolean unjamming = false;
 
     public intakeManagerCommand(IntakeSubsys intake) {
-        intake = intake;
+
+        this.intake = intake;
+
         addRequirements(intake);
     }
 
@@ -22,37 +25,56 @@ public class intakeManagerCommand extends Command {
         unjamming = false;
 
         unjamTimer.stop();
-        unjamTimer.reset();
+        unjamTimer.restart();
 
         timeStalled.stop();
-        timeStalled.reset();
+        timeStalled.restart();
+
+        sinceLastUnjam.stop();
+        sinceLastUnjam.restart();
+
+
 
     }
 
     @Override
     public void execute() {
 
+        System.out.print("i loop");
+
+        System.out.print("vel" + intake.getVelocity());
+
         if (!unjamming) {
 
-            intake.setIntakeSpeed(-0.55);
+            intake.startIntake();
 
-            if (intake.getVelocity() > 2.0) { 
+            if (intake.getVelocity() < -2) {
                 timeStalled.restart();
             }
 
-            if (timeStalled.hasElapsed(1)) {
-                unjamTimer.reset();
-                unjamming = true
+            if (timeStalled.hasElapsed(.25) && sinceLastUnjam.hasElapsed(3)) {
+
+                System.out.print("me stall");
+
+                unjamTimer.restart();
+                unjamming = true;
             }
 
 
         } else {
 
-            intake.setIntakeSpeed(0.55);
+            intake.Outtake();
+
+            System.out.print("me outtake");
 
             if (unjamTimer.hasElapsed(1)) {
+
+                System.out.print("me done outtake ");
+
                 unjamming = false;
-                unjamTimer.stop();
+                unjamTimer.restart();
+
+                sinceLastUnjam.restart();
 
             }
 

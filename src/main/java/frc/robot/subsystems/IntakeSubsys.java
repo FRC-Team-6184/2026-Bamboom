@@ -66,4 +66,13 @@ public class IntakeSubsys extends SubsystemBase {
     public void stopIntake() {
         kIntakeMotor.set(0.0);
     }
+
+    public void Outtake() {
+        kIntakeMotor.set(0.75);
+    }
+
+    public double getVelocity() {
+        return kIntakeMotor.getVelocity().getValueAsDouble();
+    }
+
 }
