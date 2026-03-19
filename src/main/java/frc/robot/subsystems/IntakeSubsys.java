@@ -57,7 +57,7 @@ public class IntakeSubsys extends SubsystemBase {
     }
 
     public void startIntake() {
-        kIntakeMotor.set(-0.55);
+        kIntakeMotor.set(-0.75);
     }
 
     public void stopIntake() {
@@ -78,6 +78,10 @@ public class IntakeSubsys extends SubsystemBase {
 
     public double getVelocity() {
         return kIntakeMotor.getVelocity().getValueAsDouble();
+    }
+
+    public void Outtake() {
+        kIntakeMotor.set(.75);
     }
 
     public boolean isNoteCollected() {
