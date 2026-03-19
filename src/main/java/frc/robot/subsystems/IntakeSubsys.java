@@ -35,14 +35,6 @@ public class IntakeSubsys extends SubsystemBase {
 
     }
 
-    public Command teleopIntake() {
-    return run(() -> {
-    if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
-    kPivotMotor.set(MathUtil.clamp( myPS5Controler.getRightY() * .2 , 0, -0.2));
-    }
-    });
-    }
-
     // if (kXboxController.getLeftTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
     // kIntakeMotor.set(-0.3);
     // System.out.println("REEEE");
