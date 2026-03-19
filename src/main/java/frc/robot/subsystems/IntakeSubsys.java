@@ -69,6 +69,6 @@ public class IntakeSubsys extends SubsystemBase {
     }
 
     public TalonFX getPivotMotor() {
-        return kIntakeMotor;
+        return kPivotMotor;
     }
 }

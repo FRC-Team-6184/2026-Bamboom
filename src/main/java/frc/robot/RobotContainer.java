@@ -14,13 +14,17 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakePivotCommand;
 import frc.robot.commands.IntakePivotUpCommand;
 import frc.robot.commands.IntakePurgeCommand;
+import frc.robot.commands.LockOnCommand;
 import frc.robot.commands.LowShooterRPMCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.TempShooterCommand;
+import frc.robot.commands.XFormationCommand;
 import frc.robot.commands.IntakePivotDownCommand;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.VisionSubsys;
+import frc.robot.subsystems.ledSubsys;
 import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -33,6 +37,7 @@ public class RobotContainer {
     private final ShooterSubsys kShooterSubsystem = new ShooterSubsys();
     private final SwerveSubsys kSwerveSubsystem = new SwerveSubsys();
     private final VisionSubsys kVisionSubsystem = new VisionSubsys();
+    private final ledSubsys kLEDSubsystem = new ledSubsys();
 
     private final CommandXboxController mainController = RobotMap.Controller.XBOX;
     private final CommandPS5Controller codriveController = RobotMap.Controller.PS5;
@@ -59,11 +64,16 @@ public class RobotContainer {
         HighShooterRPMCommand cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
         LowShooterRPMCommand cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
         IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
-        ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
+        // ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
+        TempShooterCommand cmdShooter = new TempShooterCommand(kShooterSubsystem);
         IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
         // IntakePivotUpCommand cmdIntakeUp = new IntakePivotUpCommand(kIntakeSubsystem);
         // IntakePivotDownCommand cmdIntakeDown = new IntakePivotDownCommand(kIntakeSubsystem);
         IntakePivotCommand cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
+        XFormationCommand cmdXFormation = new XFormationCommand(kSwerveSubsystem, kLEDSubsystem);
+        LockOnCommand cmdLockon = new LockOnCommand(kSwerveSubsystem);
+
+        mainController.x().toggleOnTrue(cmdXFormation);
 
         codriveController.L1().toggleOnTrue(cmdFlywheel);
         codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
@@ -76,8 +86,9 @@ public class RobotContainer {
         // codriveController.axisLessThan(5, -0.8).onTrue(cmdIntakeDown);
         // codriveController.axisGreaterThan(5, 0.8).onTrue(cmdIntakeUp);
         codriveController.triangle().whileTrue(cmdShooter);
+        codriveController.circle().whileTrue(cmdLockon);
 
-        codriveController.axisGreaterThan(0, 0.12).or(codriveController.axisLessThan(0, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
+        codriveController.axisGreaterThan(5, 0.12).or(codriveController.axisLessThan(5, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
 
     }
 
@@ -120,6 +131,8 @@ public class RobotContainer {
                 return kShooterSubsystem;
             case "Vision":
                 return kVisionSubsystem;
+            case "LEDs":
+                return kLEDSubsystem;
         }
 
         System.out.println("Invalid subsystem name");

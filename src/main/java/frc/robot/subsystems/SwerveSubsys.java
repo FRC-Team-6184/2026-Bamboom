@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Inch;
 import static edu.wpi.first.units.Units.Meter;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
@@ -72,6 +74,12 @@ public class SwerveSubsys extends SubsystemBase {
     private PIDConstants autoDrivePID = new PIDConstants(5.0, 0, 0);
     private PIDConstants autoRotatePID = new PIDConstants(5.0, 0, 0);
     private PPHolonomicDriveController autoDriveController = new PPHolonomicDriveController(autoDrivePID, autoRotatePID);
+
+    private static SwerveModuleState xFormation1 = new SwerveModuleState(MetersPerSecond.of(0.0), new Rotation2d(Degree.of(45)));
+    private static SwerveModuleState xFormation2 = new SwerveModuleState(MetersPerSecond.of(0.0), new Rotation2d(Degree.of(135)));
+
+    private double desiredRot = 0.0;
+
 
     public SwerveSubsys() {
         super();
@@ -176,7 +184,7 @@ public class SwerveSubsys extends SubsystemBase {
             // to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a
             // hold or something.
-            drive(-y * 0.5, -x * 0.5, rot, true);
+            drive(x, y, rot, false);
         });
     }
 
@@ -224,6 +232,17 @@ public class SwerveSubsys extends SubsystemBase {
             return alliance.get() == DriverStation.Alliance.Red;
         }
         return false;
+    }
+
+    public void setXFormation() {
+        m_frontLeft.setDesiredState(xFormation1);
+        m_frontRight.setDesiredState(xFormation2);
+        m_rearLeft.setDesiredState(xFormation2);
+        m_rearRight.setDesiredState(xFormation1);
+    }
+
+    public void setDesiredRot(double desiredRot) {
+        this.desiredRot = desiredRot;
     }
 }
 

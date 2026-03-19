@@ -66,17 +66,17 @@ public final class RobotMap {
         public static final int BLENDER_MOTOR_ID = 9;
 
         // Swerve
-        public static final int FL_DRIVE_MOTOR_ID = 1;
-        public static final int FL_TURN_MOTOR_ID = 2;
+        public static final int FL_DRIVE_MOTOR_ID = 5;
+        public static final int FL_TURN_MOTOR_ID = 6;
 
-        public static final int FR_DRIVE_MOTOR_ID = 3;
-        public static final int FR_TURN_MOTOR_ID = 4;
+        public static final int FR_DRIVE_MOTOR_ID = 1;
+        public static final int FR_TURN_MOTOR_ID = 2;
 
-        public static final int BL_DRIVE_MOTOR_ID = 5;
-        public static final int BL_TURN_MOTOR_ID = 6;
+        public static final int BL_DRIVE_MOTOR_ID = 7;
+        public static final int BL_TURN_MOTOR_ID = 8;
 
-        public static final int BR_DRIVE_MOTOR_ID = 7;
-        public static final int BR_TURN_MOTOR_ID = 8;
+        public static final int BR_DRIVE_MOTOR_ID = 3;
+        public static final int BR_TURN_MOTOR_ID = 4;
 
         // Other
         public static final int GYRO_ID = 20;
@@ -145,8 +145,8 @@ public final class RobotMap {
 
         public static final double CONTROLLER_DEADZONE = 0.12;
 
-        public static final double SHOOTER_LOW_SPEED = 1000.0 / 60.0;
-        public static final double SHOOTER_HIGH_SPEED = 2500.0 / 60.0;
+        public static final double SHOOTER_LOW_SPEED = 2600.0 / 60.0;
+        public static final double SHOOTER_HIGH_SPEED = 4100.0 / 60.0;
         public static final double SHOOTER_BOTTOM_SPEED = -34;
     }
 

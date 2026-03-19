@@ -19,7 +19,13 @@ public class IntakePivotCommand extends Command {
 
     @Override
     public void execute() {
-        intake.getPivotMotor().set(MathUtil.clamp(myController.getRightY() * .2, 0, -0.2));
+        intake.getPivotMotor().set(myController.getRightY() * 0.1);
+        System.out.println(myController.getRightY() * 0.1);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        intake.getPivotMotor().set(0.0);
     }
 
 }

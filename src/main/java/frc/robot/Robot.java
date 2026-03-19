@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,29 +18,30 @@ import frc.robot.subsystems.IntakeSubsys;
 // TODO: Hook up status of things running to dashboard
 // ie: when shooter is running, when intake is running, etc. etc.
 public class Robot extends TimedRobot {
+  private RobotContainer robotContainer = new RobotContainer();
+
   // Subsystems
   private SwerveSubsys SwerveDrive;
   private ShooterSubsys Shooter;
   private IntakeSubsys Intake;
   private VisionSubsys Vision;
-  private ledSubsys leds;
+  private ledSubsys LEDs;
+
+  private PathPlannerAuto autoCommand = new PathPlannerAuto("TestAutocmd");
 
   // Robot container
-  private RobotContainer robotContainer;
 
   // TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
 
   /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
-    robotContainer = new RobotContainer();
 
     // TODO: Figure out a type safer way to cast the returned SubsystemBase back into its respective subclass
     SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
     Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
     Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
-
-    leds = new ledSubsys();
+    LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
 
     // SwerveDrive = robotContainer.getSubsystem("Swerve") instanceof SwerveSubsys ? (SwerveSubsys) robotContainer.getSubsystem("Swerve") : null;
   }
@@ -65,6 +68,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     RobotMap.Gyro.GYRO.reset();
+
+    CommandScheduler.getInstance().schedule(autoCommand);
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
