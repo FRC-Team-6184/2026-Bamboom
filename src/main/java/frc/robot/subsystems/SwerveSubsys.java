@@ -11,6 +11,7 @@ import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -68,6 +69,10 @@ public class SwerveSubsys extends SubsystemBase {
     private SwerveDriveKinematics kinematics = DriveConstants.kDriveKinematics;
     private RobotConfig autoConfig;
 
+    private PIDConstants autoDrivePID = new PIDConstants(5.0, 0, 0);
+    private PIDConstants autoRotatePID = new PIDConstants(5.0, 0, 0);
+    private PPHolonomicDriveController autoDriveController = new PPHolonomicDriveController(autoDrivePID, autoRotatePID);
+
     public SwerveSubsys() {
         super();
         // The MaxSwerve template does this, no clue what this is
@@ -88,7 +93,7 @@ public class SwerveSubsys extends SubsystemBase {
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
         }
-        AutoBuilder.configure(this::get2dPose, this::resetPose, this::getRobotRelativeChassisSpeeds, (speeds, feedforwards) -> driveRobotAutonomous(speeds), new PPHolonomicDriveController(new PIDConstants(5.0, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0)), autoConfig, this::determineAlliance, this);
+        AutoBuilder.configure(this::get2dPose, this::resetPose, this::getRobotRelativeChassisSpeeds, (speeds, feedforwards) -> driveRobotAutonomous(speeds), autoDriveController, autoConfig, this::determineAlliance, this);
     }
 
     // Mostly copied from MaxSwerve template, simply updates

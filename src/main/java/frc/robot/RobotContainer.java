@@ -75,7 +75,7 @@ public class RobotContainer {
         codriveController.axisGreaterThan(5, 0.8).onTrue(cmdIntakeUp);
         codriveController.triangle().whileTrue(cmdShooter);
 
-        codriveController.axisGreaterThan(0, 0.12).or(codriveController.axisLessThan(0, -0.12)).whileTrue(cmdIntakeDown) //TODO: make this go to a proportional intake pivot command
+        codriveController.axisGreaterThan(0, 0.12).or(codriveController.axisLessThan(0, -0.12)).whileTrue(cmdIntakeDown); //TODO: make this go to a proportional intake pivot command
 
     }
 
