@@ -57,11 +57,14 @@ public class RobotContainer {
         BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
         HighShooterRPMCommand cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
         LowShooterRPMCommand cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
-        IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
+        //IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
         ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
-        IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
+        //IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
         IntakePivotUpCommand cmdIntakeUp = new IntakePivotUpCommand(kIntakeSubsystem);
         IntakePivotDownCommand cmdIntakeDown = new IntakePivotDownCommand(kIntakeSubsystem);
+        IntakeManagerCommand cmdIntakeManager = new IntakeManagerCommand(kIntakeSubsystem);
+
+        codriveController.R1().toggleOnTrue(new IntakeManagerCommand(kIntakeSubsystem));
 
         codriveController.L1().toggleOnTrue(cmdFlywheel);
         codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
@@ -69,13 +72,16 @@ public class RobotContainer {
         codriveController.povUp().onTrue(cmdHighSpeed);
         codriveController.povDown().onTrue(cmdLowSpeed);
 
-        codriveController.R1().toggleOnTrue(cmdIntake);
-        codriveController.axisGreaterThan(4, 0.8).whileTrue(cmdIntakePurge);
+        // codriveController.R1().toggleOnTrue(cmdIntake);
+        // codriveController.axisGreaterThan(4, 0.8).whileTrue(cmdIntakePurge);
         codriveController.axisLessThan(5, -0.8).onTrue(cmdIntakeDown);
         codriveController.axisGreaterThan(5, 0.8).onTrue(cmdIntakeUp);
         codriveController.triangle().whileTrue(cmdShooter);
 
         codriveController.axisGreaterThan(0, 0.12).or(codriveController.axisLessThan(0, -0.12)).whileTrue(cmdIntakeDown); //TODO: make this go to a proportional intake pivot command
+        
+
+
 
     }
 

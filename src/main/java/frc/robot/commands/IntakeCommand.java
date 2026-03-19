@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsys;
 
 public class IntakeCommand extends Command {
+    
     private final IntakeSubsys intake;
 
 
