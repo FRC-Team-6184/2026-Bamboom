@@ -12,6 +12,7 @@ public class IntakePivotDownCommand extends Command {
     public IntakePivotDownCommand(IntakeSubsys intake) {
         super();
         this.intake = intake;
+        super.addRequirements(intake);
     }
 
     @Override

@@ -10,10 +10,12 @@ public class LowShooterRPMCommand extends Command {
     public LowShooterRPMCommand(ShooterSubsys shooter) {
         super();
         this.shooter = shooter;
+        super.addRequirements(shooter);
     }
 
     @Override
     public void initialize() {
         shooter.setRPMDest(DigitalValues.SHOOTER_LOW_SPEED); //That's it! Quick and simple :)
+        this.cancel();
     }
 }

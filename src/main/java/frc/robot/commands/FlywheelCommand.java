@@ -18,7 +18,7 @@ public class FlywheelCommand extends Command {
 
     @Override
     public void execute() {
-        kShooterSubsystem.shooterOn(2200.0 / 60.0);
+        kShooterSubsystem.shooterOn();
     }
 
     @Override

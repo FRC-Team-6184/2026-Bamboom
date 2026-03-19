@@ -12,6 +12,7 @@ import frc.robot.commands.FlywheelCommand;
 import frc.robot.commands.HighShooterRPMCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakePivotUpCommand;
+import frc.robot.commands.IntakePurgeCommand;
 import frc.robot.commands.LowShooterRPMCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.IntakePivotDownCommand;
@@ -58,16 +59,18 @@ public class RobotContainer {
         LowShooterRPMCommand cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
         IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
         ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
+        IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
 
         codriveController.L1().toggleOnTrue(cmdFlywheel);
-        codriveController.axisGreaterThan(3, 0.8).and(codriveController.axisGreaterThan(4, 0.8)).whileTrue(cmdBlender);
+        codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
 
         codriveController.povUp().onTrue(cmdHighSpeed);
         codriveController.povDown().onTrue(cmdLowSpeed);
 
         codriveController.R1().toggleOnTrue(cmdIntake);
-        codriveController.cross().onTrue(cmdIntakeDown.withTimeout(Seconds.of(0.5)));
-        codriveController.circle().onTrue(cmdIntakeUp.withTimeout(Seconds.of(0.625)));
+        codriveController.axisGreaterThan(4, 0.8).whileTrue(cmdIntakePurge);
+        codriveController.axisLessThan(5, -0.8).onTrue(cmdIntakeDown);
+        codriveController.axisGreaterThan(5, 0.8).onTrue(cmdIntakeUp);
         codriveController.triangle().whileTrue(cmdShooter);
 
     }

@@ -2,7 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
-
+import com.pathplanner.lib.config.RobotConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
@@ -124,6 +124,8 @@ public final class RobotMap {
 
         // Distance between front and back wheels on robot
         public static final double WHEEL_BASE = Units.inchesToMeters(21.525);
+
+        // public static final RobotConfig ROBOT_CONFIGURATION = new RobotConfig(null, null, null, null);
     }
 
     // Software things below
@@ -144,7 +146,7 @@ public final class RobotMap {
         public static final double CONTROLLER_DEADZONE = 0.12;
 
         public static final double SHOOTER_LOW_SPEED = 1000.0 / 60.0;
-        public static final double SHOOTER_HIGH_SPEED = 2000.0 / 60.0;
+        public static final double SHOOTER_HIGH_SPEED = 2500.0 / 60.0;
         public static final double SHOOTER_BOTTOM_SPEED = -34;
     }
 

@@ -33,7 +33,7 @@ public class ShooterCommand extends Command {
 
     public ShooterCommand(ShooterSubsys shooter, SwerveSubsys swerve) {
         super();
-
+        super.addRequirements(shooter);
         this.shooter = shooter;
         this.swerve = swerve;
     }
@@ -50,7 +50,9 @@ public class ShooterCommand extends Command {
         switch (currentState) {
             case SEEKING:
                 currentPos = poseEst.getEstimatedPosition().toPose2d();
-                destinationAngle = Math.atan(hubXPosition - currentPos.getX() / hubYPosition - currentPos.getY());
+                double correctedX = hubXPosition - currentPos.getX();
+                double correctedY = hubYPosition - currentPos.getY();
+                destinationAngle = (correctedY > 0 ? (Math.PI / 2) : (-Math.PI / 2)) - Math.atan(hubXPosition - currentPos.getX() / hubYPosition - currentPos.getY());
                 swerve.drive(0, 0, seekingPID.calculate(gyro.getRotation2d().getRadians() + (Math.PI / 2), destinationAngle), true);
                 if (seekingPID.atSetpoint()) {
                     currentState = States.SHOOTING;

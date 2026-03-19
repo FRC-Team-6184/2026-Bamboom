@@ -52,7 +52,6 @@ public class IntakeSubsys extends SubsystemBase {
 
     public void pivotStop() {
         kPivotMotor.set(0);
-
     }
 
     public void pivotUp() {
@@ -65,5 +64,9 @@ public class IntakeSubsys extends SubsystemBase {
 
     public void stopIntake() {
         kIntakeMotor.set(0.0);
+    }
+
+    public void purgeIntake() {
+        kIntakeMotor.set(0.55);
     }
 }

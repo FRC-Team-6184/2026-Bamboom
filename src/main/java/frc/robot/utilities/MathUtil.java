@@ -19,6 +19,10 @@ public class MathUtil {
     public static double clamp(double value, double max, double min) {
         return Math.max(Math.min(value, max), min);
     }
-    
-    
+
+    public static double pythag(double a, double b) {
+        return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+    }
+
+
 }
