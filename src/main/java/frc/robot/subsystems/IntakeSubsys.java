@@ -38,7 +38,7 @@ public class IntakeSubsys extends SubsystemBase {
     public Command teleopIntake() {
     return run(() -> {
     if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
-    kPivotMotor.set(MathUtil.clamp( myPS5Controler.getLeftY() * .2 , 0, -0.2));
+    kPivotMotor.set(MathUtil.clamp( myPS5Controler.getRightY() * .2 , 0, -0.2));
     }
     });
     }
