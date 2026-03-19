@@ -105,7 +105,7 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void blenderOn() {
-        blenderMotor.set(-0.5);
+        blenderMotor.set(-0.75);
     }
 
     public void blenderOn(double power) {

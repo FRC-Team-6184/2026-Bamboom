@@ -147,7 +147,7 @@ public final class RobotMap {
 
         public static final double SHOOTER_LOW_SPEED = 2600.0 / 60.0;
         public static final double SHOOTER_HIGH_SPEED = 4100.0 / 60.0;
-        public static final double SHOOTER_BOTTOM_SPEED = -34;
+        public static final double SHOOTER_BOTTOM_SPEED = -50;
     }
 
     public static final class SoftwareObjects {
