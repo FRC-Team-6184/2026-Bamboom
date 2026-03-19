@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.math.MathUtil;
 
 // TODO: Blender and intake might be better as one subsystem rather than two separate since neither should be very complicated.
 // Evaluate this once they're both implemented and mush them together later if need be.
@@ -18,6 +20,7 @@ public class IntakeSubsys extends SubsystemBase {
     TalonFX kPivotMotor;
     TalonFX kIntakeMotor;
     CommandXboxController kXboxController;
+    CommandPS5Controller myPS5Controler;
 
     /** Intake constructor. Perform all initializing regarding related motors here */
     public IntakeSubsys() {
@@ -28,14 +31,17 @@ public class IntakeSubsys extends SubsystemBase {
         kPivotMotor = MotorControllers.PIVOT_INTAKE_MOTOR;
         kIntakeMotor = MotorControllers.ACTIVE_INTAKE_MOTOR;
         kXboxController = Controller.XBOX;
+        myPS5Controler = Controller.PS5;
+
     }
 
-    // public Command teleopIntake() {
-    // return run(() -> {
-    // Will run as long as the top and bottom limit switches are not hit
-    // if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
-    // kPivotMotor.set(MathUtil.clamp(kXboxController.getLeftY(), 0, -0.2));
-    // }
+    public Command teleopIntake() {
+    return run(() -> {
+    if (!kTopLimitSwitch.get() && !kBottomLimitSwitch.get()) {
+    kPivotMotor.set(MathUtil.clamp( myPS5Controler.getRightY() * .2 , 0, -0.2));
+    }
+    });
+    }
 
     // if (kXboxController.getLeftTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
     // kIntakeMotor.set(-0.3);
