@@ -60,6 +60,8 @@ public class RobotContainer {
         IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
         ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
         IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
+        IntakePivotUpCommand cmdIntakeUp = new IntakePivotUpCommand(kIntakeSubsystem);
+        IntakePivotDownCommand cmdIntakeDown = new IntakePivotDownCommand(kIntakeSubsystem);
 
         codriveController.L1().toggleOnTrue(cmdFlywheel);
         codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
@@ -72,6 +74,8 @@ public class RobotContainer {
         codriveController.axisLessThan(5, -0.8).onTrue(cmdIntakeDown);
         codriveController.axisGreaterThan(5, 0.8).onTrue(cmdIntakeUp);
         codriveController.triangle().whileTrue(cmdShooter);
+
+        codriveController.axisGreaterThan(0, 0.12).or(codriveController.axisLessThan(0, -0.12)).whileTrue(cmdIntakeDown) //TODO: make this go to a proportional intake pivot command
 
     }
 
