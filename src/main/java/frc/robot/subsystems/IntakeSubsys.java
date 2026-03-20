@@ -79,4 +79,21 @@ public class IntakeSubsys extends SubsystemBase {
     public TalonFX getPivotMotor() {
         return kPivotMotor;
     }
+
+    public void setIntakeSpeed(double speed) {
+        kIntakeMotor.set(speed);
+    }
+
+    public double getVelocity() {
+        return kIntakeMotor.getVelocity().getValueAsDouble();
+    }
+
+    public void Outtake() {
+        kIntakeMotor.set(.75);
+    }
+
+    public boolean isNoteCollected() {
+        // Assuming the limit switch returns true when the note hits it
+        return kTopLimitSwitch.get();
+    }
 }
