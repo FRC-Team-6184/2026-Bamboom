@@ -65,7 +65,7 @@ public class intakeManagerCommand extends Command {
 
             intake.Outtake();
 
-            if (unjamTimer.hasElapsed(1)) {
+            if (unjamTimer.hasElapsed(3)) {
 
                 System.out.print("me done outtake ");
 

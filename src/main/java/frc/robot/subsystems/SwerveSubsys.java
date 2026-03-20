@@ -73,8 +73,8 @@ public class SwerveSubsys extends SubsystemBase {
     private SwerveDriveKinematics kinematics = DriveConstants.kDriveKinematics;
     private RobotConfig autoConfig;
 
-    private PIDConstants autoDrivePID = new PIDConstants(5.0, 0, 0);
-    private PIDConstants autoRotatePID = new PIDConstants(5.0, 0, 0);
+    private PIDConstants autoDrivePID = new PIDConstants(1.0, 0, 0);
+    private PIDConstants autoRotatePID = new PIDConstants(1.0, 0, 0);
     private PPHolonomicDriveController autoDriveController = new PPHolonomicDriveController(autoDrivePID, autoRotatePID);
 
     private static SwerveModuleState xFormation1 = new SwerveModuleState(MetersPerSecond.of(0.0), new Rotation2d(Degree.of(45)));
@@ -255,13 +255,13 @@ public class SwerveSubsys extends SubsystemBase {
     private void driveRobotAutonomous(ChassisSpeeds speeds) {
         SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(speeds);
 
-        for (SwerveModuleState state : swerveModuleStates) {
-            double temp = state.angle.getDegrees() + 90;
-            if (temp >= 180) {
-                temp -= 360;
-            }
-            state.angle = new Rotation2d(Degree.of(temp));
-        }
+        // for (SwerveModuleState state : swerveModuleStates) {
+        //     double temp = state.angle.getDegrees() + 90;
+        //     if (temp >= 180) {
+        //         temp -= 360;
+        //     }
+        //     state.angle = new Rotation2d(Degree.of(temp));
+        // }
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.MAX_SPEED_METERS_PER_SECOND);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);

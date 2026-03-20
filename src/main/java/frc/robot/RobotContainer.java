@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotMap.Gyro;
 import frc.robot.commands.BlenderCommand;
 import frc.robot.commands.FlywheelCommand;
 import frc.robot.commands.FlywheelHighSpeedCommand;
@@ -18,6 +19,7 @@ import frc.robot.commands.IntakePivotUpCommand;
 import frc.robot.commands.IntakePurgeCommand;
 import frc.robot.commands.LockOnCommand;
 import frc.robot.commands.LowShooterRPMCommand;
+import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.ShooterRPMControlCommand;
 import frc.robot.commands.TempShooterCommand;
@@ -68,7 +70,7 @@ public class RobotContainer {
         configureBindings();
 
         NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
-        NamedCommands.registerCommand("BlenderCommand", cmdBlender);
+        NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
 
     }
 
@@ -85,8 +87,10 @@ public class RobotContainer {
         XFormationCommand cmdXFormation = new XFormationCommand(kSwerveSubsystem, kLEDSubsystem);
         LockOnCommand cmdLockon = new LockOnCommand(kSwerveSubsystem);
         ShooterRPMControlCommand cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
+        ResetGyroCommand cmdResetGyro = new ResetGyroCommand();
 
         mainController.x().toggleOnTrue(cmdXFormation);
+        mainController.rightBumper().and(mainController.leftBumper()).whileTrue(cmdResetGyro);
 
         codriveController.L1().toggleOnTrue(cmdFlywheelRPM);
 

@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    RobotMap.Gyro.GYRO.reset();
+    // RobotMap.Gyro.GYRO.reset();
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 

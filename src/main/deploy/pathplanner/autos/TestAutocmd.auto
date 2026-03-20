@@ -13,19 +13,31 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.55
+            "waitTime": 0.8
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Test Path Red"
+            "pathName": "Test Path Reverse Blue"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "BlenderCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Reverse Blue Orientation Reset"
           }
         }
       ]

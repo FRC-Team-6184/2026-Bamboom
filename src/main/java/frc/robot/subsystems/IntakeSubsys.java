@@ -73,7 +73,7 @@ public class IntakeSubsys extends SubsystemBase {
     }
 
     public void purgeIntake() {
-        kIntakeMotor.set(0.55);
+        kIntakeMotor.set(0.45);
     }
 
     public TalonFX getPivotMotor() {
@@ -82,14 +82,6 @@ public class IntakeSubsys extends SubsystemBase {
 
     public void setIntakeSpeed(double speed) {
         kIntakeMotor.set(speed);
-    }
-
-    public double getVelocity() {
-        return kIntakeMotor.getVelocity().getValueAsDouble();
-    }
-
-    public void Outtake() {
-        kIntakeMotor.set(.75);
     }
 
     public boolean isNoteCollected() {
