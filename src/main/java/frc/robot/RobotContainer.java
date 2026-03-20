@@ -20,6 +20,7 @@ import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.TempShooterCommand;
 import frc.robot.commands.XFormationCommand;
 import frc.robot.commands.IntakePivotDownCommand;
+import frc.robot.commands.intakeManagerCommand;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
@@ -63,7 +64,7 @@ public class RobotContainer {
         BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
         HighShooterRPMCommand cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
         LowShooterRPMCommand cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
-        IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
+        intakeManagerCommand cmdIntake = new intakeManagerCommand(kIntakeSubsystem);
         // ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
         TempShooterCommand cmdShooter = new TempShooterCommand(kShooterSubsystem);
         IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
