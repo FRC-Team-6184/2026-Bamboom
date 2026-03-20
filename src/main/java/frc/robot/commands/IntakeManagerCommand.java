@@ -5,55 +5,85 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsys;
 
 public class IntakeManagerCommand extends Command {
-    private final IntakeSubsys m_intake;
-    private final Timer m_unjamTimer = new Timer();
 
-    private boolean m_isUnjamming = false;
-    private boolean m_isFinished = false;
+    private final IntakeSubsys intake;
+    private final Timer unjamTimer = new Timer();
+    private final Timer timeStalled = new Timer();
+    private final Timer sinceLastUnjam = new Timer();
+    private boolean unjamming = false;
 
-    public IntakeManagerCommand(IntakeSubsys intake) {
-        m_intake = intake;
-        addRequirements(m_intake);
+    public void IntakeManagerCommand(IntakeSubsys intake) {
+
+        this.intake = intake;
+
+        addRequirements(intake);
     }
 
     @Override
     public void initialize() {
-        m_isUnjamming = false;
-        m_isFinished = false;
-        m_unjamTimer.stop();
-        m_unjamTimer.reset();
+
+        unjamming = false;
+
+        unjamTimer.stop();
+        unjamTimer.restart();
+
+        timeStalled.stop();
+        timeStalled.restart();
+
+        sinceLastUnjam.stop();
+        sinceLastUnjam.restart();
+
+
+
     }
 
     @Override
     public void execute() {
-        // 2. Logic for Jamming vs Normal Intaking
-        if (!m_isUnjamming) {
-            m_intake.setIntakeSpeed(-0.55);
 
-            // Detect Jam: Powered but not moving
-            if (m_intake.getVelocity() < 2.0) {
-                m_isUnjamming = true;
-                m_unjamTimer.restart();
+        System.out.print("i loop");
+
+        System.out.print("vel" + intake.getVelocity());
+
+        if (!unjamming) {
+
+            intake.startIntake();
+
+            if (intake.getVelocity() < -2) {
+                timeStalled.restart();
             }
+
+            if (timeStalled.hasElapsed(.25) && sinceLastUnjam.hasElapsed(3)) {
+
+                System.out.print("me stall");
+
+                unjamTimer.restart();
+                unjamming = true;
+            }
+
+
         } else {
-            // Reverse for 1.5 seconds to clear the jam
-            m_intake.setIntakeSpeed(0.55);
 
-            if (m_unjamTimer.hasElapsed(1.5)) {
-                m_isUnjamming = false;
-                m_unjamTimer.stop();
+            intake.Outtake();
+
+            System.out.print("me outtake");
+
+            if (unjamTimer.hasElapsed(1)) {
+
+                System.out.print("me done outtake ");
+
+                unjamming = false;
+                unjamTimer.restart();
+
+                sinceLastUnjam.restart();
+
             }
+
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_intake.stopIntake();
+        intake.stopIntake();
     }
 
-    @Override
-    public boolean isFinished() {
-        // Ends if the note is collected OR if the driver toggles it off
-        return m_isFinished;
-    }
 }
