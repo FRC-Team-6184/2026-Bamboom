@@ -5,9 +5,27 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "IntakePivotDownCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.55
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Test Path"
+            "pathName": "Test Path Red"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "BlenderCommand"
           }
         }
       ]

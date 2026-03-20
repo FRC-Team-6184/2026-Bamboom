@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.BlenderCommand;
 import frc.robot.commands.FlywheelCommand;
+import frc.robot.commands.FlywheelHighSpeedCommand;
+import frc.robot.commands.FlywheelLowSpeedCommand;
 import frc.robot.commands.HighShooterRPMCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakePivotCommand;
@@ -17,6 +19,7 @@ import frc.robot.commands.IntakePurgeCommand;
 import frc.robot.commands.LockOnCommand;
 import frc.robot.commands.LowShooterRPMCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.ShooterRPMControlCommand;
 import frc.robot.commands.TempShooterCommand;
 import frc.robot.commands.XFormationCommand;
 import frc.robot.commands.IntakePivotDownCommand;
@@ -25,7 +28,9 @@ import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.VisionSubsys;
 import frc.robot.subsystems.ledSubsys;
+import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -33,14 +38,17 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class RobotContainer {
     // Subsystems
-    private final IntakeSubsys kIntakeSubsystem = new IntakeSubsys();
-    private final ShooterSubsys kShooterSubsystem = new ShooterSubsys();
-    private final SwerveSubsys kSwerveSubsystem = new SwerveSubsys();
-    private final VisionSubsys kVisionSubsystem = new VisionSubsys();
-    private final ledSubsys kLEDSubsystem = new ledSubsys();
+    private static final IntakeSubsys kIntakeSubsystem = new IntakeSubsys();
+    private static final ShooterSubsys kShooterSubsystem = new ShooterSubsys();
+    private static final SwerveSubsys kSwerveSubsystem = new SwerveSubsys();
+    private static final VisionSubsys kVisionSubsystem = new VisionSubsys();
+    private static final ledSubsys kLEDSubsystem = new ledSubsys();
 
     private final CommandXboxController mainController = RobotMap.Controller.XBOX;
     private final CommandPS5Controller codriveController = RobotMap.Controller.PS5;
+
+    public static FlywheelHighSpeedCommand cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem);
+    public static FlywheelLowSpeedCommand cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem);
 
     // Commands TODO: define these guys in the constructor, and make them final
     // private final BlenderCommand kBlenderCommand;
@@ -50,41 +58,38 @@ public class RobotContainer {
 
     private CommandScheduler scheduler = CommandScheduler.getInstance();
 
+    private static boolean highSpeed = false;
+
     /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
     public RobotContainer() {
+        IntakePivotDownCommand cmdPivotDown = new IntakePivotDownCommand(kIntakeSubsystem);
+        BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
         configureBindings();
+
+        NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
+        NamedCommands.registerCommand("BlenderCommand", cmdBlender);
+
     }
 
     // Check the wpilib docs (Advanced Programming > Structuring a Command-Based Robot Project > Scroll down) for more information on this method
     private void configureBindings() {
-        // IntakePivotUpCommand cmdIntakeUp = new IntakePivotUpCommand(kIntakeSubsystem);
-        // IntakePivotDownCommand cmdIntakeDown = new IntakePivotDownCommand(kIntakeSubsystem);
-        FlywheelCommand cmdFlywheel = new FlywheelCommand(kShooterSubsystem);
         BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
-        HighShooterRPMCommand cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
-        LowShooterRPMCommand cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
         IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
-        // ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
         TempShooterCommand cmdShooter = new TempShooterCommand(kShooterSubsystem);
         IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
-        // IntakePivotUpCommand cmdIntakeUp = new IntakePivotUpCommand(kIntakeSubsystem);
-        // IntakePivotDownCommand cmdIntakeDown = new IntakePivotDownCommand(kIntakeSubsystem);
         IntakePivotCommand cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
         XFormationCommand cmdXFormation = new XFormationCommand(kSwerveSubsystem, kLEDSubsystem);
         LockOnCommand cmdLockon = new LockOnCommand(kSwerveSubsystem);
+        ShooterRPMControlCommand cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
 
         mainController.x().toggleOnTrue(cmdXFormation);
 
-        codriveController.L1().toggleOnTrue(cmdFlywheel);
-        codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
+        codriveController.L1().toggleOnTrue(cmdFlywheelRPM);
 
-        codriveController.povUp().onTrue(cmdHighSpeed);
-        codriveController.povDown().onTrue(cmdLowSpeed);
+        codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
 
         codriveController.R1().toggleOnTrue(cmdIntake);
         codriveController.axisGreaterThan(4, 0.8).whileTrue(cmdIntakePurge);
-        // codriveController.axisLessThan(5, -0.8).onTrue(cmdIntakeDown);
-        // codriveController.axisGreaterThan(5, 0.8).onTrue(cmdIntakeUp);
         codriveController.triangle().whileTrue(cmdShooter);
         codriveController.circle().whileTrue(cmdLockon);
 
@@ -137,5 +142,17 @@ public class RobotContainer {
 
         System.out.println("Invalid subsystem name");
         return null; // Maybe change this so it throws an exception or something, but idk how to do custom exceptions. It doesn't matter much either way
+    }
+
+    public static boolean isHighSpeed() {
+        return highSpeed;
+    }
+
+    public static boolean notHighSpeed() {
+        return !highSpeed;
+    }
+
+    public static void setHighSpeed(boolean nhighSpeed) {
+        highSpeed = nhighSpeed;
     }
 }

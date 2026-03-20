@@ -140,13 +140,15 @@ public final class RobotMap {
         public static final double MEDIUM = 0.66;
         public static final double HIGH = 1;
 
-        public static final double INTAKE_PIVOT = 0.15;
+        public static final double INTAKE_PIVOT = 0.2;
         public static final double INTAKE_SPEED = -0.3;
 
         public static final double CONTROLLER_DEADZONE = 0.12;
 
-        public static final double SHOOTER_LOW_SPEED = 2600.0 / 60.0;
-        public static final double SHOOTER_HIGH_SPEED = 4100.0 / 60.0;
+        public static final double SHOOTER_LOW_SPEED = 2850.0 / 60.0;
+        public static final double SHOOTER_HIGH_SPEED = 3800.0 / 60.0;
+        // public static final double SHOOTER_LOW_SPEED = 60 / 60.0;
+        // public static final double SHOOTER_HIGH_SPEED = 180 / 60.0;
         public static final double SHOOTER_BOTTOM_SPEED = -50;
     }
 

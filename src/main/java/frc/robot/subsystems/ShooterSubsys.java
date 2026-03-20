@@ -27,6 +27,8 @@ public class ShooterSubsys extends SubsystemBase {
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
     private double shooterRPMDest = DigitalValues.SHOOTER_LOW_SPEED;
 
+    // public double shooterSpeed = DigitalValues.SHOOTER_LOW_SPEED;
+
 
     /**
      * Units are in RPS, Rotations Per Second, rather than RPM due to how I recorded the data used in FeedForward
@@ -66,6 +68,8 @@ public class ShooterSubsys extends SubsystemBase {
     public void periodic() {
         shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble());
         bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble());
+
+        shooterOn(shooterRPMDest);
     }
 
     public Command testShoot() {
