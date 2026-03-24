@@ -53,7 +53,7 @@ public class IntakeSubsys extends SubsystemBase {
     }
 
     public void pivotUp() {
-        kPivotMotor.set(-RobotMap.DigitalValues.INTAKE_PIVOT);
+        kPivotMotor.set(-0.75 * RobotMap.DigitalValues.INTAKE_PIVOT);
     }
 
     public void startIntake() {

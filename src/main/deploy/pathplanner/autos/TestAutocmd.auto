@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Test Path Reverse Blue"
+            "pathName": "Test Path Blue"
           }
         },
         {
@@ -37,7 +37,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Reverse Blue Orientation Reset"
+            "pathName": "Blue Orientation Reset"
           }
         }
       ]

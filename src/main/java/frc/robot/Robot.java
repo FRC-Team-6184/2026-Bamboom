@@ -59,7 +59,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    // PathPlannerAuto.
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -78,8 +80,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // RobotMap.Gyro.GYRO.reset();
-    // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
+    RobotMap.Gyro.GYRO.reset();
+    // TODO: ChaPnge these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
     CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
