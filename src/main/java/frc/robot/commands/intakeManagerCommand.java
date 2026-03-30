@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsys;
 
-public class intakeManagerCommand extends Command {
+public class IntakeManagerCommand extends Command {
 
     private final IntakeSubsys intake;
     private final Timer unjamTimer = new Timer();
@@ -12,7 +12,7 @@ public class intakeManagerCommand extends Command {
     private final Timer sinceLastUnjam = new Timer();
     private boolean unjamming = false;
 
-    public intakeManagerCommand(IntakeSubsys intake) {
+    public void IntakeManagerCommand(IntakeSubsys intake) {
 
         this.intake = intake;
 
@@ -54,7 +54,7 @@ public class intakeManagerCommand extends Command {
 
             if (timeStalled.hasElapsed(.25) && sinceLastUnjam.hasElapsed(3)) {
 
-                System.out.print("test");
+                System.out.print("me stall");
 
                 unjamTimer.restart();
                 unjamming = true;
@@ -64,6 +64,8 @@ public class intakeManagerCommand extends Command {
         } else {
 
             intake.Outtake();
+
+            System.out.print("me outtake");
 
             if (unjamTimer.hasElapsed(1)) {
 
