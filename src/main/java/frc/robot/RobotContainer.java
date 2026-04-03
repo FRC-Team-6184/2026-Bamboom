@@ -7,23 +7,23 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.BlenderCommand;
-import frc.robot.commands.FlywheelCommand;
-import frc.robot.commands.FlywheelHighSpeedCommand;
-import frc.robot.commands.FlywheelLowSpeedCommand;
-import frc.robot.commands.HighShooterRPMCommand;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakePivotCommand;
-import frc.robot.commands.IntakePivotUpCommand;
-import frc.robot.commands.IntakePurgeCommand;
-import frc.robot.commands.LockOnCommand;
-import frc.robot.commands.LowShooterRPMCommand;
-import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.ShooterRPMControlCommand;
-import frc.robot.commands.TempShooterCommand;
-import frc.robot.commands.XFormationCommand;
-import frc.robot.commands.IntakePivotDownCommand;
-import frc.robot.commands.intakeManagerCommand;
+import frc.robot.commands.blender.BlenderCommand;
+import frc.robot.commands.flywheel.FlywheelCommand;
+import frc.robot.commands.flywheel.FlywheelHighSpeedCommand;
+import frc.robot.commands.flywheel.FlywheelLowSpeedCommand;
+import frc.robot.commands.intake.IntakeCommand;
+import frc.robot.commands.intake.IntakeManagerCommand;
+import frc.robot.commands.intake.IntakePivotCommand;
+import frc.robot.commands.intake.IntakePivotDownCommand;
+import frc.robot.commands.intake.IntakePivotUpCommand;
+import frc.robot.commands.intake.IntakePurgeCommand;
+import frc.robot.commands.other.LockOnCommand;
+import frc.robot.commands.shooter.HighShooterRPMCommand;
+import frc.robot.commands.shooter.LowShooterRPMCommand;
+import frc.robot.commands.shooter.ShooterCommand;
+import frc.robot.commands.shooter.ShooterRPMControlCommand;
+import frc.robot.commands.shooter.TempShooterCommand;
+import frc.robot.commands.swerve.XFormationCommand;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
@@ -51,15 +51,11 @@ public class RobotContainer {
     public static FlywheelHighSpeedCommand cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem);
     public static FlywheelLowSpeedCommand cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem);
 
-    // Commands TODO: define these guys in the constructor, and make them final
-    // private final BlenderCommand kBlenderCommand;
-    // private final IntakeInCommand kIntakeInCommand;
-    // private final IntakeOutCommand kIntakeOutCommand;
-    // private final ShooterCommand kShooterCommand;
-
     private CommandScheduler scheduler = CommandScheduler.getInstance();
 
     private static boolean highSpeed = false;
+
+    private double teleopSwerveOffset = 0;
 
     /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
     public RobotContainer() {
@@ -77,7 +73,7 @@ public class RobotContainer {
         BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
         HighShooterRPMCommand cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
         LowShooterRPMCommand cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
-        intakeManagerCommand cmdIntake = new intakeManagerCommand(kIntakeSubsystem);
+        IntakeManagerCommand cmdIntake = new IntakeManagerCommand(kIntakeSubsystem);
         // ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
         TempShooterCommand cmdShooter = new TempShooterCommand(kShooterSubsystem);
         IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
@@ -101,35 +97,6 @@ public class RobotContainer {
 
     }
 
-    // API to get commands, subsytems, etc.
-    /** Returns the teleop command for the blender subsystem */
-    public void getTeleopBlender() {
-
-    }
-
-    /** Returns the teleop command for the intake subsystem */
-    public void getTeleopIntake() {}
-
-    /** Returns the teleop command for the shooter subsystem */
-    public void getTeleopShooter() {}
-
-    /** Returns the teleop command for the swerve drive subsystem */
-    public void getTeleopDrive() {}
-
-    /** Returns the autonomous command for the blender subsystem */
-    public void getAutonomousBlender() {}
-
-    /** Returns the teleop command for the intake subsystem */
-    public void getAutonomousIntake() {}
-
-    /** Returns the teleop command for the shooter subsystem */
-    public void getAutonomousShooter() {}
-
-    /** Returns the teleop command for the swerve drive subsystem */
-    public void getAutonomousDrive() {}
-
-    // TODO: Use enums here instead of a String subsys, that way you can't accidentally type in "sweve" instead of "swerve" and not know somethings wrong until runtime
-    /** Returns the object of a subsystem based on String subsys */
     public SubsystemBase getSubsystem(String subsys) {
         switch (subsys) {
             case "Swerve":
@@ -145,7 +112,7 @@ public class RobotContainer {
         }
 
         System.out.println("Invalid subsystem name");
-        return null; // Maybe change this so it throws an exception or something, but idk how to do custom exceptions. It doesn't matter much either way
+        return null;
     }
 
     public static boolean isHighSpeed() {

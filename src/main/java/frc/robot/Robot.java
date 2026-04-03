@@ -13,6 +13,7 @@ import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.VisionSubsys;
 import frc.robot.subsystems.ledSubsys;
+import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
 import frc.robot.subsystems.IntakeSubsys;
 
 // TODO: Hook up status of things running to dashboard
@@ -28,8 +29,7 @@ public class Robot extends TimedRobot {
   private ledSubsys LEDs;
 
   private PathPlannerAuto autoCommand = new PathPlannerAuto("TestAutocmd");
-
-  // Robot container
+  private final SwerveTeleopDriveCommand swerveDriveCommand = new SwerveTeleopDriveCommand(SwerveDrive);
 
   // TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
 
@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
     Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
     LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
 
-    // SwerveDrive = robotContainer.getSubsystem("Swerve") instanceof SwerveSubsys ? (SwerveSubsys) robotContainer.getSubsystem("Swerve") : null;
+
   }
 
   /**
@@ -76,13 +76,19 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {}
 
+  /* TODO:
+   * Store robot angle as a decimal at the beginning of autonomous
+   * Find the offset between that angle and the angle of the bot at the end of autonomous
+   * Use that offset to correctly field-orient the swerve drive
+   */
+
   @Override
   public void teleopInit() {
     RobotMap.Gyro.GYRO.reset();
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
-    CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
+    CommandScheduler.getInstance().schedule(swerveDriveCommand);
     // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
     // CommandScheduler.getInstance().schedule(Vision);
   }

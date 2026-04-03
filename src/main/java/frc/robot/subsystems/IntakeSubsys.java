@@ -60,16 +60,8 @@ public class IntakeSubsys extends SubsystemBase {
         kIntakeMotor.set(-0.75);
     }
 
-    public void Outtake() {
-        kIntakeMotor.set(0.75);
-    }
-
     public void stopIntake() {
         kIntakeMotor.set(0.0);
-    }
-
-    public double getVelocity() {
-        return kIntakeMotor.getVelocity().getValueAsDouble();
     }
 
     public void purgeIntake() {
@@ -90,10 +82,5 @@ public class IntakeSubsys extends SubsystemBase {
 
     public void Outtake() {
         kIntakeMotor.set(.75);
-    }
-
-    public boolean isNoteCollected() {
-        // Assuming the limit switch returns true when the note hits it
-        return kTopLimitSwitch.get();
     }
 }

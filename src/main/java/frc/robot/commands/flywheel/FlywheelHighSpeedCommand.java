@@ -1,16 +1,17 @@
-package frc.robot.commands;
+package frc.robot.commands.flywheel;
 
+import com.pathplanner.lib.config.RobotConfig;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 import frc.robot.RobotMap.DigitalValues;
 import frc.robot.subsystems.ShooterSubsys;
 
-public class FlywheelLowSpeedCommand extends Command {
+public class FlywheelHighSpeedCommand extends Command {
     // Blender subsystem, and maybe other crucial things.
     private final ShooterSubsys kShooterSubsystem;
 
-    public FlywheelLowSpeedCommand(ShooterSubsys shooter) {
+    public FlywheelHighSpeedCommand(ShooterSubsys shooter) {
         super();
         this.kShooterSubsystem = shooter;
         super.addRequirements(shooter);
@@ -18,16 +19,18 @@ public class FlywheelLowSpeedCommand extends Command {
 
     @Override
     public void initialize() {
-        RobotContainer.setHighSpeed(false);
-        CommandScheduler.getInstance().cancel(RobotContainer.cmdFlywheelHigh);
+        RobotContainer.setHighSpeed(true);
+        CommandScheduler.getInstance().cancel(RobotContainer.cmdFlywheelLow);
     }
 
     @Override
     public void execute() {
-        kShooterSubsystem.shooterOn(DigitalValues.SHOOTER_LOW_SPEED);
+        kShooterSubsystem.shooterOn(DigitalValues.SHOOTER_HIGH_SPEED);
     }
 
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+
+    }
 
 }

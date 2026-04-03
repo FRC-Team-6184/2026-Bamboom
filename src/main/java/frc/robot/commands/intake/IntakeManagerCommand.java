@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,70 +12,43 @@ public class IntakeManagerCommand extends Command {
     private final Timer sinceLastUnjam = new Timer();
     private boolean unjamming = false;
 
-    public void IntakeManagerCommand(IntakeSubsys intake) {
-
+    public IntakeManagerCommand(IntakeSubsys intake) {
         this.intake = intake;
-
         addRequirements(intake);
     }
 
     @Override
     public void initialize() {
-
         unjamming = false;
-
-        unjamTimer.stop();
         unjamTimer.restart();
-
-        timeStalled.stop();
         timeStalled.restart();
-
-        sinceLastUnjam.stop();
         sinceLastUnjam.restart();
-
-
-
     }
 
     @Override
     public void execute() {
 
-        System.out.print("i loop");
-
-        System.out.print("vel" + intake.getVelocity());
-
         if (!unjamming) {
 
             intake.startIntake();
 
-            if (intake.getVelocity() < -2) {
+            if (intake.getVelocity() <= -2.0) {
                 timeStalled.restart();
             }
 
-            if (timeStalled.hasElapsed(.25) && sinceLastUnjam.hasElapsed(3)) {
-
-                System.out.print("me stall");
-
-                unjamTimer.restart();
+            if (timeStalled.hasElapsed(0.5)) {
                 unjamming = true;
+                unjamTimer.restart();
             }
-
 
         } else {
 
             intake.Outtake();
 
-            System.out.print("me outtake");
-
             if (unjamTimer.hasElapsed(1)) {
-
-                System.out.print("me done outtake ");
-
                 unjamming = false;
-                unjamTimer.restart();
-
+                timeStalled.restart();
                 sinceLastUnjam.restart();
-
             }
 
         }
@@ -87,3 +60,4 @@ public class IntakeManagerCommand extends Command {
     }
 
 }
+
