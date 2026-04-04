@@ -7,6 +7,25 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotMap.Gyro;
+import frc.robot.commands.BlenderCommand;
+import frc.robot.commands.FlywheelCommand;
+import frc.robot.commands.FlywheelHighSpeedCommand;
+import frc.robot.commands.FlywheelLowSpeedCommand;
+import frc.robot.commands.HighShooterRPMCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakePivotCommand;
+import frc.robot.commands.IntakePivotUpCommand;
+import frc.robot.commands.IntakePurgeCommand;
+import frc.robot.commands.LockOnCommand;
+import frc.robot.commands.LowShooterRPMCommand;
+import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.ShooterRPMControlCommand;
+import frc.robot.commands.TempShooterCommand;
+import frc.robot.commands.XFormationCommand;
+import frc.robot.commands.IntakePivotDownCommand;
+import frc.robot.commands.intakeManagerCommand;
 import frc.robot.commands.blender.BlenderCommand;
 import frc.robot.commands.flywheel.FlywheelCommand;
 import frc.robot.commands.flywheel.FlywheelHighSpeedCommand;
@@ -61,10 +80,12 @@ public class RobotContainer {
     public RobotContainer() {
         IntakePivotDownCommand cmdPivotDown = new IntakePivotDownCommand(kIntakeSubsystem);
         BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
+        IntakePivotUpCommand cmdPivotUp = new IntakePivotUpCommand(kIntakeSubsystem);
         configureBindings();
 
         NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
-        NamedCommands.registerCommand("BlenderCommand", cmdBlender);
+        NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
+        NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
 
     }
 
@@ -73,7 +94,7 @@ public class RobotContainer {
         BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
         HighShooterRPMCommand cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
         LowShooterRPMCommand cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
-        IntakeManagerCommand cmdIntake = new IntakeManagerCommand(kIntakeSubsystem);
+        IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
         // ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
         TempShooterCommand cmdShooter = new TempShooterCommand(kShooterSubsystem);
         IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
@@ -81,8 +102,10 @@ public class RobotContainer {
         XFormationCommand cmdXFormation = new XFormationCommand(kSwerveSubsystem, kLEDSubsystem);
         LockOnCommand cmdLockon = new LockOnCommand(kSwerveSubsystem);
         ShooterRPMControlCommand cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
+        ResetGyroCommand cmdResetGyro = new ResetGyroCommand();
 
         mainController.x().toggleOnTrue(cmdXFormation);
+        mainController.rightBumper().and(mainController.leftBumper()).whileTrue(cmdResetGyro);
 
         codriveController.L1().toggleOnTrue(cmdFlywheelRPM);
 
