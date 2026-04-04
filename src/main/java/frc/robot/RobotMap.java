@@ -145,8 +145,8 @@ public final class RobotMap {
 
         public static final double CONTROLLER_DEADZONE = 0.12;
 
-        public static final double SHOOTER_LOW_SPEED = 2850.0 / 60.0;
-        public static final double SHOOTER_HIGH_SPEED = 3800.0 / 60.0;
+        public static final double SHOOTER_LOW_SPEED = 1500.0 / 60.0;
+        public static final double SHOOTER_HIGH_SPEED = 2500.0 / 60.0;
         // public static final double SHOOTER_LOW_SPEED = 60 / 60.0;
         // public static final double SHOOTER_HIGH_SPEED = 180 / 60.0;
         public static final double SHOOTER_BOTTOM_SPEED = -50;

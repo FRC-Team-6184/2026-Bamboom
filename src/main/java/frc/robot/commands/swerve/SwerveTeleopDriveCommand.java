@@ -1,5 +1,6 @@
 package frc.robot.commands.swerve;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -7,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
+import frc.robot.RobotMap.Gyro;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.swerve.MAXSwerveModule;
 import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
@@ -22,6 +24,8 @@ public class SwerveTeleopDriveCommand extends Command {
     private double rot;
     private double x;
     private double y;
+
+    private final Pigeon2 gyro = Gyro.GYRO;
 
     // Swerve modules
     private final MAXSwerveModule m_frontLeft = RobotMap.SoftwareObjects.FRONT_LEFT_MODULE;

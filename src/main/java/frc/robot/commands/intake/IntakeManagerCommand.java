@@ -14,6 +14,7 @@ public class IntakeManagerCommand extends Command {
 
     public IntakeManagerCommand(IntakeSubsys intake) {
         this.intake = intake;
+        
         addRequirements(intake);
     }
 
