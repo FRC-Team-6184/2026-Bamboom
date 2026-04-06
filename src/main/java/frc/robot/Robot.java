@@ -16,34 +16,42 @@ import frc.robot.subsystems.ledSubsys;
 import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
 import frc.robot.subsystems.IntakeSubsys;
 
+/*
+ * TODO: Store robot angle as a decimal at the beginning of autonomous Find the offset between that angle and the angle of the bot at the end of autonomous Use that offset to correctly field-orient the swerve drive
+ */
+
 // TODO: Hook up status of things running to dashboard
 // ie: when shooter is running, when intake is running, etc. etc.
+
+// TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
 public class Robot extends TimedRobot {
   private RobotContainer robotContainer = new RobotContainer();
 
   // Subsystems
-  private SwerveSubsys SwerveDrive;
-  private ShooterSubsys Shooter;
-  private IntakeSubsys Intake;
-  private VisionSubsys Vision;
-  private ledSubsys LEDs;
+  private final SwerveSubsys SwerveDrive;
+  private final ShooterSubsys Shooter;
+  private final IntakeSubsys Intake;
+  private final VisionSubsys Vision;
+  private final ledSubsys LEDs;
 
-  private PathPlannerAuto autoCommand = new PathPlannerAuto("TestAutocmd");
-  private final SwerveTeleopDriveCommand swerveDriveCommand = new SwerveTeleopDriveCommand(SwerveDrive);
+  private PathPlannerAuto autoCommand;
+  private final SwerveTeleopDriveCommand swerveDriveCommand;
 
-  // TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
+
 
   /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
 
     // TODO: Figure out a type safer way to cast the returned SubsystemBase back into its respective subclass
+    // TODO: Switch for enums
     SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
     Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
     Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
     LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
 
-
+    autoCommand = new PathPlannerAuto("TestAutocmd");
+    swerveDriveCommand = new SwerveTeleopDriveCommand(SwerveDrive);
   }
 
   /**
@@ -55,7 +63,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run(); // Ask William if you have any questions about this line 
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -66,7 +74,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {}
 
-  /** This autonomous runs the autonomous command selected by your{@link RobotContainer} class. */
+  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     RobotMap.Gyro.GYRO.reset();
@@ -78,16 +86,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {}
 
-  /* TODO:
-   * Store robot angle as a decimal at the beginning of autonomous
-   * Find the offset between that angle and the angle of the bot at the end of autonomous
-   * Use that offset to correctly field-orient the swerve drive
-   */
-
   @Override
   public void teleopInit() {
     RobotMap.Gyro.GYRO.reset();
-    // TODO: ChaPnge these to schedule commands from RobotContainer rather than the subsystems directly
+    // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
     CommandScheduler.getInstance().schedule(swerveDriveCommand);

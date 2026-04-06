@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotMap.Gyro;
 import frc.robot.RobotMap.SoftwareObjects;
 import frc.robot.subsystems.SwerveSubsys;
-import frc.robot.subsystems.VisionSubsys;
 
 public class LockOnCommand extends Command {
 

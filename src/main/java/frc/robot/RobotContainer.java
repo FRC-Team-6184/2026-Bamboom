@@ -74,8 +74,6 @@ public class RobotContainer {
 
     private static boolean highSpeed = false;
 
-    private double teleopSwerveOffset = 0;
-
     /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
     public RobotContainer() {
         IntakePivotDownCommand cmdPivotDown = new IntakePivotDownCommand(kIntakeSubsystem);
