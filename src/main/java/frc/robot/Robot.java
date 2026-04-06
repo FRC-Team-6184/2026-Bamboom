@@ -37,8 +37,6 @@ public class Robot extends TimedRobot {
   private PathPlannerAuto autoCommand;
   private final SwerveTeleopDriveCommand swerveDriveCommand;
 
-
-
   /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
 

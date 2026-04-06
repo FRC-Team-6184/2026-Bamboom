@@ -57,6 +57,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls). Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+    // Controllers
+    private final CommandXboxController mainController = RobotMap.Controller.XBOX;
+    private final CommandPS5Controller codriveController = RobotMap.Controller.PS5;
+
     // Subsystems
     private static final IntakeSubsys kIntakeSubsystem = new IntakeSubsys();
     private static final ShooterSubsys kShooterSubsystem = new ShooterSubsys();
@@ -64,11 +68,11 @@ public class RobotContainer {
     private static final VisionSubsys kVisionSubsystem = new VisionSubsys();
     private static final ledSubsys kLEDSubsystem = new ledSubsys();
 
-    private final CommandXboxController mainController = RobotMap.Controller.XBOX;
-    private final CommandPS5Controller codriveController = RobotMap.Controller.PS5;
+    // Commands
+    public static final FlywheelHighSpeedCommand cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem);
+    public static final FlywheelLowSpeedCommand cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem);
 
-    public static FlywheelHighSpeedCommand cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem);
-    public static FlywheelLowSpeedCommand cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem);
+
 
     private CommandScheduler scheduler = CommandScheduler.getInstance();
 
@@ -76,15 +80,17 @@ public class RobotContainer {
 
     /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
     public RobotContainer() {
+
         IntakePivotDownCommand cmdPivotDown = new IntakePivotDownCommand(kIntakeSubsystem);
         BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
         IntakePivotUpCommand cmdPivotUp = new IntakePivotUpCommand(kIntakeSubsystem);
-        configureBindings();
+
 
         NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
         NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
         NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
 
+        configureBindings();
     }
 
     // Check the wpilib docs (Advanced Programming > Structuring a Command-Based Robot Project > Scroll down) for more information on this method
@@ -102,6 +108,7 @@ public class RobotContainer {
         ShooterRPMControlCommand cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
         ResetGyroCommand cmdResetGyro = new ResetGyroCommand();
 
+        // Bindings
         mainController.x().toggleOnTrue(cmdXFormation);
         mainController.rightBumper().and(mainController.leftBumper()).whileTrue(cmdResetGyro);
 
