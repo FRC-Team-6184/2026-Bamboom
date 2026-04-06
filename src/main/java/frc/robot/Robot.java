@@ -16,16 +16,18 @@ import frc.robot.subsystems.ledSubsys;
 import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
 import frc.robot.subsystems.IntakeSubsys;
 
-/*
- * TODO: Store robot angle as a decimal at the beginning of autonomous Find the offset between that angle and the angle of the bot at the end of autonomous Use that offset to correctly field-orient the swerve drive
- */
+
+// TODO: Store robot angle as a decimal at the beginning of autonomous
+// Find the offset between that angle and the angle of the bot at the end of autonomous
+// Use that offset to correctly field-orient the swerve drive
 
 // TODO: Hook up status of things running to dashboard
 // ie: when shooter is running, when intake is running, etc. etc.
 
 // TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
 public class Robot extends TimedRobot {
-  private RobotContainer robotContainer = new RobotContainer();
+  // Robot Container
+  private final RobotContainer robotContainer;
 
   // Subsystems
   private final SwerveSubsys SwerveDrive;
@@ -34,22 +36,26 @@ public class Robot extends TimedRobot {
   private final VisionSubsys Vision;
   private final ledSubsys LEDs;
 
-  private PathPlannerAuto autoCommand;
+  private final PathPlannerAuto autoCommand;
   private final SwerveTeleopDriveCommand swerveDriveCommand;
 
   /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
+    // Robot Container
+    robotContainer = new RobotContainer();
 
-    // TODO: Figure out a type safer way to cast the returned SubsystemBase back into its respective subclass
-    // TODO: Switch for enums
+    // Subsystems
     SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
     Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
     Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
     LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
 
+    // Commands
+    swerveDriveCommand = (SwerveTeleopDriveCommand) robotContainer.getCommand("Command_SwerveDrive");
+
     autoCommand = new PathPlannerAuto("TestAutocmd");
-    swerveDriveCommand = new SwerveTeleopDriveCommand(SwerveDrive);
+
   }
 
   /**

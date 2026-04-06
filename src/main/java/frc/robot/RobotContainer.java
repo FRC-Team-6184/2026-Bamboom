@@ -23,6 +23,7 @@ import frc.robot.commands.other.ResetGyroCommand;
 import frc.robot.commands.shooter.ShooterCommand;
 import frc.robot.commands.shooter.ShooterRPMControlCommand;
 import frc.robot.commands.shooter.TempShooterCommand;
+import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
 import frc.robot.commands.swerve.XFormationCommand;
 import frc.robot.commands.intake.IntakePivotDownCommand;
 import frc.robot.commands.intake.IntakeManagerCommand;
@@ -51,6 +52,7 @@ import frc.robot.subsystems.ledSubsys;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -58,57 +60,78 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class RobotContainer {
     // Controllers
-    private final CommandXboxController mainController = RobotMap.Controller.XBOX;
-    private final CommandPS5Controller codriveController = RobotMap.Controller.PS5;
+    private final CommandXboxController mainController;
+    private final CommandPS5Controller codriveController;
 
     // Subsystems
-    private static final IntakeSubsys kIntakeSubsystem = new IntakeSubsys();
-    private static final ShooterSubsys kShooterSubsystem = new ShooterSubsys();
-    private static final SwerveSubsys kSwerveSubsystem = new SwerveSubsys();
-    private static final VisionSubsys kVisionSubsystem = new VisionSubsys();
-    private static final ledSubsys kLEDSubsystem = new ledSubsys();
+    private final IntakeSubsys kIntakeSubsystem;
+    private final ShooterSubsys kShooterSubsystem;
+    private final SwerveSubsys kSwerveSubsystem;
+    private final VisionSubsys kVisionSubsystem;
+    private final ledSubsys kLEDSubsystem;
 
     // Commands
-    public static final FlywheelHighSpeedCommand cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem);
-    public static final FlywheelLowSpeedCommand cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem);
-
-
-
-    private CommandScheduler scheduler = CommandScheduler.getInstance();
+    FlywheelHighSpeedCommand cmdFlywheelHigh;
+    FlywheelLowSpeedCommand cmdFlywheelLow;
+    IntakePivotDownCommand cmdPivotDown;
+    BlenderCommand cmdBlender;
+    IntakePivotUpCommand cmdPivotUp;
+    HighShooterRPMCommand cmdHighSpeed;
+    LowShooterRPMCommand cmdLowSpeed;
+    IntakeCommand cmdIntake;
+    ShooterCommand cmdShooter;
+    TempShooterCommand cmdTempShooter;
+    IntakePurgeCommand cmdIntakePurge;
+    IntakePivotCommand cmdIntakePivot;
+    XFormationCommand cmdXFormation;
+    LockOnCommand cmdLockon;
+    ShooterRPMControlCommand cmdFlywheelRPM;
+    ResetGyroCommand cmdResetGyro;
+    SwerveTeleopDriveCommand cmdSwerveTeleop;
 
     private static boolean highSpeed = false;
 
     /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
     public RobotContainer() {
+        mainController = RobotMap.Controller.XBOX;
+        codriveController = RobotMap.Controller.PS5;
 
-        IntakePivotDownCommand cmdPivotDown = new IntakePivotDownCommand(kIntakeSubsystem);
-        BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
-        IntakePivotUpCommand cmdPivotUp = new IntakePivotUpCommand(kIntakeSubsystem);
+        kIntakeSubsystem = new IntakeSubsys();
+        kShooterSubsystem = new ShooterSubsys();
+        kSwerveSubsystem = new SwerveSubsys();
+        kVisionSubsystem = new VisionSubsys();
+        kLEDSubsystem = new ledSubsys();
 
+        configureCommands();
+        configureBindings();
+    }
+
+    private void configureCommands() {
+        cmdSwerveTeleop = new SwerveTeleopDriveCommand(kSwerveSubsystem);
+        cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem);
+        cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem);
+        cmdPivotDown = new IntakePivotDownCommand(kIntakeSubsystem);
+        cmdBlender = new BlenderCommand(kShooterSubsystem);
+        cmdPivotUp = new IntakePivotUpCommand(kIntakeSubsystem);
+        cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
+        cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
+        cmdIntake = new IntakeCommand(kIntakeSubsystem);
+        // ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
+        cmdTempShooter = new TempShooterCommand(kShooterSubsystem);
+        cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
+        cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
+        cmdXFormation = new XFormationCommand(kSwerveSubsystem, kLEDSubsystem);
+        cmdLockon = new LockOnCommand(kSwerveSubsystem);
+        cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
+        cmdResetGyro = new ResetGyroCommand();
 
         NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
         NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
         NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
-
-        configureBindings();
     }
 
     // Check the wpilib docs (Advanced Programming > Structuring a Command-Based Robot Project > Scroll down) for more information on this method
     private void configureBindings() {
-        BlenderCommand cmdBlender = new BlenderCommand(kShooterSubsystem);
-        HighShooterRPMCommand cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
-        LowShooterRPMCommand cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
-        IntakeCommand cmdIntake = new IntakeCommand(kIntakeSubsystem);
-        // ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
-        TempShooterCommand cmdShooter = new TempShooterCommand(kShooterSubsystem);
-        IntakePurgeCommand cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
-        IntakePivotCommand cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
-        XFormationCommand cmdXFormation = new XFormationCommand(kSwerveSubsystem, kLEDSubsystem);
-        LockOnCommand cmdLockon = new LockOnCommand(kSwerveSubsystem);
-        ShooterRPMControlCommand cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
-        ResetGyroCommand cmdResetGyro = new ResetGyroCommand();
-
-        // Bindings
         mainController.x().toggleOnTrue(cmdXFormation);
         mainController.rightBumper().and(mainController.leftBumper()).whileTrue(cmdResetGyro);
 
@@ -122,7 +145,6 @@ public class RobotContainer {
         codriveController.circle().whileTrue(cmdLockon);
 
         codriveController.axisGreaterThan(5, 0.12).or(codriveController.axisLessThan(5, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
-
     }
 
     public SubsystemBase getSubsystem(String subsys) {
@@ -139,7 +161,17 @@ public class RobotContainer {
                 return kLEDSubsystem;
         }
 
-        System.out.println("Invalid subsystem name");
+        System.out.println("Invalid subsystem name. See RobotContainer.java");
+        return null;
+    }
+
+    public Command getCommand(String command) {
+        switch (command) {
+            case "Command_SwerveDrive":
+                return cmdSwerveTeleop;
+        }
+
+        System.out.println("Invalid command name. See RobotContainer.java");
         return null;
     }
 
