@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsys;
@@ -11,6 +11,7 @@ public class IntakePivotUpCommand extends Command {
     public IntakePivotUpCommand(IntakeSubsys intake) {
         super();
         this.intake = intake;
+        this.addRequirements(intake);
     }
 
     @Override

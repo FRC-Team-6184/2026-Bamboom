@@ -2,7 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
-
+import com.pathplanner.lib.config.RobotConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
@@ -66,17 +66,17 @@ public final class RobotMap {
         public static final int BLENDER_MOTOR_ID = 9;
 
         // Swerve
-        public static final int FL_DRIVE_MOTOR_ID = 1;
-        public static final int FL_TURN_MOTOR_ID = 2;
+        public static final int FL_DRIVE_MOTOR_ID = 5;
+        public static final int FL_TURN_MOTOR_ID = 6;
 
-        public static final int FR_DRIVE_MOTOR_ID = 3;
-        public static final int FR_TURN_MOTOR_ID = 4;
+        public static final int FR_DRIVE_MOTOR_ID = 1;
+        public static final int FR_TURN_MOTOR_ID = 2;
 
-        public static final int BL_DRIVE_MOTOR_ID = 5;
-        public static final int BL_TURN_MOTOR_ID = 6;
+        public static final int BL_DRIVE_MOTOR_ID = 7;
+        public static final int BL_TURN_MOTOR_ID = 8;
 
-        public static final int BR_DRIVE_MOTOR_ID = 7;
-        public static final int BR_TURN_MOTOR_ID = 8;
+        public static final int BR_DRIVE_MOTOR_ID = 3;
+        public static final int BR_TURN_MOTOR_ID = 4;
 
         // Other
         public static final int GYRO_ID = 20;
@@ -124,6 +124,8 @@ public final class RobotMap {
 
         // Distance between front and back wheels on robot
         public static final double WHEEL_BASE = Units.inchesToMeters(21.525);
+
+        // public static final RobotConfig ROBOT_CONFIGURATION = new RobotConfig(null, null, null, null);
     }
 
     // Software things below
@@ -138,14 +140,16 @@ public final class RobotMap {
         public static final double MEDIUM = 0.66;
         public static final double HIGH = 1;
 
-        public static final double INTAKE_PIVOT = 0.15;
+        public static final double INTAKE_PIVOT = 0.2;
         public static final double INTAKE_SPEED = -0.3;
 
         public static final double CONTROLLER_DEADZONE = 0.12;
 
-        public static final double SHOOTER_LOW_SPEED = 1000.0 / 60.0;
-        public static final double SHOOTER_HIGH_SPEED = 2000.0 / 60.0;
-        public static final double SHOOTER_BOTTOM_SPEED = -34;
+        public static final double SHOOTER_LOW_SPEED = 1500.0 / 60.0;
+        public static final double SHOOTER_HIGH_SPEED = 2500.0 / 60.0;
+        // public static final double SHOOTER_LOW_SPEED = 60 / 60.0;
+        // public static final double SHOOTER_HIGH_SPEED = 180 / 60.0;
+        public static final double SHOOTER_BOTTOM_SPEED = -50;
     }
 
     public static final class SoftwareObjects {

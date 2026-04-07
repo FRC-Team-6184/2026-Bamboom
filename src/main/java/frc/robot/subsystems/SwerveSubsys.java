@@ -1,11 +1,22 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Degree;
+import static edu.wpi.first.units.Units.Inch;
+import static edu.wpi.first.units.Units.Meter;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import com.ctre.phoenix6.hardware.Pigeon2;
-
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -14,6 +25,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,8 +35,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.Gyro;
+import frc.robot.RobotMap.MotorControllers;
+import frc.robot.RobotMap.SoftwareObjects;
 import frc.robot.subsystems.swerve.MAXSwerveModule;
+import frc.robot.subsystems.swerve.SwerveConstants;
 import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
+import frc.robot.subsystems.swerve.SwerveConstants.ModuleConstants;
 
 public class SwerveSubsys extends SubsystemBase {
     // This is directly copied from MAXSwerve template
@@ -48,11 +65,25 @@ public class SwerveSubsys extends SubsystemBase {
     private DoubleEntry positionYEntry = network.getDoubleTopic("PositionY").getEntry(0);
     private DoubleEntry positionZEntry = network.getDoubleTopic("PositionZ").getEntry(0);
 
-    private Field2d field2d = new Field2d();
+    private Field2d field = new Field2d();
     // private GenericEntry field2dEntry = network.getTopic("Field2d").getGenericEntry();
 
     private Pigeon2 gyro = Gyro.GYRO;
     private SwerveDrivePoseEstimator3d odometry = RobotMap.SoftwareObjects.poseEstimator;
+    private SwerveDriveKinematics kinematics = DriveConstants.kDriveKinematics;
+    private RobotConfig autoConfig;
+
+    private PIDConstants autoDrivePID = new PIDConstants(1.0, 0, 0);
+    private PIDConstants autoRotatePID = new PIDConstants(1.0, 0, 0);
+    private PPHolonomicDriveController autoDriveController = new PPHolonomicDriveController(autoDrivePID, autoRotatePID);
+
+    private static SwerveModuleState xFormation1 = new SwerveModuleState(MetersPerSecond.of(0.0), new Rotation2d(Degree.of(45)));
+    private static SwerveModuleState xFormation2 = new SwerveModuleState(MetersPerSecond.of(0.0), new Rotation2d(Degree.of(135)));
+
+    private double desiredRot = 0.0;
+
+    private PathPlannerPath path;
+
 
     public SwerveSubsys() {
         super();
@@ -63,12 +94,38 @@ public class SwerveSubsys extends SubsystemBase {
         positionYEntry.set(0.0);
         positionZEntry.set(0.0);
 
-        field2d.setRobotPose(0, 0, new Rotation2d());
-        SmartDashboard.putData(field2d);
-        SmartDashboard.updateValues();
+        // field.setRobotPose(Meter.convertFrom(651.22, Inch) - 1.88, Meter.convertFrom(158.84, Inch), new Rotation2d());
+
+
 
         gyro.reset();
+        // gyro.setYaw(90);
 
+        try {
+            autoConfig = RobotConfig.fromGUISettings(); //TODO: find the true max drive speed (0.85x free )
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+
+        try {
+            path = PathPlannerPath.fromPathFile("Test Path Red");
+            if (path.getStartingHolonomicPose().isPresent()) {
+                odometry.resetPosition(gyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose3d(path.getStartingHolonomicPose().get()));
+            } else {
+                odometry.resetPosition(gyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose3d(new Pose2d(12.866, 7.498, gyro.getRotation2d())));
+                System.out.println("Auto path didn't load mf");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+
+        // path.get
+
+        field.setRobotPose(odometry.getEstimatedPosition().getMeasureX(), odometry.getEstimatedPosition().getMeasureY(), gyro.getRotation2d());
+        SmartDashboard.putData(field);
+        SmartDashboard.updateValues();
+
+        AutoBuilder.configure(this::get2dPose, this::resetPose, this::getRobotRelativeChassisSpeeds, (speeds, feedforwards) -> driveRobotAutonomous(speeds), autoDriveController, autoConfig, this::determineAlliance, this);
     }
 
     // Mostly copied from MaxSwerve template, simply updates
@@ -83,10 +140,14 @@ public class SwerveSubsys extends SubsystemBase {
         positionYEntry.set(pos.getY());
         positionZEntry.set(pos.getZ());
 
-        field2d.setRobotPose(pos.toPose2d());
-        SmartDashboard.putData(field2d);
+        field.setRobotPose(pos.toPose2d());
+        SmartDashboard.putData(field);
         SmartDashboard.updateValues();
+
+        // System.out.println(m_frontLeft.getState().angle);
     }
+
+    int counter = 0;
 
     /**
      * Method to drive the robot using joystick info.
@@ -103,12 +164,18 @@ public class SwerveSubsys extends SubsystemBase {
         double ySpeedDelivered = ySpeed * DriveConstants.MAX_SPEED_METERS_PER_SECOND;
         double rotDelivered = rot * DriveConstants.MAX_ANGULAR_SPEED;
 
-        SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, gyro.getRotation2d()) : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+        SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, gyro.getRotation2d()) : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.MAX_SPEED_METERS_PER_SECOND);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_rearLeft.setDesiredState(swerveModuleStates[2]);
         m_rearRight.setDesiredState(swerveModuleStates[3]);
+
+        counter++;
+        if (counter >= 10) {
+            System.out.println(swerveModuleStates[0].angle.getDegrees());
+            counter = 0;
+        }
     }
 
     /**
@@ -117,6 +184,7 @@ public class SwerveSubsys extends SubsystemBase {
      * @return
      */
 
+    // TODO: Make this a separate command class
     public Command teleopDrive() {
         return run(() -> {
             if (canMove) {
@@ -151,7 +219,7 @@ public class SwerveSubsys extends SubsystemBase {
             // to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a
             // hold or something.
-            drive(-y * 0.5, -x * 0.5, rot, true);
+            drive(-x, y, rot, true);
         });
     }
 
@@ -169,6 +237,59 @@ public class SwerveSubsys extends SubsystemBase {
 
     public void setCanRotate(boolean canRotate) {
         this.canRotate = canRotate;
+    }
+
+    private Pose2d get2dPose() {
+        return odometry.getEstimatedPosition().toPose2d();
+    }
+
+    private void resetPose(Pose2d newPose) {
+        odometry.resetPose(new Pose3d(newPose));
+    }
+
+    private ChassisSpeeds getRobotRelativeChassisSpeeds() { //TODO: check that the wheel circumference is accurate
+        // System.out.println(m_frontLeft.getState().angle);
+
+        return kinematics.toChassisSpeeds(m_frontLeft.getState(), m_frontRight.getState(), m_rearLeft.getState(), m_rearRight.getState());
+    }
+
+    private void driveRobotAutonomous(ChassisSpeeds speeds) {
+        SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(speeds);
+
+        // for (SwerveModuleState state : swerveModuleStates) {
+        //     double temp = state.angle.getDegrees() + 90;
+        //     if (temp >= 180) {
+        //         temp -= 360;
+        //     }
+        //     state.angle = new Rotation2d(Degree.of(temp));
+        // }
+
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.MAX_SPEED_METERS_PER_SECOND);
+        m_frontLeft.setDesiredState(swerveModuleStates[0]);
+        m_frontRight.setDesiredState(swerveModuleStates[1]);
+        m_rearLeft.setDesiredState(swerveModuleStates[2]);
+        m_rearRight.setDesiredState(swerveModuleStates[3]);
+
+        System.out.println(swerveModuleStates[0].angle);
+    }
+
+    private boolean determineAlliance() {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+    }
+
+    public void setXFormation() {
+        m_frontLeft.setDesiredState(xFormation1);
+        m_frontRight.setDesiredState(xFormation2);
+        m_rearLeft.setDesiredState(xFormation2);
+        m_rearRight.setDesiredState(xFormation1);
+    }
+
+    public void setDesiredRot(double desiredRot) {
+        this.desiredRot = desiredRot;
     }
 }
 

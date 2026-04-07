@@ -77,5 +77,6 @@
   "workbench.tips.enabled": false,
   "workbench.view.alwaysShowHeaderActions": true,
   "java.format.settings.url": "google-java-formatter.xml",
-  "java.format.comments.enabled": false
+  "java.format.comments.enabled": false,
+  "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m -Xlog:disable"
 }

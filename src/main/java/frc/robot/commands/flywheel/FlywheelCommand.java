@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.flywheel;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsys;
@@ -18,7 +18,7 @@ public class FlywheelCommand extends Command {
 
     @Override
     public void execute() {
-        kShooterSubsystem.shooterOn(2200.0 / 60.0);
+        kShooterSubsystem.shooterOn();
     }
 
     @Override

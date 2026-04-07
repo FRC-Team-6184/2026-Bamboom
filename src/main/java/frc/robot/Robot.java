@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -11,34 +13,49 @@ import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.VisionSubsys;
 import frc.robot.subsystems.ledSubsys;
+import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
 import frc.robot.subsystems.IntakeSubsys;
 
+
+// TODO: Store robot angle as a decimal at the beginning of autonomous
+// Find the offset between that angle and the angle of the bot at the end of autonomous
+// Use that offset to correctly field-orient the swerve drive
+
+// TODO: Hook up status of things running to dashboard
+// ie: when shooter is running, when intake is running, etc. etc.
+
+// TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
 public class Robot extends TimedRobot {
+  // Robot Container
+  private final RobotContainer robotContainer;
+
   // Subsystems
-  private SwerveSubsys SwerveDrive;
-  private ShooterSubsys Shooter;
-  private IntakeSubsys Intake;
-  private VisionSubsys Vision;
-  private ledSubsys leds;
+  private final SwerveSubsys SwerveDrive;
+  private final ShooterSubsys Shooter;
+  private final IntakeSubsys Intake;
+  private final VisionSubsys Vision;
+  private final ledSubsys LEDs;
 
-  // Robot container
-  private RobotContainer robotContainer;
-
-  // TODO: Set up smart dashboard for easy testing and switching which motors to run at runtime
+  private final PathPlannerAuto autoCommand;
+  private final SwerveTeleopDriveCommand swerveDriveCommand;
 
   /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
+    // Robot Container
     robotContainer = new RobotContainer();
 
-    // TODO: Figure out a type safer way to cast the returned SubsystemBase back into its respective subclass
+    // Subsystems
     SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
     Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
     Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
+    LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
 
-    leds = new ledSubsys();
+    // Commands
+    swerveDriveCommand = (SwerveTeleopDriveCommand) robotContainer.getCommand("Command_SwerveDrive");
 
-    // SwerveDrive = robotContainer.getSubsystem("Swerve") instanceof SwerveSubsys ? (SwerveSubsys) robotContainer.getSubsystem("Swerve") : null;
+    autoCommand = new PathPlannerAuto("TestAutocmd");
+
   }
 
   /**
@@ -50,19 +67,23 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run(); // Ask William if you have any questions about this line 
+    CommandScheduler.getInstance().run();
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    // PathPlannerAuto.
+  }
 
   @Override
   public void disabledPeriodic() {}
 
-  /** This autonomous runs the autonomous command selected by your{@link RobotContainer} class. */
+  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     RobotMap.Gyro.GYRO.reset();
+
+    CommandScheduler.getInstance().schedule(autoCommand);
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
@@ -75,7 +96,7 @@ public class Robot extends TimedRobot {
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
-    CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
+    CommandScheduler.getInstance().schedule(swerveDriveCommand);
     // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
     // CommandScheduler.getInstance().schedule(Vision);
   }
@@ -97,14 +118,11 @@ public class Robot extends TimedRobot {
 
   // double power = 0;
 
+
+
   @Override
   public void testPeriodic() {
-    // power += 0.0001;
-    // if (power > 1.0) {
-    //   power = 0;
-    // }
-    // System.out.println(power);
-    // RobotMap.MotorControllers.FL_DRIVE_MOTOR.set(power);
+
 
   }
 

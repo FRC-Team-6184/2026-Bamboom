@@ -28,7 +28,7 @@ public class VisionSubsys extends SubsystemBase {
     PhotonCamera leftCam = new PhotonCamera("LeftCameraReal");
     PhotonCamera rightCam = new PhotonCamera("RightCameraReal");
     // Each camera needs its own pose estimator, these will end up talking to the pose estimator for drive
-    Transform3d limeLightTransform = new Transform3d(Inches.of(9.72), Inches.of(2), Inches.of(20.5), new Rotation3d(0, 0, 0)); //8.5 + limelight thickness (1.22) x, 20.5 z, 2 y all in inches
+    Transform3d limeLightTransform = new Transform3d(Inches.of(12.5), Inches.of(0), Inches.of(20.5), new Rotation3d(0, 0, 0)); //8.5 + limelight thickness (1.22) x, 20.5 z, 2 y all in inches
     Transform3d rightTransform = new Transform3d(Inches.of(6.0), Inches.of(-12.5), Inches.of(21.25), new Rotation3d(0, 0, 0));
     Transform3d leftTransform = new Transform3d(Inches.of(6.0), Inches.of(12.5), Inches.of(21.25), new Rotation3d(0, 0, 0));
 
@@ -86,10 +86,10 @@ public class VisionSubsys extends SubsystemBase {
             //Basic placeholder equation for dynamic stddev based on distance, 0.16x^2, theta always being at 0
             double calcValue = 0.16 * Math.pow(distance, 2);
             Matrix<N4, N1> stddevs = new Matrix<N4, N1>(Nat.N4(), Nat.N1());
-            stddevs.set(1, 1, calcValue);
-            stddevs.set(2, 1, calcValue);
-            stddevs.set(3, 1, calcValue);
-            stddevs.set(4, 1, 0);
+            stddevs.set(0, 0, calcValue);
+            stddevs.set(1, 0, calcValue);
+            stddevs.set(2, 0, calcValue);
+            stddevs.set(3, 0, 0);
             globalEstimator.setVisionMeasurementStdDevs(stddevs);
         } else {
             return;

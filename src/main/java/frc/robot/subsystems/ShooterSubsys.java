@@ -27,6 +27,8 @@ public class ShooterSubsys extends SubsystemBase {
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
     private double shooterRPMDest = DigitalValues.SHOOTER_LOW_SPEED;
 
+    // public double shooterSpeed = DigitalValues.SHOOTER_LOW_SPEED;
+
 
     /**
      * Units are in RPS, Rotations Per Second, rather than RPM due to how I recorded the data used in FeedForward
@@ -60,12 +62,22 @@ public class ShooterSubsys extends SubsystemBase {
         bottomShooterPIDConfig.kD = 0.0; //What SysID gave me
         bottomMotor.getConfigurator().apply(bottomShooterPIDConfig);
 
+        Slot0Configs blenderPIDConfig = new Slot0Configs();
+        blenderPIDConfig.kP = 0.14905;
+        blenderPIDConfig.kA = 0.0029793;
+        blenderPIDConfig.kV = 0.11111;
+        blenderPIDConfig.kS = 0.049802;
+        blenderPIDConfig.kD = 0.0; //Still what SysID gave me. This value probably defaults to 0.0, but I don't trust it.
+        blenderMotor.getConfigurator().apply(blenderPIDConfig);
+
     }
 
     @Override
     public void periodic() {
         shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble());
         bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble());
+
+        shooterOn(shooterRPMDest);
     }
 
     public Command testShoot() {
@@ -105,7 +117,7 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void blenderOn() {
-        blenderMotor.set(-0.5);
+        blenderMotor.set(-0.75);
     }
 
     public void blenderOn(double power) {

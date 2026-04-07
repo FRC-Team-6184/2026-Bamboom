@@ -3,26 +3,76 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 
 public class IntakeSubsys extends SubsystemBase {
-    private final TalonFX kIntakeMotor = RobotMap.MotorControllers.ACTIVE_INTAKE_MOTOR;
-    private final DigitalInput kTopLimitSwitch = RobotMap.DigitalInputOutput.INTAKE_TOP_LIMIT_SWITCH;
+    DigitalInput kTopLimitSwitch;
+    DigitalInput kBottomLimitSwitch;
+    TalonFX kPivotMotor;
+    TalonFX kIntakeMotor;
+    CommandXboxController kXboxController;
+    CommandPS5Controller myPS5Controler;
 
-    public void setIntakeSpeed(double speed) {
-        kIntakeMotor.set(speed);
+    /** Intake constructor. Perform all initializing regarding related motors here */
+    public IntakeSubsys() {
+        super();
+
+        kTopLimitSwitch = DigitalInputOutput.INTAKE_TOP_LIMIT_SWITCH;
+        kBottomLimitSwitch = DigitalInputOutput.INTAKE_BOTTOM_LIMIT_SWITCH;
+        kPivotMotor = MotorControllers.PIVOT_INTAKE_MOTOR;
+        kIntakeMotor = MotorControllers.ACTIVE_INTAKE_MOTOR;
+        kXboxController = Controller.XBOX;
+        myPS5Controler = Controller.PS5;
+
+    }
+
+    // if (kXboxController.getLeftTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
+    // kIntakeMotor.set(-0.3);
+    // System.out.println("REEEE");
+    // } else {
+    // kIntakeMotor.set(0.0);
+    // }
+    // });
+    // }
+
+    public void pivotDown() {
+        kPivotMotor.set(RobotMap.DigitalValues.INTAKE_PIVOT);
+    }
+
+    public void pivotStop() {
+        kPivotMotor.set(0);
+    }
+
+    public void pivotUp() {
+        kPivotMotor.set(-0.75 * RobotMap.DigitalValues.INTAKE_PIVOT);
+    }
+
+    public void startIntake() {
+        kIntakeMotor.set(-0.4);
     }
 
     public void stopIntake() {
-        kIntakeMotor.set(0);
+        kIntakeMotor.set(0.0);
+    }
+
+    public void purgeIntake() {
+        kIntakeMotor.set(0.45);
+    }
+
+    public TalonFX getPivotMotor() {
+        return kPivotMotor;
+    }
+
+    public void setIntakeSpeed(double speed) {
+        kIntakeMotor.set(speed);
     }
 
     public double getVelocity() {
         return kIntakeMotor.getVelocity().getValueAsDouble();
     }
 
-    public boolean isNoteCollected() {
-        // Assuming the limit switch returns true when the note hits it
-        return kTopLimitSwitch.get();
+    public void Outtake() {
+        kIntakeMotor.set(.75);
     }
 }
