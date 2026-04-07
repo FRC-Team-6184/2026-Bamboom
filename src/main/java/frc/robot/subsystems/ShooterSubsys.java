@@ -62,6 +62,14 @@ public class ShooterSubsys extends SubsystemBase {
         bottomShooterPIDConfig.kD = 0.0; //What SysID gave me
         bottomMotor.getConfigurator().apply(bottomShooterPIDConfig);
 
+        Slot0Configs blenderPIDConfig = new Slot0Configs();
+        blenderPIDConfig.kP = 0.14905;
+        blenderPIDConfig.kA = 0.0029793;
+        blenderPIDConfig.kV = 0.11111;
+        blenderPIDConfig.kS = 0.049802;
+        blenderPIDConfig.kD = 0.0; //Still what SysID gave me. This value probably defaults to 0.0, but I don't trust it.
+        blenderMotor.getConfigurator().apply(blenderPIDConfig);
+
     }
 
     @Override
