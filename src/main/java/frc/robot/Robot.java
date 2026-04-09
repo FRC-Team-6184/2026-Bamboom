@@ -49,6 +49,8 @@ public class Robot extends TimedRobot {
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
     Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
     LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
+
+    swerveDriveCommand = new SwerveTeleopDriveCommand(SwerveDrive);
   }
 
   /**
