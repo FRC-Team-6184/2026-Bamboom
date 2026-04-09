@@ -19,7 +19,7 @@ public class FlywheelHighSpeedCommand extends Command {
     @Override
     public void initialize() {
         RobotContainer.setHighSpeed(true);
-        CommandScheduler.getInstance().cancel(RobotContainer.cmdFlywheelLow);
+        // CommandScheduler.getInstance().cancel(RobotContainer.cmdFlywheelLow);
     }
 
     @Override
