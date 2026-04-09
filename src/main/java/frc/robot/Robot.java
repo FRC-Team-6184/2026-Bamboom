@@ -36,7 +36,6 @@ public class Robot extends TimedRobot {
   private final VisionSubsys Vision;
   private final ledSubsys LEDs;
 
-  private final PathPlannerAuto autoCommand;
   private final SwerveTeleopDriveCommand swerveDriveCommand;
 
   /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
@@ -45,17 +44,14 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
 
     // Subsystems
-    SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
-    Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
-    Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
-    Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
-    LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
+    SwerveDrive = robotContainer.getSubsystem("Swerve");
+    Shooter = robotContainer.getSubsystem("Shooter");
+    Intake = robotContainer.getSubsystem("Intake");
+    Vision = robotContainer.getSubsystem("Vision");
+    LEDs = robotContainer.getSubsystem("LEDs");
 
     // Commands
     swerveDriveCommand = (SwerveTeleopDriveCommand) robotContainer.getCommand("Command_SwerveDrive");
-
-    autoCommand = new PathPlannerAuto("TestAutocmd");
-
   }
 
   /**
@@ -83,7 +79,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     RobotMap.Gyro.GYRO.reset();
 
-    CommandScheduler.getInstance().schedule(autoCommand);
+    CommandScheduler.getInstance().schedule(robotContainer.getAutonomousCommand());
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
@@ -94,7 +90,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     RobotMap.Gyro.GYRO.reset();
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
-    CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
+    CommandScheduler.getInstance().cancelAll();
 
     CommandScheduler.getInstance().schedule(swerveDriveCommand);
     // CommandScheduler.getInstance().schedule(Intake.teleopIntake());

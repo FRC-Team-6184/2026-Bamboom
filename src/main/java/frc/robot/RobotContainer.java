@@ -89,6 +89,8 @@ public class RobotContainer {
     ResetGyroCommand cmdResetGyro;
     SwerveTeleopDriveCommand cmdSwerveTeleop;
 
+    private final PathPlannerAuto autoCommand;
+
     private static boolean highSpeed = false;
 
     /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
@@ -125,6 +127,8 @@ public class RobotContainer {
         cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
         cmdResetGyro = new ResetGyroCommand();
 
+        autoCommand = new PathPlannerAuto("TestAutocmd");
+
         NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
         NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
         NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
@@ -150,28 +154,18 @@ public class RobotContainer {
     public SubsystemBase getSubsystem(String subsys) {
         switch (subsys) {
             case "Swerve":
-                return kSwerveSubsystem;
+                return (SwerveSubsys) kSwerveSubsystem;
             case "Intake":
-                return kIntakeSubsystem;
+                return (IntakeSubsys) kIntakeSubsystem;
             case "Shooter":
-                return kShooterSubsystem;
+                return (ShooterSubsys) kShooterSubsystem;
             case "Vision":
-                return kVisionSubsystem;
+                return (VisionSubsys) kVisionSubsystem;
             case "LEDs":
-                return kLEDSubsystem;
+                return (ledSubsys) kLEDSubsystem;
         }
 
         System.out.println("Invalid subsystem name. See RobotContainer.java");
-        return null;
-    }
-
-    public Command getCommand(String command) {
-        switch (command) {
-            case "Command_SwerveDrive":
-                return cmdSwerveTeleop;
-        }
-
-        System.out.println("Invalid command name. See RobotContainer.java");
         return null;
     }
 
@@ -185,5 +179,9 @@ public class RobotContainer {
 
     public static void setHighSpeed(boolean nhighSpeed) {
         highSpeed = nhighSpeed;
+    }
+
+    public Command getAutonomousCommand() {
+        return autoCommand;
     }
 }
