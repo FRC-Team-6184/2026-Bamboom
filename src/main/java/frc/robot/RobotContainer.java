@@ -52,6 +52,7 @@ import frc.robot.subsystems.ledSubsys;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -70,7 +71,7 @@ public class RobotContainer {
     private final VisionSubsys kVisionSubsystem;
     private final ledSubsys kLEDSubsystem;
 
-    // Commands
+    // Commands 
     FlywheelHighSpeedCommand cmdFlywheelHigh;
     FlywheelLowSpeedCommand cmdFlywheelLow;
     IntakePivotDownCommand cmdPivotDown;
@@ -89,7 +90,7 @@ public class RobotContainer {
     ResetGyroCommand cmdResetGyro;
     SwerveTeleopDriveCommand cmdSwerveTeleop;
 
-    private final PathPlannerAuto autoCommand;
+    private PathPlannerAuto autoCommand;
 
     private static boolean highSpeed = false;
 
@@ -154,15 +155,15 @@ public class RobotContainer {
     public SubsystemBase getSubsystem(String subsys) {
         switch (subsys) {
             case "Swerve":
-                return (SwerveSubsys) kSwerveSubsystem;
+                return kSwerveSubsystem;
             case "Intake":
-                return (IntakeSubsys) kIntakeSubsystem;
+                return kIntakeSubsystem;
             case "Shooter":
-                return (ShooterSubsys) kShooterSubsystem;
+                return kShooterSubsystem;
             case "Vision":
-                return (VisionSubsys) kVisionSubsystem;
+                return kVisionSubsystem;
             case "LEDs":
-                return (ledSubsys) kLEDSubsystem;
+                return kLEDSubsystem;
         }
 
         System.out.println("Invalid subsystem name. See RobotContainer.java");

@@ -44,14 +44,11 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
 
     // Subsystems
-    SwerveDrive = robotContainer.getSubsystem("Swerve");
-    Shooter = robotContainer.getSubsystem("Shooter");
-    Intake = robotContainer.getSubsystem("Intake");
-    Vision = robotContainer.getSubsystem("Vision");
-    LEDs = robotContainer.getSubsystem("LEDs");
-
-    // Commands
-    swerveDriveCommand = (SwerveTeleopDriveCommand) robotContainer.getCommand("Command_SwerveDrive");
+    SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
+    Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
+    Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
+    Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
+    LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
   }
 
   /**
