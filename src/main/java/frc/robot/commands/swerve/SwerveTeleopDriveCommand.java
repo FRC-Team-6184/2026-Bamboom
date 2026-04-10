@@ -81,7 +81,9 @@ public class SwerveTeleopDriveCommand extends Command {
     }
 
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        recalibrateOrientation();
+    }
 
     private void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         // Convert the commanded speeds into the correct units for the drivetrain
@@ -106,5 +108,10 @@ public class SwerveTeleopDriveCommand extends Command {
             System.out.println(swerveModuleStates[0].angle.getDegrees());
             counter = 0;
         }
+    }
+
+    /** Method for re-field-orientating the swerve drive after autonomous mode has ran. */
+    private void recalibrateOrientation() {
+        gyro.setYaw(0);
     }
 }

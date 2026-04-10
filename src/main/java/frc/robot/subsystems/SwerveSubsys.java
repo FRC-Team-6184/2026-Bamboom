@@ -184,7 +184,7 @@ public class SwerveSubsys extends SubsystemBase {
      * @return
      */
 
-    // TODO: Make this a separate command class
+    // TODO: Make this a separate command class (TODO: I think we're able to just delete this now? I can't remember)
     public Command teleopDrive() {
         return run(() -> {
             if (canMove) {
