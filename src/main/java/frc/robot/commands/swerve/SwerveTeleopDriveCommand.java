@@ -82,7 +82,6 @@ public class SwerveTeleopDriveCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        recalibrateOrientation();
     }
 
     private void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {

@@ -128,7 +128,7 @@ public class RobotContainer {
         cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
         cmdResetGyro = new ResetGyroCommand();
 
-        autoCommand = new PathPlannerAuto("TestAutocmd");
+        autoCommand = new PathPlannerAuto("TurnTest");
 
         NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
         NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
