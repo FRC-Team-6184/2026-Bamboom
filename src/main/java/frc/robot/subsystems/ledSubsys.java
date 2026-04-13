@@ -7,6 +7,7 @@ import com.ctre.phoenix6.mechanisms.swerve.utility.LegacyPhoenixPIDController;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.LEDPattern;
+import edu.wpi.first.wpilibj.LEDPattern.GradientType;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -15,10 +16,10 @@ public class ledSubsys extends SubsystemBase {
 
     private AddressableLED leds = new AddressableLED(5);
     private AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(LED_LENGTH);
-    private LEDPattern rainbow = LEDPattern.rainbow(255, 150).scrollAtRelativeSpeed(Percent.per(Seconds).of(50)).atBrightness(Percent.of(100));
+    private LEDPattern grad = LEDPattern.gradient(GradientType.kDiscontinuous, Color.kCrimson, Color.kFirebrick, Color.kGold, Color.kRed, Color.kLightGoldenrodYellow, Color.kOrange, Color.kOrangeRed).scrollAtRelativeSpeed(Percent.per(Seconds).of(50)).atBrightness(Percent.of(100));
     private LEDPattern xFormation = LEDPattern.solid(Color.kDarkRed).breathe(Second.of(0.25));
 
-    private LEDPattern currentPattern = rainbow;
+    private LEDPattern currentPattern = grad;
 
 
     public ledSubsys() {
@@ -40,6 +41,6 @@ public class ledSubsys extends SubsystemBase {
     }
 
     public void setDefaultPattern() {
-        currentPattern = rainbow;
+        currentPattern = grad;
     }
 }

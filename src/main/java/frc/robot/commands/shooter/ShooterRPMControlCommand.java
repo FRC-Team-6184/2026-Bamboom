@@ -13,12 +13,12 @@ public class ShooterRPMControlCommand extends Command {
 
     @Override
     public void initialize() {
-        shooter.setRPMDest(DigitalValues.SHOOTER_HIGH_SPEED);
+        shooter.setFlywheelRPMDest(DigitalValues.SHOOTER_HIGH_SPEED);
     }
 
     @Override
     public void end(boolean interrupted) {
-        shooter.setRPMDest(DigitalValues.SHOOTER_LOW_SPEED);
+        shooter.setFlywheelRPMDest(DigitalValues.SHOOTER_LOW_SPEED);
     }
 
 

@@ -79,7 +79,7 @@ public class RobotContainer {
     HighShooterRPMCommand cmdHighSpeed;
     LowShooterRPMCommand cmdLowSpeed;
     IntakeCommand cmdIntake;
-    ShooterCommand cmdShooter;
+    TempShooterCommand cmdShooter;
     TempShooterCommand cmdTempShooter;
     IntakePurgeCommand cmdIntakePurge;
     IntakePivotCommand cmdIntakePivot;
@@ -116,7 +116,7 @@ public class RobotContainer {
         cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
         cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
         cmdIntake = new IntakeCommand(kIntakeSubsystem);
-        // ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
+        cmdShooter = new TempShooterCommand(kShooterSubsystem);
         cmdTempShooter = new TempShooterCommand(kShooterSubsystem);
         cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
         cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
@@ -126,7 +126,7 @@ public class RobotContainer {
         cmdResetGyro = new ResetGyroCommand();
 
         NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
-        NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
+        // NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
         NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
     }
 

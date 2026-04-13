@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
+import edu.wpi.first.networktables.DoubleEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -13,6 +15,8 @@ import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.VisionSubsys;
 import frc.robot.subsystems.ledSubsys;
+import frc.robot.RobotMap.DigitalValues;
+import frc.robot.RobotMap.SoftwareObjects;
 import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
 import frc.robot.subsystems.IntakeSubsys;
 
@@ -36,8 +40,18 @@ public class Robot extends TimedRobot {
   private final VisionSubsys Vision;
   private final ledSubsys LEDs;
 
-  private final PathPlannerAuto autoCommand;
+  // private final PathPlannerAuto autoCommand;
   private final SwerveTeleopDriveCommand swerveDriveCommand;
+
+
+  //DELETE THIS LATER, THIS IS TEMPORARY TESTING STUFF!
+  NetworkTableInstance network = SoftwareObjects.networkTableInstance;
+  DoubleEntry flyWheelDest = network.getDoubleTopic("Flywheel Destination").getEntry(0.0);
+  DoubleEntry kickerDest = network.getDoubleTopic("Kicker Destination").getEntry(0.0);
+  DoubleEntry blenderDest = network.getDoubleTopic("Blender Destination").getEntry(0.0);
+  DoubleEntry intakeDest = network.getDoubleTopic("Intake Destination").getEntry(0.0);
+
+
 
   /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
@@ -54,7 +68,13 @@ public class Robot extends TimedRobot {
     // Commands
     swerveDriveCommand = (SwerveTeleopDriveCommand) robotContainer.getCommand("Command_SwerveDrive");
 
-    autoCommand = new PathPlannerAuto("TestAutocmd");
+    // autoCommand = new PathPlannerAuto("TestAutocmd");
+
+    flyWheelDest.set(0.0);
+    kickerDest.set(0.0);
+    blenderDest.set(0.0);
+    intakeDest.set(0.0);
+
 
   }
 
@@ -83,7 +103,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     RobotMap.Gyro.GYRO.reset();
 
-    CommandScheduler.getInstance().schedule(autoCommand);
+    // CommandScheduler.getInstance().schedule(autoCommand);
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
@@ -110,19 +130,16 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
-    // CommandScheduler.getInstance().schedule(Shooter.testShoot()); // This is jank but its fine for now. Will be removed in the future
-    // CommandScheduler.getInstance().schedule(Blender.testBlender());
-    // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
+    CommandScheduler.getInstance().schedule(swerveDriveCommand);
+
   }
-
-  // double power = 0;
-
-
 
   @Override
   public void testPeriodic() {
-
+    Shooter.setFlywheelRPMDest(flyWheelDest.get() / 60.0);
+    Shooter.setBlenderRPMDest(blenderDest.get() / 60.0);
+    Shooter.setBottomRPMDest(kickerDest.get() / 60.0);
+    Intake.setIntakeRPMDest(intakeDest.get() / 60.0);
 
   }
 

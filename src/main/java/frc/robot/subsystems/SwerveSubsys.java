@@ -171,11 +171,11 @@ public class SwerveSubsys extends SubsystemBase {
         m_rearLeft.setDesiredState(swerveModuleStates[2]);
         m_rearRight.setDesiredState(swerveModuleStates[3]);
 
-        counter++;
-        if (counter >= 10) {
-            System.out.println(swerveModuleStates[0].angle.getDegrees());
-            counter = 0;
-        }
+        // counter++;
+        // if (counter >= 10) {
+        //     System.out.println(swerveModuleStates[0].angle.getDegrees());
+        //     counter = 0;
+        // }
     }
 
     /**
