@@ -7,7 +7,7 @@ import frc.robot.subsystems.IntakeSubsys;
 
 public class IntakePivotCommand extends Command {
 
-    CommandPS5Controller myController = Controller.PS5;
+    // CommandPS5Controller myController = Controller.PS5;
     IntakeSubsys intake;
 
     public IntakePivotCommand(IntakeSubsys intake) {
@@ -18,8 +18,9 @@ public class IntakePivotCommand extends Command {
 
     @Override
     public void execute() {
-        intake.getPivotMotor().set(myController.getRightY() * 0.1);
-        System.out.println(myController.getRightY() * 0.1);
+        // intake.getPivotMotor().set(myController.getRightY() * 0.1);
+        // System.out.println(myController.getRightY() * 0.1);
+        intake.getPivotMotor().set(-0.2);
     }
 
     @Override

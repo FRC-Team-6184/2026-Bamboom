@@ -123,7 +123,7 @@ public class RobotContainer {
         cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
         cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
         cmdXFormation = new XFormationCommand(kSwerveSubsystem, kLEDSubsystem);
-        cmdLockon = new LockOnCommand(kSwerveSubsystem);
+        cmdLockon = new LockOnCommand(kSwerveSubsystem, kVisionSubsystem);
         cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
         cmdResetGyro = new ResetGyroCommand();
         cmdLimitSwitchPivot = new IntakePivotLimitSwitchCommand(kIntakeSubsystem);
@@ -148,9 +148,9 @@ public class RobotContainer {
         codriveController.axisGreaterThan(4, 0.8).whileTrue(cmdIntakePurge);
         codriveController.triangle().whileTrue(cmdShooter);
 
-        codriveController.axisGreaterThan(5, 0.12).or(codriveController.axisLessThan(5, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
+        // codriveController.axisGreaterThan(5, 0.12).or(codriveController.axisLessThan(5, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
 
-        codriveController.axisGreaterThan(5, 0.8).whileFalse(cmdLimitSwitchPivot).whileTrue(cmdIntakePivot);
+        codriveController.axisLessThan(5, -0.6).whileFalse(cmdLimitSwitchPivot).whileTrue(cmdIntakePivot);
     }
 
     public SubsystemBase getSubsystem(String subsys) {

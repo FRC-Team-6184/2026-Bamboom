@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ledSubsys extends SubsystemBase {
-    private final int LED_LENGTH = 32;
+    private final int LED_LENGTH = 31;
 
     private AddressableLED leds = new AddressableLED(5);
     private AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(LED_LENGTH);
@@ -24,7 +24,7 @@ public class ledSubsys extends SubsystemBase {
     public ledSubsys() {
         super();
 
-        leds.setLength(31);
+        leds.setLength(LED_LENGTH);
         leds.start();
     }
 

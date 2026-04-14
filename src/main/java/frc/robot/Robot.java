@@ -4,13 +4,20 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.networktables.BooleanEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
-
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
@@ -41,7 +48,7 @@ public class Robot extends TimedRobot {
   private final ledSubsys LEDs;
 
   private final PathPlannerAuto autoCommand;
-  private final SwerveTeleopDriveCommand swerveDriveCommand;
+  private final Command swerveDriveCommand;
 
   /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
@@ -56,7 +63,7 @@ public class Robot extends TimedRobot {
     LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
 
     // Commands
-    swerveDriveCommand = (SwerveTeleopDriveCommand) robotContainer.getCommand("Command_SwerveDrive");
+    swerveDriveCommand = SwerveDrive.teleopDrive();
 
     autoCommand = new PathPlannerAuto("TestAutocmd");
 
@@ -100,6 +107,7 @@ public class Robot extends TimedRobot {
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
+    RobotMap.SoftwareObjects.poseEstimator.resetPosition(new Rotation3d(new Rotation2d(-180)), new SwerveModulePosition[] {RobotMap.SoftwareObjects.FRONT_LEFT_MODULE.getPosition(), RobotMap.SoftwareObjects.FRONT_RIGHT_MODULE.getPosition(), RobotMap.SoftwareObjects.BACK_LEFT_MODULE.getPosition(), RobotMap.SoftwareObjects.BACK_RIGHT_MODULE.getPosition()}, new Pose3d(new Pose2d(Meters.convertFrom(651 - 82, Inches), Meters.convertFrom(158.84, Inches), new Rotation2d(-180))));
     CommandScheduler.getInstance().schedule(swerveDriveCommand);
     // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
     // CommandScheduler.getInstance().schedule(Vision);
@@ -110,14 +118,14 @@ public class Robot extends TimedRobot {
 
   }
 
-  DigitalInput intakeLimitSwitch = new DigitalInput(6);
-  BooleanEntry intakeEntry = SoftwareObjects.networkTableInstance.getBooleanTopic("Intake Limit").getEntry(false);
+  // DigitalInput intakeLimitSwitch = new DigitalInput(6);
+  // BooleanEntry intakeEntry = SoftwareObjects.networkTableInstance.getBooleanTopic("Intake Limit").getEntry(false);
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    intakeEntry.set(false);
+    // intakeEntry.set(false);
     // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     // CommandScheduler.getInstance().schedule(Shooter.testShoot()); // This is jank but its fine for now. Will be removed in the future
     // CommandScheduler.getInstance().schedule(Blender.testBlender());
@@ -130,7 +138,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-    intakeEntry.set(intakeLimitSwitch.get());
+    // intakeEntry.set(intakeLimitSwitch.get());
 
   }
 

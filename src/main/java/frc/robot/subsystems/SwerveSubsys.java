@@ -170,12 +170,6 @@ public class SwerveSubsys extends SubsystemBase {
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_rearLeft.setDesiredState(swerveModuleStates[2]);
         m_rearRight.setDesiredState(swerveModuleStates[3]);
-
-        counter++;
-        if (counter >= 10) {
-            System.out.println(swerveModuleStates[0].angle.getDegrees());
-            counter = 0;
-        }
     }
 
     /**
@@ -213,7 +207,7 @@ public class SwerveSubsys extends SubsystemBase {
                 rot = -controller.getRightX();
                 rot = Math.abs(rot) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? rot * 0.85 : 0.0; //rot * -0.85 to reverse direction of rotation and slow it down since it was overly responsive
             } else {
-                rot = 0;
+                rot = desiredRot;
             }
             // TODO: Set this back to true when robot is in better shape, false to be easier
             // to work with for now.
