@@ -116,7 +116,7 @@ public class RobotContainer {
         cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
         cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
         cmdIntake = new IntakeCommand(kIntakeSubsystem);
-        // ShooterCommand cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
+        cmdShooter = new ShooterCommand(kShooterSubsystem, kSwerveSubsystem);
         cmdTempShooter = new TempShooterCommand(kShooterSubsystem);
         cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
         cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
@@ -125,9 +125,10 @@ public class RobotContainer {
         cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
         cmdResetGyro = new ResetGyroCommand();
 
-        NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
-        NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
-        NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
+        //TODO: I think these were glitching things out, and these need to be done in a more robust and sensible way anyways
+        // NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
+        // NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
+        // NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
     }
 
     // Check the wpilib docs (Advanced Programming > Structuring a Command-Based Robot Project > Scroll down) for more information on this method

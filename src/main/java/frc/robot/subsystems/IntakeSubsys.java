@@ -4,6 +4,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotMap.Controller;
+import frc.robot.RobotMap.DigitalInputOutput;
+import frc.robot.RobotMap.DigitalValues;
+import frc.robot.RobotMap.MotorControllers;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 
 public class IntakeSubsys extends SubsystemBase {
@@ -37,7 +41,7 @@ public class IntakeSubsys extends SubsystemBase {
     // }
 
     public void pivotDown() {
-        kPivotMotor.set(RobotMap.DigitalValues.INTAKE_PIVOT);
+        kPivotMotor.set(DigitalValues.INTAKE_PIVOT);
     }
 
     public void pivotStop() {
@@ -45,7 +49,7 @@ public class IntakeSubsys extends SubsystemBase {
     }
 
     public void pivotUp() {
-        kPivotMotor.set(-0.75 * RobotMap.DigitalValues.INTAKE_PIVOT);
+        kPivotMotor.set(-0.75 * DigitalValues.INTAKE_PIVOT);
     }
 
     public void startIntake() {

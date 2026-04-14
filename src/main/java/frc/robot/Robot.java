@@ -6,6 +6,9 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
+import edu.wpi.first.networktables.BooleanEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -13,6 +16,7 @@ import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.VisionSubsys;
 import frc.robot.subsystems.ledSubsys;
+import frc.robot.RobotMap.SoftwareObjects;
 import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
 import frc.robot.subsystems.IntakeSubsys;
 
@@ -106,10 +110,14 @@ public class Robot extends TimedRobot {
 
   }
 
+  DigitalInput intakeLimitSwitch = new DigitalInput(6);
+  BooleanEntry intakeEntry = SoftwareObjects.networkTableInstance.getBooleanTopic("Intake Limit").getEntry(false);
+
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    intakeEntry.set(false);
     // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     // CommandScheduler.getInstance().schedule(Shooter.testShoot()); // This is jank but its fine for now. Will be removed in the future
     // CommandScheduler.getInstance().schedule(Blender.testBlender());
@@ -122,7 +130,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-
+    intakeEntry.set(intakeLimitSwitch.get());
 
   }
 
