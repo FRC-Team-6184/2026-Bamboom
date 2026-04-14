@@ -1,7 +1,9 @@
 package frc.robot.commands.other;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Radians;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
@@ -39,12 +41,21 @@ public class LockOnCommand extends Command {
         double correctedX = hubXPosition - currentPos.getX();
         double correctedY = hubYPosition - currentPos.getY();
         destinationAngle = (correctedY > 0 ? (Math.PI / 2) : (-Math.PI / 2)) - Math.atan(hubXPosition - currentPos.getX() / hubYPosition - currentPos.getY());
-        swerve.setDesiredRot(seekingPID.calculate(gyro.getRotation2d().getRadians() + (Math.PI / 2), destinationAngle));
+        swerve.setDesiredRot(seekingPID.calculate(getAdjustedGyro(), destinationAngle));
     }
 
     @Override
     public void end(boolean interrupted) {
         swerve.setCanRotate(true);
+    }
+
+    private double getAdjustedGyro() {
+        double angle = gyro.getRotation2d().getDegrees() - 90;
+        if (angle < -180.0) {
+            angle += 360;
+        }
+
+        return Radians.convertFrom(angle, Degrees);
     }
 
 

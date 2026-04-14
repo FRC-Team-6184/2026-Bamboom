@@ -26,6 +26,7 @@ import frc.robot.commands.shooter.TempShooterCommand;
 import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
 import frc.robot.commands.swerve.XFormationCommand;
 import frc.robot.commands.intake.IntakePivotDownCommand;
+import frc.robot.commands.intake.IntakePivotLimitSwitchCommand;
 import frc.robot.commands.intake.IntakeManagerCommand;
 import frc.robot.commands.blender.BlenderCommand;
 import frc.robot.commands.flywheel.FlywheelCommand;
@@ -88,6 +89,7 @@ public class RobotContainer {
     ShooterRPMControlCommand cmdFlywheelRPM;
     ResetGyroCommand cmdResetGyro;
     SwerveTeleopDriveCommand cmdSwerveTeleop;
+    IntakePivotLimitSwitchCommand cmdLimitSwitchPivot;
 
     private static boolean highSpeed = false;
 
@@ -124,6 +126,7 @@ public class RobotContainer {
         cmdLockon = new LockOnCommand(kSwerveSubsystem);
         cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
         cmdResetGyro = new ResetGyroCommand();
+        cmdLimitSwitchPivot = new IntakePivotLimitSwitchCommand(kIntakeSubsystem);
 
         //TODO: I think these were glitching things out, and these need to be done in a more robust and sensible way anyways
         // NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
@@ -135,6 +138,7 @@ public class RobotContainer {
     private void configureBindings() {
         mainController.x().toggleOnTrue(cmdXFormation);
         mainController.rightBumper().and(mainController.leftBumper()).whileTrue(cmdResetGyro);
+        mainController.b().whileTrue(cmdLockon);
 
         codriveController.L1().toggleOnTrue(cmdFlywheelRPM);
 
@@ -143,9 +147,10 @@ public class RobotContainer {
         codriveController.R1().toggleOnTrue(cmdIntake);
         codriveController.axisGreaterThan(4, 0.8).whileTrue(cmdIntakePurge);
         codriveController.triangle().whileTrue(cmdShooter);
-        codriveController.circle().whileTrue(cmdLockon);
 
         codriveController.axisGreaterThan(5, 0.12).or(codriveController.axisLessThan(5, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
+
+        codriveController.axisGreaterThan(5, 0.8).whileFalse(cmdLimitSwitchPivot).whileTrue(cmdIntakePivot);
     }
 
     public SubsystemBase getSubsystem(String subsys) {

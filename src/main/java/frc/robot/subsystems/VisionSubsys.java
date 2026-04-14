@@ -24,20 +24,20 @@ import frc.robot.RobotMap;
 
 public class VisionSubsys extends SubsystemBase {
     // Define the cameras
-    PhotonCamera limeLight = new PhotonCamera("Limelight");
-    PhotonCamera leftCam = new PhotonCamera("LeftCameraReal");
-    PhotonCamera rightCam = new PhotonCamera("RightCameraReal");
+    private PhotonCamera limeLight = new PhotonCamera("Limelight");
+    private PhotonCamera leftCam = new PhotonCamera("LeftCameraReal");
+    private PhotonCamera rightCam = new PhotonCamera("RightCameraReal");
     // Each camera needs its own pose estimator, these will end up talking to the pose estimator for drive
-    Transform3d limeLightTransform = new Transform3d(Inches.of(12.5), Inches.of(0), Inches.of(20.5), new Rotation3d(0, 0, 0)); //8.5 + limelight thickness (1.22) x, 20.5 z, 2 y all in inches
-    Transform3d rightTransform = new Transform3d(Inches.of(6.0), Inches.of(-12.5), Inches.of(21.25), new Rotation3d(0, 0, 0));
-    Transform3d leftTransform = new Transform3d(Inches.of(6.0), Inches.of(12.5), Inches.of(21.25), new Rotation3d(0, 0, 0));
+    private Transform3d limeLightTransform = new Transform3d(Inches.of(12.5), Inches.of(0), Inches.of(20.5), new Rotation3d(0, 0, 0)); //8.5 + limelight thickness (1.22) x, 20.5 z, 2 y all in inches
+    private Transform3d rightTransform = new Transform3d(Inches.of(6.0), Inches.of(-12.5), Inches.of(21.25), new Rotation3d(0, 0, 0));
+    private Transform3d leftTransform = new Transform3d(Inches.of(6.0), Inches.of(12.5), Inches.of(21.25), new Rotation3d(0, 0, 0));
 
-    PhotonPoseEstimator limeLightEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded), limeLightTransform);
-    PhotonPoseEstimator rightEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded), rightTransform);
-    PhotonPoseEstimator leftEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded), leftTransform);
+    private PhotonPoseEstimator limeLightEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded), limeLightTransform);
+    private PhotonPoseEstimator rightEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded), rightTransform);
+    private PhotonPoseEstimator leftEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded), leftTransform);
 
     //Global drive pose estimation
-    SwerveDrivePoseEstimator3d globalEstimator = RobotMap.SoftwareObjects.poseEstimator;
+    private SwerveDrivePoseEstimator3d globalEstimator = RobotMap.SoftwareObjects.poseEstimator;
 
     public VisionSubsys() {
         super();

@@ -63,7 +63,7 @@ public class intakeManagerCommand extends Command {
 
         } else {
 
-            intake.Outtake();
+            intake.outtake();
 
             System.out.print("me outtake");
 

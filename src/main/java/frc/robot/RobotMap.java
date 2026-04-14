@@ -130,8 +130,8 @@ public final class RobotMap {
 
     // Software things below
     public static final class DigitalInputOutput {
-        public static final DigitalInput INTAKE_TOP_LIMIT_SWITCH = new DigitalInput(0);
-        public static final DigitalInput INTAKE_BOTTOM_LIMIT_SWITCH = new DigitalInput(1);
+        public static final DigitalInput INTAKE_LIMIT_SWITCH = new DigitalInput(6); //This does exist! Hooray!
+        // public static final DigitalInput INTAKE_BOTTOM_LIMIT_SWITCH = new DigitalInput(1); THIS DOES NOT EXIST
     }
 
     public static final class DigitalValues {

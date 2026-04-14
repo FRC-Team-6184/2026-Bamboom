@@ -24,7 +24,7 @@ public class ledSubsys extends SubsystemBase {
     public ledSubsys() {
         super();
 
-        leds.setLength(32);
+        leds.setLength(31);
         leds.start();
     }
 

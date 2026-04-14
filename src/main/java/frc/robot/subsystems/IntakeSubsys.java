@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,23 +13,30 @@ import frc.robot.RobotMap.MotorControllers;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 
 public class IntakeSubsys extends SubsystemBase {
-    DigitalInput kTopLimitSwitch;
-    DigitalInput kBottomLimitSwitch;
-    TalonFX kPivotMotor;
-    TalonFX kIntakeMotor;
-    CommandXboxController kXboxController;
-    CommandPS5Controller myPS5Controler;
+    private DigitalInput kLimitSwitch;
+    private TalonFX kPivotMotor;
+    private TalonFX kIntakeMotor;
+
+    Slot0Configs intakeMotorPIDConfigs;
+    VelocityVoltage intakeMotorSpeedRequest = new VelocityVoltage(0.0);
 
     /** Intake constructor. Perform all initializing regarding related motors here */
     public IntakeSubsys() {
         super();
 
-        kTopLimitSwitch = DigitalInputOutput.INTAKE_TOP_LIMIT_SWITCH;
-        kBottomLimitSwitch = DigitalInputOutput.INTAKE_BOTTOM_LIMIT_SWITCH;
+        kLimitSwitch = DigitalInputOutput.INTAKE_LIMIT_SWITCH;
         kPivotMotor = MotorControllers.PIVOT_INTAKE_MOTOR;
         kIntakeMotor = MotorControllers.ACTIVE_INTAKE_MOTOR;
-        kXboxController = Controller.XBOX;
-        myPS5Controler = Controller.PS5;
+
+        //This isn't entirely correct, kS was simply really hard to measure properly. Assuming this value.
+        //DO NOT TOUCH THIS, THESE ARE CONSTANTS I GOT FROM DATA, PLEASE NO TOUCHY
+        Slot0Configs intakeMotorPIDConfigs = new Slot0Configs();
+        intakeMotorPIDConfigs.kS = 0.0065; //assuming this value is close enough
+        intakeMotorPIDConfigs.kA = 0.022339;
+        intakeMotorPIDConfigs.kP = 0.14536;
+        intakeMotorPIDConfigs.kV = 0.13043;
+        intakeMotorPIDConfigs.kD = 0.0; //Just in case the default is not 0
+        kIntakeMotor.getConfigurator().apply(intakeMotorPIDConfigs);
 
     }
 
@@ -64,19 +73,33 @@ public class IntakeSubsys extends SubsystemBase {
         kIntakeMotor.set(0.45);
     }
 
-    public TalonFX getPivotMotor() {
-        return kPivotMotor;
+    /**
+     * 
+     * @param rps Speed for intake motor to do in Rotations Per Second (<b><i> NOT ROTATIONS PER MINUTE </i></b>)
+     */
+    public void setIntakeSpeed(double rps) {
+        kIntakeMotor.setControl(intakeMotorSpeedRequest.withVelocity(rps));
     }
 
-    public void setIntakeSpeed(double speed) {
-        kIntakeMotor.set(speed);
+    public TalonFX getPivotMotor() {
+        return kPivotMotor;
     }
 
     public double getVelocity() {
         return kIntakeMotor.getVelocity().getValueAsDouble();
     }
 
-    public void Outtake() {
+    public void outtake() {
         kIntakeMotor.set(.75);
     }
+
+    /**
+     * 
+     * @return True when switch is hit, false otherwise
+     */
+    public boolean isSwitchHit() {
+        return !kLimitSwitch.get(); //True when not hit, false when hit, so not to make it function more as expected
+    }
+
+
 }

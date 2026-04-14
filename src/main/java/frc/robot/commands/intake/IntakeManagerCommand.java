@@ -14,7 +14,7 @@ public class IntakeManagerCommand extends Command {
 
     public IntakeManagerCommand(IntakeSubsys intake) {
         this.intake = intake;
-        
+
         addRequirements(intake);
     }
 
@@ -44,7 +44,7 @@ public class IntakeManagerCommand extends Command {
 
         } else {
 
-            intake.Outtake();
+            intake.outtake();
 
             if (unjamTimer.hasElapsed(3)) {
 
