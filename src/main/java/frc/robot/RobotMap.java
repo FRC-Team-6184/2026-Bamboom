@@ -15,8 +15,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.swerve.MAXSwerveModule;
 import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
+import frc.robot.utilities.DumbGyroWrapper;
 
 /*
  * Hardware CAN IDs: (Verify that all are correct sometime) All motor controllers below, down to the BR Swerve Turn, are SparkMax Front Left Swerve Drive - 1 | Neo (Rev Robotics) Front Left Swerve Turn - 2 | Neo 550 (Rev Robotics) Front Right Swerve Drive - 3 | Neo (Rev Robotics) Front Right Swerve Turn - 4 | Neo 550 (Rev Robotics) Back Left Swerve Drive - 5 | Neo (Rev Robotics) Back Left Swerve Turn - 6 | Neo 550 (Rev Robotics) Back Right Swerve Drive - 7 | Neo (Rev Robotics) Back Right Swerve Turn - 8 | Neo 550 (Rev Robotics)
@@ -159,7 +161,8 @@ public final class RobotMap {
         public static final MAXSwerveModule FRONT_RIGHT_MODULE = new MAXSwerveModule(MotorControllers.FR_DRIVE_MOTOR, MotorControllers.FR_TURN_MOTOR, DriveConstants.FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET);
         public static final MAXSwerveModule BACK_LEFT_MODULE = new MAXSwerveModule(MotorControllers.BL_DRIVE_MOTOR, MotorControllers.BL_TURN_MOTOR, DriveConstants.BACK_LEFT_CHASSIS_ANGULAR_OFFSET);
         public static final MAXSwerveModule BACK_RIGHT_MODULE = new MAXSwerveModule(MotorControllers.BR_DRIVE_MOTOR, MotorControllers.BR_TURN_MOTOR, DriveConstants.BACK_RIGHT_CHASSIS_ANGULAR_OFFSET);
-        public static final SwerveDrivePoseEstimator3d poseEstimator = new SwerveDrivePoseEstimator3d(DriveConstants.kDriveKinematics, Gyro.GYRO.getRotation3d(), new SwerveModulePosition[] {FRONT_LEFT_MODULE.getPosition(), FRONT_RIGHT_MODULE.getPosition(), BACK_LEFT_MODULE.getPosition(), BACK_RIGHT_MODULE.getPosition()}, new Pose3d());
+        public static final DumbGyroWrapper ODOMETRY_GYRO = new DumbGyroWrapper(Gyro.GYRO);
+        public static final SwerveDrivePoseEstimator3d poseEstimator = new SwerveDrivePoseEstimator3d(DriveConstants.kDriveKinematics, ODOMETRY_GYRO.getRotation3d(), new SwerveModulePosition[] {FRONT_LEFT_MODULE.getPosition(), FRONT_RIGHT_MODULE.getPosition(), BACK_LEFT_MODULE.getPosition(), BACK_RIGHT_MODULE.getPosition()}, new Pose3d());
     }
 
     private RobotMap() {} // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.

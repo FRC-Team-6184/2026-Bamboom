@@ -25,10 +25,10 @@ public class ShooterSubsys extends SubsystemBase {
     private NetworkTable network = SoftwareObjects.networkTableInstance.getTable("Shooter");
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
+
     private double shooterRPMDest = DigitalValues.SHOOTER_LOW_SPEED;
-
-    // public double shooterSpeed = DigitalValues.SHOOTER_LOW_SPEED;
-
+    private double kickerRPMDest = 5.0; //placeholder values
+    private double blenderRPMDest = 5.0;
 
     /**
      * Units are in RPS, Rotations Per Second, rather than RPM due to how I recorded the data used in FeedForward
@@ -36,6 +36,8 @@ public class ShooterSubsys extends SubsystemBase {
      */
     private VelocityVoltage topMotorSpeedRequest = new VelocityVoltage(0);
     private VelocityVoltage bottomMotorSpeedRequest = new VelocityVoltage(0);
+    private VelocityVoltage blenderMotorSpeedRequest = new VelocityVoltage(0);
+
 
     public ShooterSubsys() {
         super();
@@ -105,7 +107,7 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void bottomOn() {
-        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(DigitalValues.SHOOTER_BOTTOM_SPEED));
+        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(kickerRPMDest));
     }
 
     public void bottomOn(double rotationsPerSecond) {
@@ -117,7 +119,7 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void blenderOn() {
-        blenderMotor.set(-0.75);
+        blenderMotor.setControl(blenderMotorSpeedRequest.withVelocity(blenderRPMDest));
     }
 
     public void blenderOn(double power) {
@@ -132,8 +134,18 @@ public class ShooterSubsys extends SubsystemBase {
         return shooterRPMDest;
     }
 
-    public void setRPMDest(double shooterRPMDest) {
+    public void setFlywheelRPMDest(double shooterRPMDest) {
         this.shooterRPMDest = shooterRPMDest;
     }
+
+    public void setBlenderRPMDest(double blenderRPMDest) {
+        this.blenderRPMDest = blenderRPMDest;
+    }
+
+    public void setKickerRPMDest(double kickerRPMDest) {
+        this.kickerRPMDest = kickerRPMDest;
+    }
+
+
 
 }

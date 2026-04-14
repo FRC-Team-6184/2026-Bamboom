@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.networktables.BooleanEntry;
+import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -50,6 +51,13 @@ public class Robot extends TimedRobot {
   private final PathPlannerAuto autoCommand;
   private final Command swerveDriveCommand;
 
+  private final NetworkTableInstance network = SoftwareObjects.networkTableInstance;
+
+  private DoubleEntry flyWheelDest = network.getDoubleTopic("Flywheel Destination").getEntry(0.0);
+  private DoubleEntry kickerDest = network.getDoubleTopic("Kicker Destination").getEntry(0.0);
+  private DoubleEntry blenderDest = network.getDoubleTopic("Blender Destination").getEntry(0.0);
+  private DoubleEntry intakeDest = network.getDoubleTopic("Intake Destination").getEntry(0.0);
+
   /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
     // Robot Container
@@ -65,7 +73,12 @@ public class Robot extends TimedRobot {
     // Commands
     swerveDriveCommand = SwerveDrive.teleopDrive();
 
-    autoCommand = new PathPlannerAuto("TestAutocmd");
+    autoCommand = new PathPlannerAuto("pfield");
+
+    flyWheelDest.set(0.0);
+    kickerDest.set(0.0);
+    blenderDest.set(0.0);
+    intakeDest.set(0.0);
 
   }
 
@@ -139,6 +152,10 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     // intakeEntry.set(intakeLimitSwitch.get());
+    Shooter.setFlywheelRPMDest(flyWheelDest.get() / 60.0);
+    Shooter.setBlenderRPMDest(blenderDest.get() / 60.0);
+    Shooter.setKickerRPMDest(kickerDest.get() / 60.0);
+    Intake.setIntakeSpeed(intakeDest.get() / 60.0);
 
   }
 

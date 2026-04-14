@@ -19,6 +19,7 @@ public class IntakeSubsys extends SubsystemBase {
 
     Slot0Configs intakeMotorPIDConfigs;
     VelocityVoltage intakeMotorSpeedRequest = new VelocityVoltage(0.0);
+    private double intakeSpeed;
 
     /** Intake constructor. Perform all initializing regarding related motors here */
     public IntakeSubsys() {
@@ -62,7 +63,7 @@ public class IntakeSubsys extends SubsystemBase {
     }
 
     public void startIntake() {
-        kIntakeMotor.set(-0.4);
+        kIntakeMotor.setControl(intakeMotorSpeedRequest.withVelocity(intakeSpeed));
     }
 
     public void stopIntake() {
@@ -78,7 +79,9 @@ public class IntakeSubsys extends SubsystemBase {
      * @param rps Speed for intake motor to do in Rotations Per Second (<b><i> NOT ROTATIONS PER MINUTE </i></b>)
      */
     public void setIntakeSpeed(double rps) {
-        kIntakeMotor.setControl(intakeMotorSpeedRequest.withVelocity(rps));
+        // kIntakeMotor.setControl(intakeMotorSpeedRequest.withVelocity(rps));
+        intakeSpeed = rps;
+
     }
 
     public TalonFX getPivotMotor() {

@@ -19,7 +19,9 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -41,6 +43,7 @@ import frc.robot.subsystems.swerve.MAXSwerveModule;
 import frc.robot.subsystems.swerve.SwerveConstants;
 import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
 import frc.robot.subsystems.swerve.SwerveConstants.ModuleConstants;
+import frc.robot.utilities.DumbGyroWrapper;
 
 public class SwerveSubsys extends SubsystemBase {
     // This is directly copied from MAXSwerve template
@@ -73,8 +76,8 @@ public class SwerveSubsys extends SubsystemBase {
     private SwerveDriveKinematics kinematics = DriveConstants.kDriveKinematics;
     private RobotConfig autoConfig;
 
-    private PIDConstants autoDrivePID = new PIDConstants(1.0, 0, 0);
-    private PIDConstants autoRotatePID = new PIDConstants(1.0, 0, 0);
+    private PIDConstants autoDrivePID = new PIDConstants(5.0, 0, 0);
+    private PIDConstants autoRotatePID = new PIDConstants(5.0, 0, 0);
     private PPHolonomicDriveController autoDriveController = new PPHolonomicDriveController(autoDrivePID, autoRotatePID);
 
     private static SwerveModuleState xFormation1 = new SwerveModuleState(MetersPerSecond.of(0.0), new Rotation2d(Degree.of(45)));
@@ -83,6 +86,8 @@ public class SwerveSubsys extends SubsystemBase {
     private double desiredRot = 0.0;
 
     private PathPlannerPath path;
+
+    private DumbGyroWrapper odometryGyro = new DumbGyroWrapper(gyro);
 
 
     public SwerveSubsys() {
@@ -133,7 +138,7 @@ public class SwerveSubsys extends SubsystemBase {
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
-        odometry.update(gyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()});
+        odometry.update(odometryGyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()});
 
         Pose3d pos = odometry.getEstimatedPosition();
         positionXEntry.set(pos.getX());
@@ -285,6 +290,8 @@ public class SwerveSubsys extends SubsystemBase {
     public void setDesiredRot(double desiredRot) {
         this.desiredRot = desiredRot;
     }
+
+
 }
 
 

@@ -49,7 +49,7 @@ public class VisionSubsys extends SubsystemBase {
     public VisionSubsys() {
         super();
 
-        limeLight.setDriverMode(false);
+        limeLight.setDriverMode(true);
     }
 
     int count = 0;
@@ -80,10 +80,10 @@ public class VisionSubsys extends SubsystemBase {
                     dynamicStandardDeviation(result);
                     EstimatedRobotPose pose = poseHolder.get();
                     lastEstimate = pose.estimatedPose.toPose2d();
-                    // globalEstimator.addVisionMeasurement(pose.estimatedPose, pose.timestampSeconds);
-                    globalEstimator.resetPose(pose.estimatedPose);
-                    Gyro.GYRO.setYaw(pose.estimatedPose.getRotation().toRotation2d().getDegrees());
-                    wasUpdated = true;
+                    globalEstimator.addVisionMeasurement(pose.estimatedPose, pose.timestampSeconds);
+                    // globalEstimator.resetPose(pose.estimatedPose);
+                    // Gyro.GYRO.setYaw(pose.estimatedPose.getRotation().toRotation2d().getDegrees());
+                    // wasUpdated = true;
                 }
             }
         }

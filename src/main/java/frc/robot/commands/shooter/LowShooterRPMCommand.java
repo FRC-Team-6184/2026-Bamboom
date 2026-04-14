@@ -15,7 +15,7 @@ public class LowShooterRPMCommand extends Command {
 
     @Override
     public void initialize() {
-        shooter.setRPMDest(DigitalValues.SHOOTER_LOW_SPEED); //That's it! Quick and simple :)
+        // shooter.setRPMDest(DigitalValues.SHOOTER_LOW_SPEED); //That's it! Quick and simple :)
         this.cancel();
     }
 }
