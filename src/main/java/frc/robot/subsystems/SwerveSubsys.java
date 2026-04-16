@@ -76,8 +76,8 @@ public class SwerveSubsys extends SubsystemBase {
     private SwerveDriveKinematics kinematics = DriveConstants.kDriveKinematics;
     private RobotConfig autoConfig;
 
-    private PIDConstants autoDrivePID = new PIDConstants(5.0, 0, 0);
-    private PIDConstants autoRotatePID = new PIDConstants(5.0, 0, 0);
+    private PIDConstants autoDrivePID = new PIDConstants(1.0, 0, 0);
+    private PIDConstants autoRotatePID = new PIDConstants(1.0, 0, 0);
     private PPHolonomicDriveController autoDriveController = new PPHolonomicDriveController(autoDrivePID, autoRotatePID);
 
     private static SwerveModuleState xFormation1 = new SwerveModuleState(MetersPerSecond.of(0.0), new Rotation2d(Degree.of(45)));
@@ -115,9 +115,9 @@ public class SwerveSubsys extends SubsystemBase {
         try {
             path = PathPlannerPath.fromPathFile("Test Path Red");
             if (path.getStartingHolonomicPose().isPresent()) {
-                odometry.resetPosition(gyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose3d(path.getStartingHolonomicPose().get()));
+                odometry.resetPosition(odometryGyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose3d(path.getStartingHolonomicPose().get()));
             } else {
-                odometry.resetPosition(gyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose3d(new Pose2d(12.866, 7.498, gyro.getRotation2d())));
+                odometry.resetPosition(odometryGyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose3d(new Pose2d(12.866, 7.498, gyro.getRotation2d())));
                 System.out.println("Auto path didn't load mf");
             }
         } catch (Exception e) {
@@ -169,7 +169,7 @@ public class SwerveSubsys extends SubsystemBase {
         double ySpeedDelivered = ySpeed * DriveConstants.MAX_SPEED_METERS_PER_SECOND;
         double rotDelivered = rot * DriveConstants.MAX_ANGULAR_SPEED;
 
-        SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, gyro.getRotation2d()) : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+        SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, odometryGyro.getRotation3d().toRotation2d()) : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.MAX_SPEED_METERS_PER_SECOND);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
@@ -218,7 +218,7 @@ public class SwerveSubsys extends SubsystemBase {
             // to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a
             // hold or something.
-            drive(-x, y, rot, true);
+            drive(x, -y, rot, true);
         });
     }
 

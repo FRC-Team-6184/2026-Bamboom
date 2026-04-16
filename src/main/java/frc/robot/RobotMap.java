@@ -163,6 +163,10 @@ public final class RobotMap {
         public static final MAXSwerveModule BACK_RIGHT_MODULE = new MAXSwerveModule(MotorControllers.BR_DRIVE_MOTOR, MotorControllers.BR_TURN_MOTOR, DriveConstants.BACK_RIGHT_CHASSIS_ANGULAR_OFFSET);
         public static final DumbGyroWrapper ODOMETRY_GYRO = new DumbGyroWrapper(Gyro.GYRO);
         public static final SwerveDrivePoseEstimator3d poseEstimator = new SwerveDrivePoseEstimator3d(DriveConstants.kDriveKinematics, ODOMETRY_GYRO.getRotation3d(), new SwerveModulePosition[] {FRONT_LEFT_MODULE.getPosition(), FRONT_RIGHT_MODULE.getPosition(), BACK_LEFT_MODULE.getPosition(), BACK_RIGHT_MODULE.getPosition()}, new Pose3d());
+
+        public static boolean IS_BLUE_ALLIANCE = false; //THESE ARE NOT FINAL ON PURPOSE, DO NOT MAKE THEM FINAL, CODE WILL BREAK
+        public static boolean IS_RED_ALLIANCE = false;
+
     }
 
     private RobotMap() {} // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.

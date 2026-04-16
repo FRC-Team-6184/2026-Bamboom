@@ -9,9 +9,18 @@ public class ResetGyroCommand extends Command {
         super();
     }
 
+    boolean finished = false;
+
     @Override
     public void initialize() {
         Gyro.GYRO.reset();
+        System.out.println(Gyro.GYRO.getRotation2d());
+        finished = true;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return finished;
     }
 
 }

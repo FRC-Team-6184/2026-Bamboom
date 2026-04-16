@@ -1,5 +1,6 @@
 package frc.robot.utilities;
 
+import static edu.wpi.first.units.Units.Degrees;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation3d;
 
@@ -11,7 +12,7 @@ public class DumbGyroWrapper {
     }
 
     public Rotation3d getRotation3d() {
-        return gyro.getRotation3d().rotateBy(new Rotation3d(0.0, 0.0, -90.0));
+        return gyro.getRotation3d().rotateBy(new Rotation3d(Degrees.of(0), Degrees.of(0), Degrees.of(0)));
     }
 
 }
