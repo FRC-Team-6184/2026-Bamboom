@@ -189,10 +189,10 @@ public class SwerveSubsys extends SubsystemBase {
             if (canMove) {
                 // Done this way in order to easily enforce controller deadzones since this
                 // isn't already done in drive()
-                x = controller.getLeftX();
+                x = -controller.getLeftX();
                 x = Math.abs(x) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? x : 0.0;
 
-                y = controller.getLeftY();
+                y = -controller.getLeftY();
                 y = Math.abs(y) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? y : 0.0; // Both X and Y are reversed in order to make the shooter the front of the robot
 
                 if (Math.abs(x) >= 0.99 && Math.abs(y) <= 0.2) {
@@ -293,5 +293,3 @@ public class SwerveSubsys extends SubsystemBase {
 
 
 }
-
-

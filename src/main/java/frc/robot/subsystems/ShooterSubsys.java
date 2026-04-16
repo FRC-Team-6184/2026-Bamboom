@@ -26,9 +26,11 @@ public class ShooterSubsys extends SubsystemBase {
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
 
-    private double shooterRPMDest = DigitalValues.SHOOTER_LOW_SPEED;
+    private double shooterRPMDest = DigitalValues.SHOOTER_HIGH_SPEED;
     private double kickerRPMDest = 5.0; //placeholder values
     private double blenderRPMDest = 5.0;
+
+    private double m_targetRPM = DigitalValues.SHOOTER_HIGH_SPEED;
 
     /**
      * Units are in RPS, Rotations Per Second, rather than RPM due to how I recorded the data used in FeedForward
@@ -44,6 +46,8 @@ public class ShooterSubsys extends SubsystemBase {
 
         shooterRPMEntry.set(0.0);
         bottomRPMEntry.set(0.0);
+
+
 
         //Data collected from System Identification (whole complicated thing don't worry about it)
         //These are constants 
@@ -76,8 +80,8 @@ public class ShooterSubsys extends SubsystemBase {
 
     @Override
     public void periodic() {
-        shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble());
-        bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble());
+        shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble() * 60.0);
+        bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble() * 60.0);
 
         shooterOn(shooterRPMDest);
     }
@@ -94,6 +98,20 @@ public class ShooterSubsys extends SubsystemBase {
         });
     }
 
+    private double m_currentRPMSetpoint = 0;
+
+    public void setRPM(double rpm) {
+        m_targetRPM = rpm;
+        shooterRPMDest = rpm;
+        topMotor.setControl(topMotorSpeedRequest.withVelocity(rpm));
+    }
+
+
+
+    public double getCurrentRPMSetpoint() {
+        return m_targetRPM;
+    }
+
     public void shooterOn() {
         topMotor.setControl(topMotorSpeedRequest.withVelocity(shooterRPMDest));
     }
@@ -107,11 +125,11 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void bottomOn() {
-        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(kickerRPMDest));
+        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(-kickerRPMDest));
     }
 
     public void bottomOn(double rotationsPerSecond) {
-        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(rotationsPerSecond));
+        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(-rotationsPerSecond));
     }
 
     public void bottomOff() {
@@ -119,20 +137,17 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void blenderOn() {
-        blenderMotor.setControl(blenderMotorSpeedRequest.withVelocity(blenderRPMDest));
+        blenderMotor.setControl(blenderMotorSpeedRequest.withVelocity(-blenderRPMDest));
     }
 
     public void blenderOn(double power) {
-        blenderMotor.set(MathUtil.clamp(power, 1.0, -1.0));
-    }
-
-    public void blenderOff() {
-        blenderMotor.set(0.0);
+        blenderMotor.set(MathUtil.clamp(-power, 1.0, -1.0));
     }
 
     public double getRPMDDest() {
         return shooterRPMDest;
     }
+
 
     public void setFlywheelRPMDest(double shooterRPMDest) {
         this.shooterRPMDest = shooterRPMDest;
@@ -145,7 +160,6 @@ public class ShooterSubsys extends SubsystemBase {
     public void setKickerRPMDest(double kickerRPMDest) {
         this.kickerRPMDest = kickerRPMDest;
     }
-
 
 
 }

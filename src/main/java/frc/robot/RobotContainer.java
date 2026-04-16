@@ -57,6 +57,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls). Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
  */
@@ -87,11 +89,12 @@ public class RobotContainer {
     IntakePurgeCommand cmdIntakePurge;
     IntakePivotCommand cmdIntakePivot;
     XFormationCommand cmdXFormation;
-    LockOnCommand cmdLockon;
     ShooterRPMControlCommand cmdFlywheelRPM;
     ResetGyroCommand cmdResetGyro;
     SwerveTeleopDriveCommand cmdSwerveTeleop;
     IntakePivotLimitSwitchCommand cmdLimitSwitchPivot;
+    ShooterRPMControlCommand cmdIncreaseRPM;
+    ShooterRPMControlCommand cmdDecreaseRPM;
 
     private static boolean highSpeed = false;
 
@@ -126,10 +129,12 @@ public class RobotContainer {
         cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
         cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
         cmdXFormation = new XFormationCommand(kSwerveSubsystem, kLEDSubsystem);
-        cmdLockon = new LockOnCommand(kSwerveSubsystem, kVisionSubsystem);
-        cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
+        //cmdLockon = new LockOnCommand(kSwerveSubsystem, kVisionSubsystem);
+        cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem, 0);
         cmdResetGyro = new ResetGyroCommand();
         cmdLimitSwitchPivot = new IntakePivotLimitSwitchCommand(kIntakeSubsystem);
+        cmdIncreaseRPM = new ShooterRPMControlCommand(kShooterSubsystem, 100.0 / 60.0);
+        cmdDecreaseRPM = new ShooterRPMControlCommand(kShooterSubsystem, -100.0 / 60.0);
 
         //TODO: I think these were glitching things out, and these need to be done in a more robust and sensible way anyways
         // NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
@@ -141,20 +146,23 @@ public class RobotContainer {
     private void configureBindings() {
         mainController.x().toggleOnTrue(cmdXFormation);
         mainController.rightBumper().and(mainController.leftBumper()).whileTrue(cmdResetGyro);
-        mainController.b().whileTrue(cmdLockon);
+        //mainController.b().whileTrue(cmdLockon);
 
-        codriveController.L1().toggleOnTrue(cmdFlywheelRPM);
+        codriveController.povUp().onTrue(cmdIncreaseRPM);
+        codriveController.povDown().onTrue(cmdDecreaseRPM);
 
         codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
 
         codriveController.R1().toggleOnTrue(cmdIntake);
         codriveController.axisGreaterThan(4, 0.8).whileTrue(cmdIntakePurge);
-        codriveController.triangle().whileTrue(cmdShooter);
+
 
         // codriveController.axisGreaterThan(5, 0.12).or(codriveController.axisLessThan(5, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
 
         codriveController.axisLessThan(5, -0.6).whileFalse(cmdLimitSwitchPivot).whileTrue(cmdIntakePivot);
     }
+
+
 
     public SubsystemBase getSubsystem(String subsys) {
         switch (subsys) {
