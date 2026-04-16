@@ -19,7 +19,7 @@ public class IntakeSubsys extends SubsystemBase {
 
     Slot0Configs intakeMotorPIDConfigs;
     VelocityVoltage intakeMotorSpeedRequest = new VelocityVoltage(0.0);
-    private double intakeSpeed = -4000 / 60.0;
+    private double intakeSpeed = -4500 / 60.0;
 
     /** Intake constructor. Perform all initializing regarding related motors here */
     public IntakeSubsys() {

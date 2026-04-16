@@ -99,7 +99,7 @@ public class VisionSubsys extends SubsystemBase {
             double distance = camToTarget.getTranslation().getDistance(new Translation3d(0, 0, 0));
 
             //Basic placeholder equation for dynamic stddev based on distance, 0.16x^2, theta always being at 0
-            double calcValue = distance * 0.75;
+            double calcValue = distance * 0.15;
             Matrix<N4, N1> stddevs = new Matrix<N4, N1>(Nat.N4(), Nat.N1());
             stddevs.set(0, 0, calcValue);
             stddevs.set(1, 0, calcValue);
