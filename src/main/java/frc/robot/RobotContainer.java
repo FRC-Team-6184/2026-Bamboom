@@ -12,7 +12,10 @@ import frc.robot.commands.blender.BlenderCommand;
 import frc.robot.commands.flywheel.FlywheelCommand;
 import frc.robot.commands.flywheel.FlywheelHighSpeedCommand;
 import frc.robot.commands.flywheel.FlywheelLowSpeedCommand;
+import frc.robot.commands.shooter.ChangeRPMCommand;
 import frc.robot.commands.shooter.HighShooterRPMCommand;
+import frc.robot.commands.intake.AutonomousIntakeDownCommand;
+import frc.robot.commands.intake.AutonomousStartIntakeCommand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.IntakePivotCommand;
 import frc.robot.commands.intake.IntakePivotUpCommand;
@@ -96,10 +99,15 @@ public class RobotContainer {
     ShooterRPMControlCommand cmdIncreaseRPM;
     ShooterRPMControlCommand cmdDecreaseRPM;
 
+    AutonomousIntakeDownCommand cmdAutoIntakePivot;
+    AutonomousStartIntakeCommand cmdAutoStartIntake;
+
+
     private static boolean highSpeed = false;
 
     /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
     public RobotContainer() {
+
         mainController = RobotMap.Controller.XBOX;
         codriveController = RobotMap.Controller.PS5;
 
@@ -108,9 +116,11 @@ public class RobotContainer {
         kSwerveSubsystem = new SwerveSubsys();
         kVisionSubsystem = new VisionSubsys();
         kLEDSubsystem = new ledSubsys();
+
+        configureCommands(); //this absolutely needs to bve done before AutoSubsystem
+
         kAutoSubsystem = new AutonomousSubsys();
 
-        configureCommands();
         configureBindings();
     }
 
@@ -136,9 +146,16 @@ public class RobotContainer {
         cmdIncreaseRPM = new ShooterRPMControlCommand(kShooterSubsystem, 100.0 / 60.0);
         cmdDecreaseRPM = new ShooterRPMControlCommand(kShooterSubsystem, -100.0 / 60.0);
 
+        cmdAutoIntakePivot = new AutonomousIntakeDownCommand(kIntakeSubsystem);
+        cmdAutoStartIntake = new AutonomousStartIntakeCommand(kIntakeSubsystem);
+
+
+
         //TODO: I think these were glitching things out, and these need to be done in a more robust and sensible way anyways
-        // NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
-        // NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
+        NamedCommands.registerCommand("AutoIntakeDown", cmdAutoIntakePivot);
+        NamedCommands.registerCommand("AutoIntakeStart", cmdAutoStartIntake);
+
+        NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(3.0)));
         // NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
     }
 
@@ -160,6 +177,11 @@ public class RobotContainer {
         // codriveController.axisGreaterThan(5, 0.12).or(codriveController.axisLessThan(5, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
 
         codriveController.axisLessThan(5, -0.6).whileFalse(cmdLimitSwitchPivot).whileTrue(cmdIntakePivot);
+
+        codriveController.povUp().onTrue(cmdChangeRPMUp);
+        codriveController.povDown().onTrue(cmdChangeRPMDown);
+
+        // codriveController.pov
     }
 
 
