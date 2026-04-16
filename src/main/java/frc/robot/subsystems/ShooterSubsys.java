@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTable;
@@ -66,6 +68,7 @@ public class ShooterSubsys extends SubsystemBase {
         bottomShooterPIDConfig.kS = 0.027235;
         bottomShooterPIDConfig.kD = 0.0; //What SysID gave me
         bottomMotor.getConfigurator().apply(bottomShooterPIDConfig);
+        bottomMotor.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive));
 
         Slot0Configs blenderPIDConfig = new Slot0Configs();
         blenderPIDConfig.kP = 0.14905;
@@ -79,8 +82,8 @@ public class ShooterSubsys extends SubsystemBase {
 
     @Override
     public void periodic() {
-        shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble());
-        bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble());
+        shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble() * 60);
+        bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble() * 60);
 
         shooterOn(shooterRPMDest);
         blenderRPMDest = 1.125 * shooterRPMDest;
@@ -142,6 +145,10 @@ public class ShooterSubsys extends SubsystemBase {
 
     public void blenderOn(double power) {
         blenderMotor.set(MathUtil.clamp(-power, 1.0, -1.0));
+    }
+
+    public void blenderOff() {
+        blenderMotor.set(0);
     }
 
     public double getRPMDDest() {

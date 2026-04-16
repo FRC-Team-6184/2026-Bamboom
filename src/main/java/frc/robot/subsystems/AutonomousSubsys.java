@@ -17,7 +17,7 @@ public class AutonomousSubsys extends SubsystemBase {
     private PathPlannerAuto redHumanTrench = new PathPlannerAuto("Red Human Station Trench");
     private PathPlannerAuto practice = new PathPlannerAuto("TestingAndPractice");
     private PathPlannerAuto blueDepotTrenchDouble = new PathPlannerAuto("Blue Depot Trench Double");
-    private PathPlannerAuto redDepotTrenchDouble = new PathPlannerAuto("Red Depot Trench DOUBLE");
+    private PathPlannerAuto redDepotTrenchDouble = new PathPlannerAuto("Red Depot Trench Double");
 
     private enum AutoEnum {
         BlueDepotTrench, BlueHumanTrench, RedDepotTrench, RedHumanTrench, Practice, BlueDepotTrenchDouble, RedDepotTrenchDouble

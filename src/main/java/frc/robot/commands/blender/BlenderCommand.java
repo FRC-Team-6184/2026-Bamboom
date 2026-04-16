@@ -25,7 +25,7 @@ public class BlenderCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        //kShooterSubsys.blenderOff();
+        kShooterSubsys.blenderOff();
         kShooterSubsys.bottomOff();
     }
 }

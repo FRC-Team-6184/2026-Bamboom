@@ -77,7 +77,7 @@ public class SwerveTeleopDriveCommand extends Command {
         // to work with for now.
         // Realistically, it needs to be possible to make it not field relative, maybe a
         // hold or something.
-        drive(-x, y, rot, true);
+        drive(x, -y, rot, true);
     }
 
     @Override
