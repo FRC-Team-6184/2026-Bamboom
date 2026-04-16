@@ -45,6 +45,7 @@ import frc.robot.commands.shooter.ShooterCommand;
 import frc.robot.commands.shooter.ShooterRPMControlCommand;
 import frc.robot.commands.shooter.TempShooterCommand;
 import frc.robot.commands.swerve.XFormationCommand;
+import frc.robot.subsystems.AutonomousSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
@@ -70,6 +71,7 @@ public class RobotContainer {
     private final SwerveSubsys kSwerveSubsystem;
     private final VisionSubsys kVisionSubsystem;
     private final ledSubsys kLEDSubsystem;
+    private final AutonomousSubsys kAutoSubsystem;
 
     // Commands
     FlywheelHighSpeedCommand cmdFlywheelHigh;
@@ -103,6 +105,7 @@ public class RobotContainer {
         kSwerveSubsystem = new SwerveSubsys();
         kVisionSubsystem = new VisionSubsys();
         kLEDSubsystem = new ledSubsys();
+        kAutoSubsystem = new AutonomousSubsys();
 
         configureCommands();
         configureBindings();
@@ -165,6 +168,8 @@ public class RobotContainer {
                 return kVisionSubsystem;
             case "LEDs":
                 return kLEDSubsystem;
+            case "Auto":
+                return kAutoSubsystem;
         }
 
         System.out.println("Invalid subsystem name. See RobotContainer.java");

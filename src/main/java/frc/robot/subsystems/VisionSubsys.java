@@ -30,8 +30,8 @@ import frc.robot.RobotMap.Gyro;
 public class VisionSubsys extends SubsystemBase {
     // Define the cameras
     private PhotonCamera limeLight = new PhotonCamera("Limelight");
-    // private PhotonCamera leftCam = new PhotonCamera("LeftCameraReal");
-    // private PhotonCamera rightCam = new PhotonCamera("RightCameraReal");
+    private PhotonCamera leftCam = new PhotonCamera("LeftCameraReal");
+    private PhotonCamera rightCam = new PhotonCamera("RightCameraReal");
     // Each camera needs its own pose estimator, these will end up talking to the pose estimator for drive
     private Transform3d limeLightTransform = new Transform3d(Inches.of(12.5), Inches.of(0), Inches.of(20.5), new Rotation3d(0, Radians.convertFrom(-10, Degrees), 0)); //8.5 + limelight thickness (1.22) x, 20.5 z, 2 y all in inches
     private Transform3d rightTransform = new Transform3d(Inches.of(6.0), Inches.of(-12.5), Inches.of(21.25), new Rotation3d(0, 0, 0));
@@ -59,8 +59,8 @@ public class VisionSubsys extends SubsystemBase {
     @Override
     public void periodic() {
         applyEstimations(limeLight.getAllUnreadResults());
-        // applyEstimations(leftCam.getAllUnreadResults());
-        // applyEstimations(rightCam.getAllUnreadResults());
+        applyEstimations(leftCam.getAllUnreadResults());
+        applyEstimations(rightCam.getAllUnreadResults());
 
         // count++;
         // if (count >= 100) {

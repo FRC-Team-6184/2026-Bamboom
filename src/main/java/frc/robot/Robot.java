@@ -26,6 +26,7 @@ import frc.robot.subsystems.VisionSubsys;
 import frc.robot.subsystems.ledSubsys;
 import frc.robot.RobotMap.SoftwareObjects;
 import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
+import frc.robot.subsystems.AutonomousSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 
 
@@ -47,8 +48,9 @@ public class Robot extends TimedRobot {
   private final IntakeSubsys Intake;
   private final VisionSubsys Vision;
   private final ledSubsys LEDs;
+  private final AutonomousSubsys Auto;
 
-  private final PathPlannerAuto autoCommand;
+  private PathPlannerAuto autoCommand;
   private final Command swerveDriveCommand;
 
   private final NetworkTableInstance network = SoftwareObjects.networkTableInstance;
@@ -69,11 +71,12 @@ public class Robot extends TimedRobot {
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
     Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
     LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
+    Auto = (AutonomousSubsys) robotContainer.getSubsystem("Auto");
 
     // Commands
     swerveDriveCommand = SwerveDrive.teleopDrive();
 
-    autoCommand = new PathPlannerAuto("pfield");
+    // autoCommand = new PathPlannerAuto("pfield");
 
     flyWheelDest.set(0.0);
     kickerDest.set(0.0);
@@ -107,6 +110,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     RobotMap.Gyro.GYRO.reset();
 
+    autoCommand = Auto.getSelectedAuto();
     CommandScheduler.getInstance().schedule(autoCommand);
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
