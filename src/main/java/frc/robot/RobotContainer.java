@@ -101,6 +101,7 @@ public class RobotContainer {
 
     AutonomousIntakeDownCommand cmdAutoIntakePivot;
     AutonomousStartIntakeCommand cmdAutoStartIntake;
+    BlenderCommand cmdAutoBlender;
 
 
     private static boolean highSpeed = false;
@@ -148,14 +149,14 @@ public class RobotContainer {
 
         cmdAutoIntakePivot = new AutonomousIntakeDownCommand(kIntakeSubsystem);
         cmdAutoStartIntake = new AutonomousStartIntakeCommand(kIntakeSubsystem);
+        cmdAutoBlender = new BlenderCommand(kShooterSubsystem);
 
 
 
         //TODO: I think these were glitching things out, and these need to be done in a more robust and sensible way anyways
         NamedCommands.registerCommand("AutoIntakeDown", cmdAutoIntakePivot);
         NamedCommands.registerCommand("AutoIntakeStart", cmdAutoStartIntake);
-
-        NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(3.0)));
+        NamedCommands.registerCommand("BlenderCommand", cmdAutoBlender.withTimeout(Seconds.of(3.0)));
         // NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
     }
 
