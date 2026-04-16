@@ -16,9 +16,10 @@ public class AutonomousSubsys extends SubsystemBase {
     private PathPlannerAuto redDepotTrench = new PathPlannerAuto("Red Depot Trench");
     private PathPlannerAuto redHumanTrench = new PathPlannerAuto("Red Human Station Trench");
     private PathPlannerAuto practice = new PathPlannerAuto("TestingAndPractice");
+    private PathPlannerAuto blueDepotTrenchDouble = new PathPlannerAuto("Blue Depot Trench Double");
 
     private enum AutoEnum {
-        BlueDepotTrench, BlueHumanTrench, RedDepotTrench, RedHumanTrench, Practice
+        BlueDepotTrench, BlueHumanTrench, RedDepotTrench, RedHumanTrench, Practice, BlueDepotTrenchDouble
     }
 
     private SendableChooser<AutoEnum> autoChooser = new SendableChooser<AutoEnum>();
@@ -31,6 +32,7 @@ public class AutonomousSubsys extends SubsystemBase {
         autoChooser.addOption("Red Depot Trench", AutoEnum.RedDepotTrench);
         autoChooser.addOption("Red Human Trench", AutoEnum.RedHumanTrench);
         autoChooser.addOption("TestingAndPractice", AutoEnum.Practice);
+        autoChooser.addOption("Blue Depot Trench DOUBLE", AutoEnum.BlueDepotTrenchDouble);
 
         autoChooser.setDefaultOption("Blue Human Trench", AutoEnum.BlueHumanTrench);
         SmartDashboard.putData("AutoChooser", autoChooser);
@@ -62,6 +64,10 @@ public class AutonomousSubsys extends SubsystemBase {
                 case Practice:
                     setAsBlueAlliance();
                     return practice;
+                case BlueDepotTrenchDouble:
+                    setAsBlueAlliance();
+                    System.out.println("blue depot double!");
+                    return blueDepotTrenchDouble;
 
                 default: //Defaults to Blue Human Trench in a hail mary, something has gone terribly wrong
                     System.out.println("SOMETHING WITH THE AUTO CHOOSER WENT TERRIBLY WRONG | " + selected.toString());

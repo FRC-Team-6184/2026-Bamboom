@@ -26,9 +26,9 @@ public class ShooterSubsys extends SubsystemBase {
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
 
-    private double shooterRPMDest = DigitalValues.SHOOTER_LOW_SPEED;
-    private double kickerRPMDest = 5.0; //placeholder values
-    private double blenderRPMDest = 5.0;
+    private double shooterRPMDest = 3000 / 60.0;
+    private double kickerRPMDest = -4500 / 60.0; //placeholder values
+    private double blenderRPMDest = 1.25 * shooterRPMDest;
 
     /**
      * Units are in RPS, Rotations Per Second, rather than RPM due to how I recorded the data used in FeedForward
@@ -76,10 +76,11 @@ public class ShooterSubsys extends SubsystemBase {
 
     @Override
     public void periodic() {
-        shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble());
-        bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble());
+        shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble() * 60.0);
+        bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble() * 60.0);
 
         shooterOn(shooterRPMDest);
+        blenderRPMDest = 1.125 * shooterRPMDest;
     }
 
     public Command testShoot() {
@@ -99,7 +100,7 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void shooterOn(double rotationsPerSecond) {
-        topMotor.setControl(topMotorSpeedRequest.withVelocity(rotationsPerSecond));
+        topMotor.setControl(topMotorSpeedRequest.withVelocity(shooterRPMDest));
     }
 
     public void shooterOff() {
@@ -119,7 +120,7 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void blenderOn() {
-        blenderMotor.setControl(blenderMotorSpeedRequest.withVelocity(blenderRPMDest));
+        blenderMotor.setControl(blenderMotorSpeedRequest.withVelocity(-blenderRPMDest));
     }
 
     public void blenderOn(double power) {
@@ -144,6 +145,15 @@ public class ShooterSubsys extends SubsystemBase {
 
     public void setKickerRPMDest(double kickerRPMDest) {
         this.kickerRPMDest = kickerRPMDest;
+    }
+
+    public void increaseFlywheelRPM() {
+        shooterRPMDest += 100 / 60.0;
+    }
+
+    public void decreaseFlywheelRPM() {
+        shooterRPMDest -= 100 / 60.0;
+
     }
 
 
