@@ -178,8 +178,8 @@ public class RobotContainer {
 
         codriveController.axisLessThan(5, -0.6).whileFalse(cmdLimitSwitchPivot).whileTrue(cmdIntakePivot);
 
-        codriveController.povUp().onTrue(cmdChangeRPMUp);
-        codriveController.povDown().onTrue(cmdChangeRPMDown);
+        codriveController.povUp().onTrue(cmdIncreaseRPM);
+        codriveController.povDown().onTrue(cmdDecreaseRPM);
 
         // codriveController.pov
     }

@@ -16,9 +16,9 @@ public class ChangeRPMCommand extends Command {
     @Override
     public void initialize() {
         if (increase) {
-            shooter.increaseFlywheelRPM();
+            // shooter.increaseFlywheelRPM();
         } else {
-            shooter.decreaseFlywheelRPM();
+            // shooter.decreaseFlywheelRPM();
         }
     }
 
