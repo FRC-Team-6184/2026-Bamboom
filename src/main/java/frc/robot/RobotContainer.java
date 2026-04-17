@@ -49,7 +49,7 @@ import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.VisionSubsys;
-import frc.robot.subsystems.ledSubsys;
+import frc.robot.subsystems.LEDSubsys;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -69,7 +69,7 @@ public class RobotContainer {
     private final ShooterSubsys kShooterSubsystem;
     private final SwerveSubsys kSwerveSubsystem;
     private final VisionSubsys kVisionSubsystem;
-    private final ledSubsys kLEDSubsystem;
+    private final LEDSubsys kLEDSubsystem;
 
     // Commands
     FlywheelHighSpeedCommand cmdFlywheelHigh;
@@ -102,7 +102,7 @@ public class RobotContainer {
         kShooterSubsystem = new ShooterSubsys();
         kSwerveSubsystem = new SwerveSubsys();
         kVisionSubsystem = new VisionSubsys();
-        kLEDSubsystem = new ledSubsys();
+        kLEDSubsystem = new LEDSubsys();
 
         configureCommands();
         configureBindings();

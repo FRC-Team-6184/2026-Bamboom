@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.VisionSubsys;
-import frc.robot.subsystems.ledSubsys;
+import frc.robot.subsystems.LEDSubsys;
 import frc.robot.RobotMap.SoftwareObjects;
 import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
 import frc.robot.subsystems.IntakeSubsys;
@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
   private final ShooterSubsys Shooter;
   private final IntakeSubsys Intake;
   private final VisionSubsys Vision;
-  private final ledSubsys LEDs;
+  private final LEDSubsys LEDs;
 
   private final PathPlannerAuto autoCommand;
   private final SwerveTeleopDriveCommand swerveDriveCommand;
@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
     Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
     Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
-    LEDs = (ledSubsys) robotContainer.getSubsystem("LEDs");
+    LEDs = (LEDSubsys) robotContainer.getSubsystem("LEDs");
 
     // Commands
     swerveDriveCommand = (SwerveTeleopDriveCommand) robotContainer.getCommand("Command_SwerveDrive");

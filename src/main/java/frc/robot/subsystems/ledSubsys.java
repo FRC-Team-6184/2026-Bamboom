@@ -11,17 +11,23 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class ledSubsys extends SubsystemBase {
+public class LEDSubsys extends SubsystemBase {
     private final int LED_LENGTH = RobotMap.DigitalValues.LED_LENGTH; // currently 31
 
     private AddressableLED leds = new AddressableLED(5);
     private AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(LED_LENGTH);
-    private LEDPattern rainbow = LEDPattern.rainbow(255, 150).scrollAtRelativeSpeed(`gyu.per(Seconds).of(50)).atBrightness(Percent.of(100));
-    private LEDPattern xFormation = LEDPattern.solid(Color.kDarkRed).breathe(Second.of(0.25));
-    private LEDPattern currentPattern = rainbow;
 
-    public ledSubsys() {
+    // Patterns
+    private LEDPattern rainbow = LEDPattern.rainbow(255, 150).scrollAtRelativeSpeed(Percent.per(Seconds).of(50)).atBrightness(Percent.of(100));
+    private LEDPattern autonomous = LEDPattern.solid(Color.kWhite).breathe(Second.of(.25));
+    private LEDPattern xFormation = LEDPattern.solid(Color.kDarkRed).breathe(Second.of(0.25));
+
+    private LEDPattern currentPattern = autonomous;
+
+    public LEDSubsys() {
         super();
+        leds.setLength(LED_LENGTH);
+        leds.start();
     }
 
     // Method from inherited Subsystem class which offloads periodic logic from being in a Command.
@@ -39,11 +45,7 @@ public class ledSubsys extends SubsystemBase {
         currentPattern = rainbow;
     }
 
-    public void runLED() {
-        leds.start();
-    }
-
-    public void configureLEDs() {
-        leds.setLength(LED_LENGTH);
+    public void setAutonomousPattern() {
+        currentPattern = autonomous;
     }
 }

@@ -13,6 +13,7 @@ public class LEDXFormationCommand extends Command {
     @Override
     public void initialize() {
         kLEDSubsystem.setXFormationPattern();
+        kLEDSubsystem.configureLEDs();
         kLEDSubsystem.runLED();
     }
 
