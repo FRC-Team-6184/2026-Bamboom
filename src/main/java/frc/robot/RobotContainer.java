@@ -12,7 +12,10 @@ import frc.robot.commands.blender.BlenderCommand;
 import frc.robot.commands.flywheel.FlywheelCommand;
 import frc.robot.commands.flywheel.FlywheelHighSpeedCommand;
 import frc.robot.commands.flywheel.FlywheelLowSpeedCommand;
+import frc.robot.commands.shooter.ChangeRPMCommand;
 import frc.robot.commands.shooter.HighShooterRPMCommand;
+import frc.robot.commands.intake.AutonomousIntakeDownCommand;
+import frc.robot.commands.intake.AutonomousStartIntakeCommand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.IntakePivotCommand;
 import frc.robot.commands.intake.IntakePivotUpCommand;
@@ -45,6 +48,7 @@ import frc.robot.commands.shooter.ShooterCommand;
 import frc.robot.commands.shooter.ShooterRPMControlCommand;
 import frc.robot.commands.shooter.TempShooterCommand;
 import frc.robot.commands.swerve.XFormationCommand;
+import frc.robot.subsystems.AutonomousSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
@@ -55,6 +59,8 @@ import static edu.wpi.first.units.Units.Seconds;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls). Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
@@ -70,6 +76,7 @@ public class RobotContainer {
     private final SwerveSubsys kSwerveSubsystem;
     private final VisionSubsys kVisionSubsystem;
     private final LEDSubsys kLEDSubsystem;
+    private final AutonomousSubsys kAutoSubsystem;
 
     // Commands
     FlywheelHighSpeedCommand cmdFlywheelHigh;
@@ -85,16 +92,23 @@ public class RobotContainer {
     IntakePurgeCommand cmdIntakePurge;
     IntakePivotCommand cmdIntakePivot;
     XFormationCommand cmdXFormation;
-    LockOnCommand cmdLockon;
     ShooterRPMControlCommand cmdFlywheelRPM;
     ResetGyroCommand cmdResetGyro;
     SwerveTeleopDriveCommand cmdSwerveTeleop;
     IntakePivotLimitSwitchCommand cmdLimitSwitchPivot;
+    ShooterRPMControlCommand cmdIncreaseRPM;
+    ShooterRPMControlCommand cmdDecreaseRPM;
+
+    AutonomousIntakeDownCommand cmdAutoIntakePivot;
+    AutonomousStartIntakeCommand cmdAutoStartIntake;
+    BlenderCommand cmdAutoBlender;
+
 
     private static boolean highSpeed = false;
 
     /** Class constructor. Initializes subsystems, bindings, controllers, etc. */
     public RobotContainer() {
+
         mainController = RobotMap.Controller.XBOX;
         codriveController = RobotMap.Controller.PS5;
 
@@ -104,7 +118,10 @@ public class RobotContainer {
         kVisionSubsystem = new VisionSubsys();
         kLEDSubsystem = new LEDSubsys();
 
-        configureCommands();
+        configureCommands(); //this absolutely needs to bve done before AutoSubsystem
+
+        kAutoSubsystem = new AutonomousSubsys();
+
         configureBindings();
     }
 
@@ -123,14 +140,23 @@ public class RobotContainer {
         cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
         cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
         cmdXFormation = new XFormationCommand(kSwerveSubsystem, kLEDSubsystem);
-        cmdLockon = new LockOnCommand(kSwerveSubsystem);
-        cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem);
+        //cmdLockon = new LockOnCommand(kSwerveSubsystem, kVisionSubsystem);
+        cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem, 0);
         cmdResetGyro = new ResetGyroCommand();
         cmdLimitSwitchPivot = new IntakePivotLimitSwitchCommand(kIntakeSubsystem);
+        cmdIncreaseRPM = new ShooterRPMControlCommand(kShooterSubsystem, 100.0 / 60.0);
+        cmdDecreaseRPM = new ShooterRPMControlCommand(kShooterSubsystem, -100.0 / 60.0);
+
+        cmdAutoIntakePivot = new AutonomousIntakeDownCommand(kIntakeSubsystem);
+        cmdAutoStartIntake = new AutonomousStartIntakeCommand(kIntakeSubsystem);
+        cmdAutoBlender = new BlenderCommand(kShooterSubsystem);
+
+
 
         //TODO: I think these were glitching things out, and these need to be done in a more robust and sensible way anyways
-        // NamedCommands.registerCommand("IntakePivotDownCommand", cmdPivotDown.withTimeout(Second.of(0.5)));
-        // NamedCommands.registerCommand("BlenderCommand", cmdBlender.withTimeout(Seconds.of(4.5)));
+        NamedCommands.registerCommand("AutoIntakeDown", cmdAutoIntakePivot);
+        NamedCommands.registerCommand("AutoIntakeStart", cmdAutoStartIntake);
+        NamedCommands.registerCommand("BlenderCommand", cmdAutoBlender.withTimeout(Seconds.of(3.0)));
         // NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
     }
 
@@ -138,20 +164,28 @@ public class RobotContainer {
     private void configureBindings() {
         mainController.x().toggleOnTrue(cmdXFormation);
         mainController.rightBumper().and(mainController.leftBumper()).whileTrue(cmdResetGyro);
-        mainController.b().whileTrue(cmdLockon);
+        //mainController.b().whileTrue(cmdLockon);
 
-        codriveController.L1().toggleOnTrue(cmdFlywheelRPM);
+        codriveController.povUp().onTrue(cmdIncreaseRPM);
+        codriveController.povDown().onTrue(cmdDecreaseRPM);
 
         codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
 
         codriveController.R1().toggleOnTrue(cmdIntake);
         codriveController.axisGreaterThan(4, 0.8).whileTrue(cmdIntakePurge);
-        codriveController.triangle().whileTrue(cmdShooter);
 
-        codriveController.axisGreaterThan(5, 0.12).or(codriveController.axisLessThan(5, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
 
-        codriveController.axisGreaterThan(5, 0.8).whileFalse(cmdLimitSwitchPivot).whileTrue(cmdIntakePivot);
+        // codriveController.axisGreaterThan(5, 0.12).or(codriveController.axisLessThan(5, -0.12)).whileTrue(cmdIntakePivot); //TODO: make this go to a proportional intake pivot command
+
+        codriveController.axisLessThan(5, -0.6).whileFalse(cmdLimitSwitchPivot).whileTrue(cmdIntakePivot);
+
+        codriveController.povUp().onTrue(cmdIncreaseRPM);
+        codriveController.povDown().onTrue(cmdDecreaseRPM);
+
+        // codriveController.pov
     }
+
+
 
     public SubsystemBase getSubsystem(String subsys) {
         switch (subsys) {
@@ -165,6 +199,8 @@ public class RobotContainer {
                 return kVisionSubsystem;
             case "LEDs":
                 return kLEDSubsystem;
+            case "Auto":
+                return kAutoSubsystem;
         }
 
         System.out.println("Invalid subsystem name. See RobotContainer.java");

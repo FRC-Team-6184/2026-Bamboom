@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTable;
@@ -25,10 +27,11 @@ public class ShooterSubsys extends SubsystemBase {
     private NetworkTable network = SoftwareObjects.networkTableInstance.getTable("Shooter");
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
-    private double shooterRPMDest = DigitalValues.SHOOTER_LOW_SPEED;
 
-    // public double shooterSpeed = DigitalValues.SHOOTER_LOW_SPEED;
-
+    private double shooterRPMDest = DigitalValues.SHOOTER_HIGH_SPEED;
+    private double m_targetRPM = DigitalValues.SHOOTER_HIGH_SPEED;
+    private double kickerRPMDest = -4500 / 60.0; //placeholder values
+    private double blenderRPMDest = 1.25 * shooterRPMDest;
 
     /**
      * Units are in RPS, Rotations Per Second, rather than RPM due to how I recorded the data used in FeedForward
@@ -36,12 +39,16 @@ public class ShooterSubsys extends SubsystemBase {
      */
     private VelocityVoltage topMotorSpeedRequest = new VelocityVoltage(0);
     private VelocityVoltage bottomMotorSpeedRequest = new VelocityVoltage(0);
+    private VelocityVoltage blenderMotorSpeedRequest = new VelocityVoltage(0);
+
 
     public ShooterSubsys() {
         super();
 
         shooterRPMEntry.set(0.0);
         bottomRPMEntry.set(0.0);
+
+
 
         //Data collected from System Identification (whole complicated thing don't worry about it)
         //These are constants 
@@ -61,6 +68,7 @@ public class ShooterSubsys extends SubsystemBase {
         bottomShooterPIDConfig.kS = 0.027235;
         bottomShooterPIDConfig.kD = 0.0; //What SysID gave me
         bottomMotor.getConfigurator().apply(bottomShooterPIDConfig);
+        bottomMotor.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive));
 
         Slot0Configs blenderPIDConfig = new Slot0Configs();
         blenderPIDConfig.kP = 0.14905;
@@ -74,10 +82,11 @@ public class ShooterSubsys extends SubsystemBase {
 
     @Override
     public void periodic() {
-        shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble());
-        bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble());
+        shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble() * 60);
+        bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble() * 60);
 
         shooterOn(shooterRPMDest);
+        blenderRPMDest = 1.125 * shooterRPMDest;
     }
 
     public Command testShoot() {
@@ -92,12 +101,26 @@ public class ShooterSubsys extends SubsystemBase {
         });
     }
 
+    private double m_currentRPMSetpoint = 0;
+
+    public void setRPM(double rpm) {
+        m_targetRPM = rpm;
+        shooterRPMDest = rpm;
+        topMotor.setControl(topMotorSpeedRequest.withVelocity(rpm));
+    }
+
+
+
+    public double getCurrentRPMSetpoint() {
+        return m_targetRPM;
+    }
+
     public void shooterOn() {
         topMotor.setControl(topMotorSpeedRequest.withVelocity(shooterRPMDest));
     }
 
     public void shooterOn(double rotationsPerSecond) {
-        topMotor.setControl(topMotorSpeedRequest.withVelocity(rotationsPerSecond));
+        topMotor.setControl(topMotorSpeedRequest.withVelocity(shooterRPMDest));
     }
 
     public void shooterOff() {
@@ -105,11 +128,11 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void bottomOn() {
-        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(DigitalValues.SHOOTER_BOTTOM_SPEED));
+        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(-kickerRPMDest));
     }
 
     public void bottomOn(double rotationsPerSecond) {
-        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(rotationsPerSecond));
+        bottomMotor.setControl(bottomMotorSpeedRequest.withVelocity(-rotationsPerSecond));
     }
 
     public void bottomOff() {
@@ -117,23 +140,34 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void blenderOn() {
-        blenderMotor.set(-0.75);
+        blenderMotor.setControl(blenderMotorSpeedRequest.withVelocity(-blenderRPMDest));
     }
 
     public void blenderOn(double power) {
-        blenderMotor.set(MathUtil.clamp(power, 1.0, -1.0));
+        blenderMotor.set(MathUtil.clamp(-power, 1.0, -1.0));
     }
 
     public void blenderOff() {
-        blenderMotor.set(0.0);
+        blenderMotor.set(0);
     }
 
     public double getRPMDDest() {
         return shooterRPMDest;
     }
 
-    public void setRPMDest(double shooterRPMDest) {
+
+    public void setFlywheelRPMDest(double shooterRPMDest) {
         this.shooterRPMDest = shooterRPMDest;
     }
+
+    public void setBlenderRPMDest(double blenderRPMDest) {
+        this.blenderRPMDest = blenderRPMDest;
+    }
+
+    public void setKickerRPMDest(double kickerRPMDest) {
+        this.kickerRPMDest = kickerRPMDest;
+    }
+
+
 
 }

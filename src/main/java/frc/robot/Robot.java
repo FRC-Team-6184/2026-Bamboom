@@ -4,13 +4,22 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.networktables.BooleanEntry;
+import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
-
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
@@ -18,6 +27,7 @@ import frc.robot.subsystems.VisionSubsys;
 import frc.robot.subsystems.LEDSubsys;
 import frc.robot.RobotMap.SoftwareObjects;
 import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
+import frc.robot.subsystems.AutonomousSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 
 
@@ -39,9 +49,17 @@ public class Robot extends TimedRobot {
   private final IntakeSubsys Intake;
   private final VisionSubsys Vision;
   private final LEDSubsys LEDs;
+  private final AutonomousSubsys Auto;
 
-  private final PathPlannerAuto autoCommand;
-  private final SwerveTeleopDriveCommand swerveDriveCommand;
+  private PathPlannerAuto autoCommand;
+  private final Command swerveDriveCommand;
+
+  private final NetworkTableInstance network = SoftwareObjects.networkTableInstance;
+
+  private DoubleEntry flyWheelDest = network.getDoubleTopic("Flywheel Destination").getEntry(0.0);
+  private DoubleEntry kickerDest = network.getDoubleTopic("Kicker Destination").getEntry(0.0);
+  private DoubleEntry blenderDest = network.getDoubleTopic("Blender Destination").getEntry(0.0);
+  private DoubleEntry intakeDest = network.getDoubleTopic("Intake Destination").getEntry(0.0);
 
   /** Robot Constructor. Instantiates RobotContainer and performs various initializations */
   public Robot() {
@@ -54,11 +72,17 @@ public class Robot extends TimedRobot {
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
     Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
     LEDs = (LEDSubsys) robotContainer.getSubsystem("LEDs");
+    Auto = (AutonomousSubsys) robotContainer.getSubsystem("Auto");
 
     // Commands
-    swerveDriveCommand = (SwerveTeleopDriveCommand) robotContainer.getCommand("Command_SwerveDrive");
+    swerveDriveCommand = SwerveDrive.teleopDrive();
 
-    autoCommand = new PathPlannerAuto("TestAutocmd");
+    // autoCommand = new PathPlannerAuto("pfield");
+
+    flyWheelDest.set(0.0);
+    kickerDest.set(0.0);
+    blenderDest.set(0.0);
+    intakeDest.set(0.0);
 
   }
 
@@ -87,6 +111,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     RobotMap.Gyro.GYRO.reset();
 
+    autoCommand = Auto.getSelectedAuto();
     CommandScheduler.getInstance().schedule(autoCommand);
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
@@ -100,6 +125,7 @@ public class Robot extends TimedRobot {
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
+    RobotMap.SoftwareObjects.poseEstimator.resetPosition(new Rotation3d(new Rotation2d(-180)), new SwerveModulePosition[] {RobotMap.SoftwareObjects.FRONT_LEFT_MODULE.getPosition(), RobotMap.SoftwareObjects.FRONT_RIGHT_MODULE.getPosition(), RobotMap.SoftwareObjects.BACK_LEFT_MODULE.getPosition(), RobotMap.SoftwareObjects.BACK_RIGHT_MODULE.getPosition()}, new Pose3d(new Pose2d(Meters.convertFrom(651 - 82, Inches), Meters.convertFrom(158.84, Inches), new Rotation2d(-180))));
     CommandScheduler.getInstance().schedule(swerveDriveCommand);
     // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
     // CommandScheduler.getInstance().schedule(Vision);
@@ -110,14 +136,14 @@ public class Robot extends TimedRobot {
 
   }
 
-  DigitalInput intakeLimitSwitch = new DigitalInput(6);
-  BooleanEntry intakeEntry = SoftwareObjects.networkTableInstance.getBooleanTopic("Intake Limit").getEntry(false);
+  // DigitalInput intakeLimitSwitch = new DigitalInput(6);
+  // BooleanEntry intakeEntry = SoftwareObjects.networkTableInstance.getBooleanTopic("Intake Limit").getEntry(false);
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    intakeEntry.set(false);
+    // intakeEntry.set(false);
     // CommandScheduler.getInstance().schedule(SwerveDrive.teleopDrive());
     // CommandScheduler.getInstance().schedule(Shooter.testShoot()); // This is jank but its fine for now. Will be removed in the future
     // CommandScheduler.getInstance().schedule(Blender.testBlender());
@@ -130,7 +156,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-    intakeEntry.set(intakeLimitSwitch.get());
+    // intakeEntry.set(intakeLimitSwitch.get());
+    Shooter.setFlywheelRPMDest(flyWheelDest.get() / 60.0);
+    Shooter.setBlenderRPMDest(blenderDest.get() / 60.0);
+    Shooter.setKickerRPMDest(kickerDest.get() / 60.0);
+    Intake.setIntakeSpeed(intakeDest.get() / 60.0);
 
   }
 

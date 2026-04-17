@@ -15,7 +15,7 @@ public class HighShooterRPMCommand extends Command {
 
     @Override
     public void initialize() {
-        shooter.setRPMDest(DigitalValues.SHOOTER_HIGH_SPEED); //That's it! Quick and simple :)
+        shooter.setFlywheelRPMDest(4000 / 60.0); //That's it! Quick and simple :)
         this.cancel();
     }
 }

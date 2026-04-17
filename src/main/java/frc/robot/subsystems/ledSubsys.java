@@ -21,7 +21,7 @@ public class LEDSubsys extends SubsystemBase {
     private final LEDPattern kTeleop;
     private final LEDPattern kXFormation;
 
-    private final LEDPattern kStuckMotor; // Implement this somehow?
+    private final LEDPattern kStuckMotor; // Implement this
     private final LEDPattern kBrownout;
     private final LEDPattern kLowVoltage;
     private LEDPattern currentPattern;
@@ -41,14 +41,14 @@ public class LEDSubsys extends SubsystemBase {
         kLowVoltage = LEDPattern.solid(Color.kRed).breathe(Seconds.of(.25));
         kStuckMotor = LEDPattern.solid(Color.kRed);
 
-        currentPattern = kAutonomous;
 
-        // Start
+
+         // Start
         leds.setLength(RobotMap.LEDs.LED_LENGTH);
         leds.start();
+
     }
 
-    // Method from inherited Subsystem class which offloads periodic logic from being in a Command.
     @Override
     public void periodic() {
         if (RobotController.getBatteryVoltage() <= 11) {

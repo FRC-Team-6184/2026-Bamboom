@@ -19,7 +19,9 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -41,6 +43,7 @@ import frc.robot.subsystems.swerve.MAXSwerveModule;
 import frc.robot.subsystems.swerve.SwerveConstants;
 import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
 import frc.robot.subsystems.swerve.SwerveConstants.ModuleConstants;
+import frc.robot.utilities.DumbGyroWrapper;
 
 public class SwerveSubsys extends SubsystemBase {
     // This is directly copied from MAXSwerve template
@@ -84,6 +87,8 @@ public class SwerveSubsys extends SubsystemBase {
 
     private PathPlannerPath path;
 
+    private DumbGyroWrapper odometryGyro = new DumbGyroWrapper(gyro);
+
 
     public SwerveSubsys() {
         super();
@@ -110,9 +115,9 @@ public class SwerveSubsys extends SubsystemBase {
         try {
             path = PathPlannerPath.fromPathFile("Test Path Red");
             if (path.getStartingHolonomicPose().isPresent()) {
-                odometry.resetPosition(gyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose3d(path.getStartingHolonomicPose().get()));
+                odometry.resetPosition(odometryGyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose3d(path.getStartingHolonomicPose().get()));
             } else {
-                odometry.resetPosition(gyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose3d(new Pose2d(12.866, 7.498, gyro.getRotation2d())));
+                odometry.resetPosition(odometryGyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, new Pose3d(new Pose2d(12.866, 7.498, gyro.getRotation2d())));
                 System.out.println("Auto path didn't load mf");
             }
         } catch (Exception e) {
@@ -133,7 +138,7 @@ public class SwerveSubsys extends SubsystemBase {
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
-        odometry.update(gyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()});
+        odometry.update(odometryGyro.getRotation3d(), new SwerveModulePosition[] {m_frontLeft.getPosition(), m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()});
 
         Pose3d pos = odometry.getEstimatedPosition();
         positionXEntry.set(pos.getX());
@@ -164,18 +169,12 @@ public class SwerveSubsys extends SubsystemBase {
         double ySpeedDelivered = ySpeed * DriveConstants.MAX_SPEED_METERS_PER_SECOND;
         double rotDelivered = rot * DriveConstants.MAX_ANGULAR_SPEED;
 
-        SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, gyro.getRotation2d()) : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+        SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, odometryGyro.getRotation3d().toRotation2d()) : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.MAX_SPEED_METERS_PER_SECOND);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_rearLeft.setDesiredState(swerveModuleStates[2]);
         m_rearRight.setDesiredState(swerveModuleStates[3]);
-
-        counter++;
-        if (counter >= 10) {
-            System.out.println(swerveModuleStates[0].angle.getDegrees());
-            counter = 0;
-        }
     }
 
     /**
@@ -190,10 +189,10 @@ public class SwerveSubsys extends SubsystemBase {
             if (canMove) {
                 // Done this way in order to easily enforce controller deadzones since this
                 // isn't already done in drive()
-                x = controller.getLeftX();
+                x = -controller.getLeftX();
                 x = Math.abs(x) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? x : 0.0;
 
-                y = controller.getLeftY();
+                y = -controller.getLeftY();
                 y = Math.abs(y) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? y : 0.0; // Both X and Y are reversed in order to make the shooter the front of the robot
 
                 if (Math.abs(x) >= 0.99 && Math.abs(y) <= 0.2) {
@@ -213,13 +212,13 @@ public class SwerveSubsys extends SubsystemBase {
                 rot = -controller.getRightX();
                 rot = Math.abs(rot) > RobotMap.DigitalValues.CONTROLLER_DEADZONE ? rot * 0.85 : 0.0; //rot * -0.85 to reverse direction of rotation and slow it down since it was overly responsive
             } else {
-                rot = 0;
+                rot = desiredRot;
             }
             // TODO: Set this back to true when robot is in better shape, false to be easier
             // to work with for now.
             // Realistically, it needs to be possible to make it not field relative, maybe a
             // hold or something.
-            drive(-x, y, rot, true);
+            drive(x, -y, rot, true);
         });
     }
 
@@ -291,6 +290,6 @@ public class SwerveSubsys extends SubsystemBase {
     public void setDesiredRot(double desiredRot) {
         this.desiredRot = desiredRot;
     }
+
+
 }
-
-
