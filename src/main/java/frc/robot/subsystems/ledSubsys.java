@@ -23,7 +23,7 @@ public class LEDSubsys extends SubsystemBase {
     private final LEDPattern kFlywheelOn;
     private final LEDPattern kFlywheelOff;
 
-    private final LEDPattern kStuckMotor; // Implement this
+    private final LEDPattern kStuckMotor; // Implement ths
     private final LEDPattern kBrownout;
     private final LEDPattern kLowVoltage;
     private LEDPattern currentPattern;
@@ -52,6 +52,7 @@ public class LEDSubsys extends SubsystemBase {
         leds.start();
 
     }
+
 
     @Override
     public void periodic() {
