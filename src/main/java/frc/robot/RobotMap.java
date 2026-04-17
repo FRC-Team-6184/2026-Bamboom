@@ -15,6 +15,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.LEDSubsys;
 import frc.robot.subsystems.swerve.MAXSwerveModule;
 import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
 
@@ -128,6 +129,11 @@ public final class RobotMap {
         // public static final RobotConfig ROBOT_CONFIGURATION = new RobotConfig(null, null, null, null);
     }
 
+    public static final class LEDs {
+        public static final int LED_LENGTH = 31;
+        public static final int LED_PORT = 5;
+    }
+
     // Software things below
     public static final class DigitalInputOutput {
         public static final DigitalInput INTAKE_LIMIT_SWITCH = new DigitalInput(6); //This does exist! Hooray!
@@ -151,7 +157,7 @@ public final class RobotMap {
         // public static final double SHOOTER_HIGH_SPEED = 180 / 60.0;
         public static final double SHOOTER_BOTTOM_SPEED = -50;
 
-        public static final int LED_LENGTH = 31;
+
     }
 
     public static final class SoftwareObjects {

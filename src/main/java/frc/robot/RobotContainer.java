@@ -109,7 +109,7 @@ public class RobotContainer {
     }
 
     private void configureCommands() {
-        cmdSwerveTeleop = new SwerveTeleopDriveCommand(kSwerveSubsystem);
+        cmdSwerveTeleop = new SwerveTeleopDriveCommand(kSwerveSubsystem, kLEDSubsystem);
         cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem);
         cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem);
         cmdPivotDown = new IntakePivotDownCommand(kIntakeSubsystem);
