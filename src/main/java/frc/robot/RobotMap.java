@@ -130,6 +130,11 @@ public final class RobotMap {
         // public static final RobotConfig ROBOT_CONFIGURATION = new RobotConfig(null, null, null, null);
     }
 
+    public static final class LEDs {
+        public static final int LED_LENGTH = 31;
+        public static final int LED_PORT = 5;
+    }
+
     // Software things below
     public static final class DigitalInputOutput {
         public static final DigitalInput INTAKE_LIMIT_SWITCH = new DigitalInput(6); //This does exist! Hooray!
@@ -152,6 +157,8 @@ public final class RobotMap {
         // public static final double SHOOTER_LOW_SPEED = 60 / 60.0;
         // public static final double SHOOTER_HIGH_SPEED = 180 / 60.0;
         public static final double SHOOTER_BOTTOM_SPEED = -50;
+
+
     }
 
     public static final class SoftwareObjects {
@@ -169,5 +176,7 @@ public final class RobotMap {
 
     }
 
-    private RobotMap() {} // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.
+    private RobotMap() {}
+    // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.
+
 }

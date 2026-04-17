@@ -4,11 +4,14 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.Gyro;
+import frc.robot.subsystems.LEDSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.swerve.MAXSwerveModule;
 import frc.robot.subsystems.swerve.SwerveConstants.DriveConstants;
@@ -35,13 +38,17 @@ public class SwerveTeleopDriveCommand extends Command {
 
     private SwerveDriveKinematics kinematics = DriveConstants.kDriveKinematics;
     private int counter = 0;
+    private final LEDSubsys kLEDs;
 
-    public SwerveTeleopDriveCommand(SwerveSubsys swerve) {
+    public SwerveTeleopDriveCommand(SwerveSubsys swerve, LEDSubsys leds) {
         this.swerve = swerve;
+        this.kLEDs = leds;
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        kLEDs.setLEDPattern("Teleop");
+    }
 
     @Override
     public void execute() {

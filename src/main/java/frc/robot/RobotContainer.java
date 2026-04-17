@@ -36,7 +36,7 @@ import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.VisionSubsys;
-import frc.robot.subsystems.ledSubsys;
+import frc.robot.subsystems.LEDSubsys;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -58,7 +58,7 @@ public class RobotContainer {
     private final ShooterSubsys kShooterSubsystem;
     private final SwerveSubsys kSwerveSubsystem;
     private final VisionSubsys kVisionSubsystem;
-    private final ledSubsys kLEDSubsystem;
+    private final LEDSubsys kLEDSubsystem;
     private final AutonomousSubsys kAutoSubsystem;
 
     // Commands
@@ -106,7 +106,7 @@ public class RobotContainer {
         kShooterSubsystem = new ShooterSubsys();
         kSwerveSubsystem = new SwerveSubsys();
         kVisionSubsystem = new VisionSubsys();
-        kLEDSubsystem = new ledSubsys();
+        kLEDSubsystem = new LEDSubsys();
 
         configureCommands(); //this absolutely needs to bve done before AutoSubsystem
 
@@ -116,9 +116,9 @@ public class RobotContainer {
     }
 
     private void configureCommands() {
-        cmdSwerveTeleop = new SwerveTeleopDriveCommand(kSwerveSubsystem);
-        cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem);
-        cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem);
+        cmdSwerveTeleop = new SwerveTeleopDriveCommand(kSwerveSubsystem, kLEDSubsystem);
+        cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem, kLEDSubsystem);
+        cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem, kLEDSubsystem);
         cmdPivotDown = new IntakePivotDownCommand(kIntakeSubsystem);
         cmdBlender = new BlenderCommand(kShooterSubsystem, kIntakeSubsystem);
         cmdPivotUp = new IntakePivotUpCommand(kIntakeSubsystem);
@@ -232,4 +232,5 @@ public class RobotContainer {
     public static void setHighSpeed(boolean nhighSpeed) {
         highSpeed = nhighSpeed;
     }
+
 }

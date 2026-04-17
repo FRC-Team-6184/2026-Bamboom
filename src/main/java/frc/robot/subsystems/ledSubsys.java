@@ -7,39 +7,99 @@ import com.ctre.phoenix6.mechanisms.swerve.utility.LegacyPhoenixPIDController;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.LEDPattern;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
-public class ledSubsys extends SubsystemBase {
-    private final int LED_LENGTH = 31;
+public class LEDSubsys extends SubsystemBase {
+    private final AddressableLED leds;
+    private final AddressableLEDBuffer ledBuffer;
 
-    private AddressableLED leds = new AddressableLED(5);
-    private AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(LED_LENGTH);
-    private LEDPattern rainbow = LEDPattern.rainbow(255, 150).scrollAtRelativeSpeed(Percent.per(Seconds).of(50)).atBrightness(Percent.of(100));
-    private LEDPattern xFormation = LEDPattern.solid(Color.kDarkRed).breathe(Second.of(0.25));
+    // Patterns
+    private final LEDPattern kAutonomous;
+    private final LEDPattern kTeleop;
+    private final LEDPattern kXFormation;
+    private final LEDPattern kFlywheelOn;
+    private final LEDPattern kFlywheelOff;
 
-    private LEDPattern currentPattern = rainbow;
+    private final LEDPattern kStuckMotor; // Implement ths
+    private final LEDPattern kBrownout;
+    private final LEDPattern kLowVoltage;
+    private LEDPattern currentPattern;
 
-
-    public ledSubsys() {
+    public LEDSubsys() {
         super();
+        leds = new AddressableLED(RobotMap.LEDs.LED_PORT);
+        ledBuffer = new AddressableLEDBuffer(RobotMap.LEDs.LED_LENGTH);
 
-        leds.setLength(LED_LENGTH);
+        // Command LED Patterns
+        kAutonomous = LEDPattern.solid(Color.kYellow);
+        kTeleop = LEDPattern.solid(Color.kWhite);
+        kXFormation = LEDPattern.solid(Color.kOrange); // Placeholder Color
+        kFlywheelOn = LEDPattern.solid(Color.kGreen);
+        kFlywheelOff = LEDPattern.solid(Color.kRed);
+
+        // Warning Patterns
+        kBrownout = LEDPattern.solid(Color.kBrown);
+        kLowVoltage = LEDPattern.solid(Color.kDarkRed).breathe(Seconds.of(.25));
+        kStuckMotor = LEDPattern.solid(Color.kDarkRed);
+
+
+
+        // Start
+        leds.setLength(RobotMap.LEDs.LED_LENGTH);
         leds.start();
+
     }
+
 
     @Override
     public void periodic() {
-        currentPattern.applyTo(ledBuffer);
+        if (RobotController.getBatteryVoltage() <= 11) {
+            kLowVoltage.applyTo(ledBuffer);
+            leds.setData(ledBuffer);
+            return;
+        }
+        if (RobotController.getBatteryVoltage() <= 6.3) { // Change this later so its checking motor brownouts. wont ever reach this low a voltage
+            kBrownout.applyTo(ledBuffer);
+            leds.setData(ledBuffer);
+            return;
+        }
 
+        currentPattern.applyTo(ledBuffer);
         leds.setData(ledBuffer);
     }
 
-    public void setXFormationPattern() {
-        currentPattern = xFormation;
-    }
+    // Make this method use Enums
+    public void setLEDPattern(String LEDPatternName) {
+        switch (LEDPatternName) {
+            case "Teleop":
+                currentPattern = kTeleop;
+                break;
+            case "Autonomous":
+                currentPattern = kAutonomous;
+                break;
+            case "XFormation":
+                currentPattern = kXFormation;
+                break;
+            case "Brownout":
+                currentPattern = kBrownout;
+                break;
+            case "LowVoltage":
+                currentPattern = kLowVoltage;
+                break;
+            case "StuckMotor":
+                currentPattern = kStuckMotor;
+                break;
+            case "FlywheelOn":
+                currentPattern = kFlywheelOn;
+                break;
+            case "FlywheelOff":
+                currentPattern = kFlywheelOff;
+                break;
 
-    public void setDefaultPattern() {
-        currentPattern = rainbow;
+        }
+
     }
 }
