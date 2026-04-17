@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 12.241,
-        "y": 0.77
+        "x": 12.5,
+        "y": 0.75
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.241,
-        "y": 0.7700000000000005
+        "x": 11.5,
+        "y": 0.7500000000000001
       },
       "isLocked": false,
       "linkedName": "Red Depot Trench Double End 1"
@@ -80,28 +80,28 @@
     },
     {
       "anchor": {
-        "x": 10.519,
-        "y": 0.77
+        "x": 10.22413182140326,
+        "y": 0.9270304748405374
       },
       "prevControl": {
-        "x": 9.92168780338398,
-        "y": 0.9289408677222942
+        "x": 9.728391278358822,
+        "y": 1.296198964341711
       },
       "nextControl": {
-        "x": 11.086582397003745,
-        "y": 0.6189700374531821
+        "x": 10.526250885896529,
+        "y": 0.7020481927710842
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 12.241,
-        "y": 0.77
+        "x": 12.5,
+        "y": 0.75
       },
       "prevControl": {
-        "x": 11.40683520599251,
-        "y": 0.5614887640449435
+        "x": 11.466625797306875,
+        "y": 0.6820481927710843
       },
       "nextControl": null,
       "isLocked": false,
@@ -115,19 +115,19 @@
     },
     {
       "waypointRelativePos": 1.1127633209417647,
-      "rotationDegrees": -10.0
+      "rotationDegrees": 170.0
     },
     {
       "waypointRelativePos": 1.8661710037174633,
-      "rotationDegrees": -10.0
+      "rotationDegrees": 170.0
     },
     {
       "waypointRelativePos": 2.6294919454770755,
-      "rotationDegrees": -170.0
+      "rotationDegrees": 10.0
     },
     {
       "waypointRelativePos": 4.622057001239138,
-      "rotationDegrees": 180.0
+      "rotationDegrees": 0.0
     },
     {
       "waypointRelativePos": 5.219629927594529,
@@ -137,10 +137,10 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 4.990128331688059,
+      "minWaypointRelativePos": 5.593281343731252,
       "maxWaypointRelativePos": 6.0,
       "constraints": {
-        "maxVelocity": 0.75,
+        "maxVelocity": 1.6,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -161,13 +161,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 6.000000000000001
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 6.000000000000001
   },
   "useDefaultConstraints": true
 }

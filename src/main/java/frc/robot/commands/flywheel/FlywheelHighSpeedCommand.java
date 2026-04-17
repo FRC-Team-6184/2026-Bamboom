@@ -29,7 +29,8 @@ public class FlywheelHighSpeedCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-
+        kShooterSubsystem.shooterOff();
+        RobotContainer.setHighSpeed(false);
     }
 
 }

@@ -113,6 +113,7 @@ public class Robot extends TimedRobot {
 
     autoCommand = Auto.getSelectedAuto();
     CommandScheduler.getInstance().schedule(autoCommand);
+    CommandScheduler.getInstance().schedule(robotContainer.getCommand("FlywheelHighSpeed"));
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
@@ -121,11 +122,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    RobotMap.Gyro.GYRO.reset();
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 
-    RobotMap.SoftwareObjects.poseEstimator.resetPosition(new Rotation3d(new Rotation2d(-180)), new SwerveModulePosition[] {RobotMap.SoftwareObjects.FRONT_LEFT_MODULE.getPosition(), RobotMap.SoftwareObjects.FRONT_RIGHT_MODULE.getPosition(), RobotMap.SoftwareObjects.BACK_LEFT_MODULE.getPosition(), RobotMap.SoftwareObjects.BACK_RIGHT_MODULE.getPosition()}, new Pose3d(new Pose2d(Meters.convertFrom(651 - 82, Inches), Meters.convertFrom(158.84, Inches), new Rotation2d(-180))));
+    // Use actual gyro rotation so pose estimator stays consistent with the physical gyro heading
+    RobotMap.SoftwareObjects.poseEstimator.resetPosition(RobotMap.SoftwareObjects.ODOMETRY_GYRO.getRotation3d(), new SwerveModulePosition[] {RobotMap.SoftwareObjects.FRONT_LEFT_MODULE.getPosition(), RobotMap.SoftwareObjects.FRONT_RIGHT_MODULE.getPosition(), RobotMap.SoftwareObjects.BACK_LEFT_MODULE.getPosition(), RobotMap.SoftwareObjects.BACK_RIGHT_MODULE.getPosition()}, new Pose3d(new Pose2d(Meters.convertFrom(651 - 82, Inches), Meters.convertFrom(158.84, Inches), RobotMap.Gyro.GYRO.getRotation2d())));
     CommandScheduler.getInstance().schedule(swerveDriveCommand);
     // CommandScheduler.getInstance().schedule(Intake.teleopIntake());
     // CommandScheduler.getInstance().schedule(Vision);

@@ -12,7 +12,6 @@ import frc.robot.commands.blender.BlenderCommand;
 import frc.robot.commands.flywheel.FlywheelCommand;
 import frc.robot.commands.flywheel.FlywheelHighSpeedCommand;
 import frc.robot.commands.flywheel.FlywheelLowSpeedCommand;
-import frc.robot.commands.shooter.ChangeRPMCommand;
 import frc.robot.commands.shooter.HighShooterRPMCommand;
 import frc.robot.commands.intake.AutonomousIntakeDownCommand;
 import frc.robot.commands.intake.AutonomousStartIntakeCommand;
@@ -22,6 +21,7 @@ import frc.robot.commands.intake.IntakePivotUpCommand;
 import frc.robot.commands.intake.IntakePurgeCommand;
 import frc.robot.commands.other.LockOnCommand;
 import frc.robot.commands.shooter.LowShooterRPMCommand;
+import frc.robot.commands.shooter.ShootAtSpeedCommand;
 import frc.robot.commands.other.ResetGyroCommand;
 import frc.robot.commands.shooter.ShooterCommand;
 import frc.robot.commands.shooter.ShooterRPMControlCommand;
@@ -31,23 +31,6 @@ import frc.robot.commands.swerve.XFormationCommand;
 import frc.robot.commands.intake.IntakePivotDownCommand;
 import frc.robot.commands.intake.IntakePivotLimitSwitchCommand;
 import frc.robot.commands.intake.IntakeManagerCommand;
-import frc.robot.commands.blender.BlenderCommand;
-import frc.robot.commands.flywheel.FlywheelCommand;
-import frc.robot.commands.flywheel.FlywheelHighSpeedCommand;
-import frc.robot.commands.flywheel.FlywheelLowSpeedCommand;
-import frc.robot.commands.intake.IntakeCommand;
-import frc.robot.commands.intake.IntakeManagerCommand;
-import frc.robot.commands.intake.IntakePivotCommand;
-import frc.robot.commands.intake.IntakePivotDownCommand;
-import frc.robot.commands.intake.IntakePivotUpCommand;
-import frc.robot.commands.intake.IntakePurgeCommand;
-import frc.robot.commands.other.LockOnCommand;
-import frc.robot.commands.shooter.HighShooterRPMCommand;
-import frc.robot.commands.shooter.LowShooterRPMCommand;
-import frc.robot.commands.shooter.ShooterCommand;
-import frc.robot.commands.shooter.ShooterRPMControlCommand;
-import frc.robot.commands.shooter.TempShooterCommand;
-import frc.robot.commands.swerve.XFormationCommand;
 import frc.robot.subsystems.AutonomousSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
@@ -98,6 +81,13 @@ public class RobotContainer {
     IntakePivotLimitSwitchCommand cmdLimitSwitchPivot;
     ShooterRPMControlCommand cmdIncreaseRPM;
     ShooterRPMControlCommand cmdDecreaseRPM;
+    LockOnCommand cmdLockon;
+
+    ShootAtSpeedCommand cmdFlywheelUp;
+    ShootAtSpeedCommand cmdFlywheelLeft;
+    ShootAtSpeedCommand cmdFlywheelRight;
+    ShootAtSpeedCommand cmdFlywheelDown;
+
 
     AutonomousIntakeDownCommand cmdAutoIntakePivot;
     AutonomousStartIntakeCommand cmdAutoStartIntake;
@@ -130,7 +120,7 @@ public class RobotContainer {
         cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem);
         cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem);
         cmdPivotDown = new IntakePivotDownCommand(kIntakeSubsystem);
-        cmdBlender = new BlenderCommand(kShooterSubsystem);
+        cmdBlender = new BlenderCommand(kShooterSubsystem, kIntakeSubsystem);
         cmdPivotUp = new IntakePivotUpCommand(kIntakeSubsystem);
         cmdHighSpeed = new HighShooterRPMCommand(kShooterSubsystem);
         cmdLowSpeed = new LowShooterRPMCommand(kShooterSubsystem);
@@ -140,23 +130,28 @@ public class RobotContainer {
         cmdIntakePurge = new IntakePurgeCommand(kIntakeSubsystem);
         cmdIntakePivot = new IntakePivotCommand(kIntakeSubsystem);
         cmdXFormation = new XFormationCommand(kSwerveSubsystem, kLEDSubsystem);
-        //cmdLockon = new LockOnCommand(kSwerveSubsystem, kVisionSubsystem);
+        cmdLockon = new LockOnCommand(kSwerveSubsystem, kVisionSubsystem);
         cmdFlywheelRPM = new ShooterRPMControlCommand(kShooterSubsystem, 0);
         cmdResetGyro = new ResetGyroCommand();
         cmdLimitSwitchPivot = new IntakePivotLimitSwitchCommand(kIntakeSubsystem);
         cmdIncreaseRPM = new ShooterRPMControlCommand(kShooterSubsystem, 100.0 / 60.0);
         cmdDecreaseRPM = new ShooterRPMControlCommand(kShooterSubsystem, -100.0 / 60.0);
 
+        cmdFlywheelUp = new ShootAtSpeedCommand(kShooterSubsystem, 2700 / 60.0);
+        cmdFlywheelDown = new ShootAtSpeedCommand(kShooterSubsystem, 4500 / 60.0);
+        cmdFlywheelLeft = new ShootAtSpeedCommand(kShooterSubsystem, 3200 / 60.0);
+        cmdFlywheelRight = new ShootAtSpeedCommand(kShooterSubsystem, 3450 / 60.0);
+
         cmdAutoIntakePivot = new AutonomousIntakeDownCommand(kIntakeSubsystem);
         cmdAutoStartIntake = new AutonomousStartIntakeCommand(kIntakeSubsystem);
-        cmdAutoBlender = new BlenderCommand(kShooterSubsystem);
+        cmdAutoBlender = new BlenderCommand(kShooterSubsystem, kIntakeSubsystem);
 
 
 
         //TODO: I think these were glitching things out, and these need to be done in a more robust and sensible way anyways
         NamedCommands.registerCommand("AutoIntakeDown", cmdAutoIntakePivot);
         NamedCommands.registerCommand("AutoIntakeStart", cmdAutoStartIntake);
-        NamedCommands.registerCommand("BlenderCommand", cmdAutoBlender.withTimeout(Seconds.of(3.0)));
+        NamedCommands.registerCommand("BlenderCommand", cmdAutoBlender.withTimeout(Seconds.of(4.0)));
         // NamedCommands.registerCommand("IntakePivotUpCommand", cmdPivotUp.withTimeout(Seconds.of(0.5)));
     }
 
@@ -164,13 +159,14 @@ public class RobotContainer {
     private void configureBindings() {
         mainController.x().toggleOnTrue(cmdXFormation);
         mainController.rightBumper().and(mainController.leftBumper()).whileTrue(cmdResetGyro);
-        //mainController.b().whileTrue(cmdLockon);
+        mainController.b().whileTrue(cmdLockon);
 
         codriveController.povUp().onTrue(cmdIncreaseRPM);
         codriveController.povDown().onTrue(cmdDecreaseRPM);
 
         codriveController.axisGreaterThan(3, 0.8).whileTrue(cmdBlender);
 
+        codriveController.L1().whileTrue(cmdFlywheelHigh);
         codriveController.R1().toggleOnTrue(cmdIntake);
         codriveController.axisGreaterThan(4, 0.8).whileTrue(cmdIntakePurge);
 
@@ -179,8 +175,14 @@ public class RobotContainer {
 
         codriveController.axisLessThan(5, -0.6).whileFalse(cmdLimitSwitchPivot).whileTrue(cmdIntakePivot);
 
-        codriveController.povUp().onTrue(cmdIncreaseRPM);
-        codriveController.povDown().onTrue(cmdDecreaseRPM);
+        // codriveController.povUp().onTrue(cmdIncreaseRPM);
+        // codriveController.povDown().onTrue(cmdDecreaseRPM);
+
+        codriveController.povUp().whileTrue(cmdFlywheelUp);
+        codriveController.povDown().whileTrue(cmdFlywheelDown);
+        codriveController.povLeft().whileTrue(cmdFlywheelLeft);
+        codriveController.povRight().whileTrue(cmdFlywheelRight);
+
 
         // codriveController.pov
     }
@@ -211,6 +213,8 @@ public class RobotContainer {
         switch (command) {
             case "Command_SwerveDrive":
                 return cmdSwerveTeleop;
+            case "FlywheelHighSpeed":
+                return cmdFlywheelHigh;
         }
 
         System.out.println("Invalid command name. See RobotContainer.java");

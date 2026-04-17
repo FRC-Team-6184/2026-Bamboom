@@ -26,7 +26,17 @@ public class ShooterSubsys extends SubsystemBase {
     private final CommandXboxController controller = Controller.XBOX;
     private NetworkTable network = SoftwareObjects.networkTableInstance.getTable("Shooter");
     private DoubleEntry shooterRPMEntry = network.getDoubleTopic("ShooterRPM Actual").getEntry(0);
+    private DoubleEntry shooterRPMTargetEntry = network.getDoubleTopic("ShooterRPM Target").getEntry(0);
     private DoubleEntry bottomRPMEntry = network.getDoubleTopic("BottomRPM Actual").getEntry(0);
+
+    private NetworkTable pidTable = network.getSubTable("TopPID");
+    private DoubleEntry ntKP = pidTable.getDoubleTopic("kP").getEntry(0.1733);
+    private DoubleEntry ntKD = pidTable.getDoubleTopic("kD").getEntry(0.0);
+    private DoubleEntry ntKV = pidTable.getDoubleTopic("kV").getEntry(0.11622);
+    private DoubleEntry ntKS = pidTable.getDoubleTopic("kS").getEntry(0.12582);
+    private DoubleEntry ntKA = pidTable.getDoubleTopic("kA").getEntry(0.0097241);
+
+    private double m_kP = 0.1733, m_kD = 0.0, m_kV = 0.11622, m_kS = 0.12582, m_kA = 0.0097241;
 
     private double shooterRPMDest = DigitalValues.SHOOTER_HIGH_SPEED;
     private double m_targetRPM = DigitalValues.SHOOTER_HIGH_SPEED;
@@ -46,7 +56,13 @@ public class ShooterSubsys extends SubsystemBase {
         super();
 
         shooterRPMEntry.set(0.0);
+        shooterRPMTargetEntry.set(0.0);
         bottomRPMEntry.set(0.0);
+        ntKP.set(m_kP);
+        ntKD.set(m_kD);
+        ntKV.set(m_kV);
+        ntKS.set(m_kS);
+        ntKA.set(m_kA);
 
 
 
@@ -83,9 +99,21 @@ public class ShooterSubsys extends SubsystemBase {
     @Override
     public void periodic() {
         shooterRPMEntry.set(topMotor.getVelocity().getValueAsDouble() * 60);
+        shooterRPMTargetEntry.set(m_targetRPM * 60);
         bottomRPMEntry.set(bottomMotor.getVelocity().getValueAsDouble() * 60);
 
-        shooterOn(shooterRPMDest);
+        double newKP = ntKP.get(m_kP);
+        double newKD = ntKD.get(m_kD);
+        double newKV = ntKV.get(m_kV);
+        double newKS = ntKS.get(m_kS);
+        double newKA = ntKA.get(m_kA);
+        if (newKP != m_kP || newKD != m_kD || newKV != m_kV || newKS != m_kS || newKA != m_kA) {
+            m_kP = newKP; m_kD = newKD; m_kV = newKV; m_kS = newKS; m_kA = newKA;
+            Slot0Configs updated = new Slot0Configs();
+            updated.kP = m_kP; updated.kD = m_kD; updated.kV = m_kV; updated.kS = m_kS; updated.kA = m_kA;
+            topMotor.getConfigurator().apply(updated);
+        }
+
         blenderRPMDest = 1.125 * shooterRPMDest;
     }
 

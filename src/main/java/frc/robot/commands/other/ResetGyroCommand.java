@@ -15,7 +15,7 @@ public class ResetGyroCommand extends Command {
     public void initialize() {
         Gyro.GYRO.reset();
         System.out.println(Gyro.GYRO.getRotation2d());
-        finished = true;
+        // finished = true;
     }
 
     @Override
