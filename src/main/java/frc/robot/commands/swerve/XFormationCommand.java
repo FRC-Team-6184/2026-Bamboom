@@ -29,7 +29,7 @@ public class XFormationCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         swerve.setCanMove(true);
-        leds.setDefaultPattern();
+        leds.setRainbowPattern();
 
     }
 
