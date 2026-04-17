@@ -176,5 +176,7 @@ public final class RobotMap {
 
     }
 
-    private RobotMap() {} // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.
+    private RobotMap() {}
+    // Overrides default constructor. Don't want anybody instantiating this class, even though likely no one would.
+
 }
