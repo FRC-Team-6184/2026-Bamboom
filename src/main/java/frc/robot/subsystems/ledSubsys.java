@@ -21,7 +21,7 @@ public class LEDSubsys extends SubsystemBase {
     private final LEDPattern kTeleop;
     private final LEDPattern kXFormation;
 
-    private final LEDPattern kStuckMotor;
+    private final LEDPattern kStuckMotor; // Implement this somehow?
     private final LEDPattern kBrownout;
     private final LEDPattern kLowVoltage;
     private LEDPattern currentPattern;
