@@ -119,6 +119,7 @@ public class Robot extends TimedRobot {
     autoCommand = Auto.getSelectedAuto();
     CommandScheduler.getInstance().schedule(autoCommand);
     CommandScheduler.getInstance().schedule(robotContainer.getCommand("FlywheelHighSpeed"));
+    Shooter.setm_targetRPM(3250 / 60.0);
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
@@ -127,6 +128,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    Shooter.setm_targetRPM(2700 / 60.0);
     // TODO: Change these to schedule commands from RobotContainer rather than the subsystems directly
     CommandScheduler.getInstance().cancelAll(); // idk if we need this, I didn't want think too hard to ensure stuff doesnt break.
 

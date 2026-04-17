@@ -39,7 +39,7 @@ public class ShooterSubsys extends SubsystemBase {
     private double m_kP = 0.1733, m_kD = 0.0, m_kV = 0.11622, m_kS = 0.12582, m_kA = 0.0097241;
 
     private double shooterRPMDest = DigitalValues.SHOOTER_HIGH_SPEED;
-    private double m_targetRPM = 2700 / 60.0;
+    private double m_targetRPM = 3250 / 60.0;
     private double kickerRPMDest = -4500 / 60.0; //placeholder values
     private double blenderRPMDest = 1.25 * shooterRPMDest;
 
