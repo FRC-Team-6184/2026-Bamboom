@@ -20,6 +20,8 @@ public class LEDSubsys extends SubsystemBase {
     private final LEDPattern kAutonomous;
     private final LEDPattern kTeleop;
     private final LEDPattern kXFormation;
+    private final LEDPattern kFlywheelOn;
+    private final LEDPattern kFlywheelOff;
 
     private final LEDPattern kStuckMotor; // Implement this
     private final LEDPattern kBrownout;
@@ -35,11 +37,13 @@ public class LEDSubsys extends SubsystemBase {
         kAutonomous = LEDPattern.solid(Color.kYellow);
         kTeleop = LEDPattern.solid(Color.kWhite);
         kXFormation = LEDPattern.solid(Color.kOrange); // Placeholder Color
+        kFlywheelOn = LEDPattern.solid(Color.kGreen);
+        kFlywheelOff = LEDPattern.solid(Color.kRed);
 
         // Warning Patterns
         kBrownout = LEDPattern.solid(Color.kBrown);
-        kLowVoltage = LEDPattern.solid(Color.kRed).breathe(Seconds.of(.25));
-        kStuckMotor = LEDPattern.solid(Color.kRed);
+        kLowVoltage = LEDPattern.solid(Color.kDarkRed).breathe(Seconds.of(.25));
+        kStuckMotor = LEDPattern.solid(Color.kDarkRed);
 
 
 
@@ -87,6 +91,13 @@ public class LEDSubsys extends SubsystemBase {
             case "StuckMotor":
                 currentPattern = kStuckMotor;
                 break;
+            case "FlywheelOn":
+                currentPattern = kFlywheelOn;
+                break;
+            case "FlywheelOff":
+                currentPattern = kFlywheelOff;
+                break;
+
         }
 
     }
