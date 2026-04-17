@@ -10,20 +10,17 @@ import frc.robot.subsystems.ShooterSubsys;
 public class FlywheelHighSpeedCommand extends Command {
     // Blender subsystem, and maybe other crucial things.
     private final ShooterSubsys kShooterSubsystem;
-    private final LEDSubsys leds;
 
-    public FlywheelHighSpeedCommand(ShooterSubsys shooter, LEDSubsys leds) {
+    public FlywheelHighSpeedCommand(ShooterSubsys shooter) {
         super();
         this.kShooterSubsystem = shooter;
         super.addRequirements(shooter);
-        this.leds = leds;
     }
 
     @Override
     public void initialize() {
         RobotContainer.setHighSpeed(true);
         // CommandScheduler.getInstance().cancel(RobotContainer.cmdFlywheelLow);
-        leds.setLEDPattern("FlywheelOn");
     }
 
     @Override
@@ -35,7 +32,6 @@ public class FlywheelHighSpeedCommand extends Command {
     public void end(boolean interrupted) {
         kShooterSubsystem.shooterOff();
         RobotContainer.setHighSpeed(false);
-        leds.setLEDPattern("FlywheelOff");
     }
 
 }

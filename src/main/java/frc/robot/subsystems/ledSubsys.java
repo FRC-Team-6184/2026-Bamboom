@@ -46,6 +46,7 @@ public class LEDSubsys extends SubsystemBase {
         kStuckMotor = LEDPattern.solid(Color.kDarkRed);
 
 
+        currentPattern = kAutonomous;
 
         // Start
         leds.setLength(RobotMap.LEDs.LED_LENGTH);
@@ -66,9 +67,6 @@ public class LEDSubsys extends SubsystemBase {
             leds.setData(ledBuffer);
             return;
         }
-
-        currentPattern.applyTo(ledBuffer);
-        leds.setData(ledBuffer);
     }
 
     // Make this method use Enums

@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotMap.Gyro;
 import frc.robot.commands.blender.BlenderCommand;
-import frc.robot.commands.flywheel.FlywheelCommand;
 import frc.robot.commands.flywheel.FlywheelHighSpeedCommand;
 import frc.robot.commands.flywheel.FlywheelLowSpeedCommand;
 import frc.robot.commands.shooter.HighShooterRPMCommand;
@@ -117,8 +116,8 @@ public class RobotContainer {
 
     private void configureCommands() {
         cmdSwerveTeleop = new SwerveTeleopDriveCommand(kSwerveSubsystem, kLEDSubsystem);
-        cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem, kLEDSubsystem);
-        cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem, kLEDSubsystem);
+        cmdFlywheelHigh = new FlywheelHighSpeedCommand(kShooterSubsystem);
+        cmdFlywheelLow = new FlywheelLowSpeedCommand(kShooterSubsystem);
         cmdPivotDown = new IntakePivotDownCommand(kIntakeSubsystem);
         cmdBlender = new BlenderCommand(kShooterSubsystem, kIntakeSubsystem);
         cmdPivotUp = new IntakePivotUpCommand(kIntakeSubsystem);
@@ -178,13 +177,15 @@ public class RobotContainer {
         // codriveController.povUp().onTrue(cmdIncreaseRPM);
         // codriveController.povDown().onTrue(cmdDecreaseRPM);
 
-        codriveController.povUp().whileTrue(cmdFlywheelUp);
-        codriveController.povDown().whileTrue(cmdFlywheelDown);
-        codriveController.povLeft().whileTrue(cmdFlywheelLeft);
-        codriveController.povRight().whileTrue(cmdFlywheelRight);
+        // codriveController.povUp().whileTrue(cmdFlywheelUp);
+        // codriveController.povDown().whileTrue(cmdFlywheelDown);
+        // codriveController.povLeft().whileTrue(cmdFlywheelLeft);
+        // codriveController.povRight().whileTrue(cmdFlywheelRight);
 
 
         // codriveController.pov
+
+        codriveController.povCenter().whileFalse(cmdLowSpeed);
     }
 
 

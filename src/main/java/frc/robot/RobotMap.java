@@ -131,7 +131,7 @@ public final class RobotMap {
     }
 
     public static final class LEDs {
-        public static final int LED_LENGTH = 31;
+        public static final int LED_LENGTH = 26;
         public static final int LED_PORT = 5;
     }
 

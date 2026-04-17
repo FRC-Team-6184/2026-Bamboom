@@ -39,7 +39,7 @@ public class ShooterSubsys extends SubsystemBase {
     private double m_kP = 0.1733, m_kD = 0.0, m_kV = 0.11622, m_kS = 0.12582, m_kA = 0.0097241;
 
     private double shooterRPMDest = DigitalValues.SHOOTER_HIGH_SPEED;
-    private double m_targetRPM = DigitalValues.SHOOTER_HIGH_SPEED;
+    private double m_targetRPM = 2700 / 60.0;
     private double kickerRPMDest = -4500 / 60.0; //placeholder values
     private double blenderRPMDest = 1.25 * shooterRPMDest;
 
@@ -108,13 +108,22 @@ public class ShooterSubsys extends SubsystemBase {
         double newKS = ntKS.get(m_kS);
         double newKA = ntKA.get(m_kA);
         if (newKP != m_kP || newKD != m_kD || newKV != m_kV || newKS != m_kS || newKA != m_kA) {
-            m_kP = newKP; m_kD = newKD; m_kV = newKV; m_kS = newKS; m_kA = newKA;
+            m_kP = newKP;
+            m_kD = newKD;
+            m_kV = newKV;
+            m_kS = newKS;
+            m_kA = newKA;
             Slot0Configs updated = new Slot0Configs();
-            updated.kP = m_kP; updated.kD = m_kD; updated.kV = m_kV; updated.kS = m_kS; updated.kA = m_kA;
+            updated.kP = m_kP;
+            updated.kD = m_kD;
+            updated.kV = m_kV;
+            updated.kS = m_kS;
+            updated.kA = m_kA;
             topMotor.getConfigurator().apply(updated);
         }
 
         blenderRPMDest = 1.125 * shooterRPMDest;
+        topMotor.setControl(topMotorSpeedRequest.withVelocity(m_targetRPM));
     }
 
     public Command testShoot() {
@@ -148,7 +157,7 @@ public class ShooterSubsys extends SubsystemBase {
     }
 
     public void shooterOn(double rotationsPerSecond) {
-        topMotor.setControl(topMotorSpeedRequest.withVelocity(shooterRPMDest));
+        topMotor.setControl(topMotorSpeedRequest.withVelocity(rotationsPerSecond));
     }
 
     public void shooterOff() {
@@ -194,6 +203,10 @@ public class ShooterSubsys extends SubsystemBase {
 
     public void setKickerRPMDest(double kickerRPMDest) {
         this.kickerRPMDest = kickerRPMDest;
+    }
+
+    public void setm_targetRPM(double rps) {
+        m_targetRPM = rps;
     }
 
 

@@ -1,7 +1,8 @@
 package frc.robot.subsystems;
 
-import java.nio.channels.SeekableByteChannel;
+import java.util.Optional;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -39,6 +40,39 @@ public class AutonomousSubsys extends SubsystemBase {
 
         autoChooser.setDefaultOption("Blue Human Trench", AutoEnum.BlueHumanTrench);
         SmartDashboard.putData("AutoChooser", autoChooser);
+    }
+
+    public Optional<Pose2d> getSelectedAutoStartingPose() {
+        AutoEnum selected = autoChooser.getSelected();
+        PathPlannerAuto auto;
+        if (selected == null) {
+            auto = blueHumanTrench;
+        } else {
+            switch (selected) {
+                case BlueDepotTrench:
+                    auto = blueDepotTrench;
+                    break;
+                case RedDepotTrench:
+                    auto = redDepotTrench;
+                    break;
+                case RedHumanTrench:
+                    auto = redHumanTrench;
+                    break;
+                case Practice:
+                    auto = practice;
+                    break;
+                case BlueDepotTrenchDouble:
+                    auto = blueDepotTrenchDouble;
+                    break;
+                case RedDepotTrenchDouble:
+                    auto = redDepotTrenchDouble;
+                    break;
+                default:
+                    auto = blueHumanTrench;
+                    break;
+            }
+        }
+        return Optional.of(auto.getStartingPose());
     }
 
     public PathPlannerAuto getSelectedAuto() {

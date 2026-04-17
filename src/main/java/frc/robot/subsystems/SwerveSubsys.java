@@ -242,7 +242,7 @@ public class SwerveSubsys extends SubsystemBase {
         return odometry.getEstimatedPosition().toPose2d();
     }
 
-    private void resetPose(Pose2d newPose) {
+    public void resetPose(Pose2d newPose) {
         odometry.resetPose(new Pose3d(newPose));
     }
 

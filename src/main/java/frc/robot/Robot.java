@@ -104,12 +104,17 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    Auto.getSelectedAutoStartingPose().ifPresent(pose -> SwerveDrive.resetPose(pose));
+    // Assuming Claude did this, this is redundant because Auto already does this at the start of the match.
+    // Doesn't seem to break anything tho so I'm going to let it be, at least for right now
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     RobotMap.Gyro.GYRO.reset();
+    LEDs.setLEDPattern("Autonomous");
 
     autoCommand = Auto.getSelectedAuto();
     CommandScheduler.getInstance().schedule(autoCommand);

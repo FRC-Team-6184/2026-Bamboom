@@ -25,13 +25,13 @@ public class BlenderCommand extends Command {
     public void execute() {
         kShooterSubsys.blenderOn();
         kShooterSubsys.bottomOn();
-        intake.startIntake();
+        // intake.startIntake();
     }
 
     @Override
     public void end(boolean interrupted) {
         kShooterSubsys.blenderOff();
         kShooterSubsys.bottomOff();
-        intake.stopIntake();
+        // intake.stopIntake();
     }
 }
