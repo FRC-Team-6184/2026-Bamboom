@@ -7,6 +7,7 @@ import com.ctre.phoenix6.mechanisms.swerve.utility.LegacyPhoenixPIDController;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.LEDPattern;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -16,12 +17,11 @@ public class LEDSubsys extends SubsystemBase {
     private final AddressableLEDBuffer ledBuffer;
 
     // Patterns
-    private final LEDPattern kDefault;
     private final LEDPattern kAutonomous;
     private final LEDPattern kTeleop;
     private final LEDPattern kXFormation;
 
-
+    private final LEDPattern kStuckMotor;
     private final LEDPattern kBrownout;
     private final LEDPattern kLowVoltage;
     private LEDPattern currentPattern;
@@ -31,14 +31,16 @@ public class LEDSubsys extends SubsystemBase {
         leds = new AddressableLED(RobotMap.LEDs.LED_PORT);
         ledBuffer = new AddressableLEDBuffer(RobotMap.LEDs.LED_LENGTH);
 
-        // Patterns
-        kDefault = LEDPattern.solid(Color.kGreen); // Green if working fine
+        // Command LED Patterns
         kAutonomous = LEDPattern.solid(Color.kYellow);
-        kTeleop = LEDPattern.solid(Color.kGreen);
-        kXFormation = LEDPattern.solid(Color.kBlack); // Placeholder Color
+        kTeleop = LEDPattern.solid(Color.kWhite);
+        kXFormation = LEDPattern.solid(Color.kOrange); // Placeholder Color
 
+        // Warning Patterns
         kBrownout = LEDPattern.solid(Color.kBrown);
-        kLowVoltage = LEDPattern.solid(Color.kBrown);
+        kLowVoltage = LEDPattern.solid(Color.kRed).breathe(Seconds.of(.25));
+        kStuckMotor = LEDPattern.solid(Color.kRed);
+
         currentPattern = kAutonomous;
 
         // Start
@@ -49,6 +51,17 @@ public class LEDSubsys extends SubsystemBase {
     // Method from inherited Subsystem class which offloads periodic logic from being in a Command.
     @Override
     public void periodic() {
+        if (RobotController.getBatteryVoltage() <= 11) {
+            kLowVoltage.applyTo(ledBuffer);
+            leds.setData(ledBuffer);
+            return;
+        }
+        if (RobotController.getBatteryVoltage() <= 6.3) { // Change this later so its checking motor brownouts. wont ever reach this low a voltage
+            kBrownout.applyTo(ledBuffer);
+            leds.setData(ledBuffer);
+            return;
+        }
+
         currentPattern.applyTo(ledBuffer);
         leds.setData(ledBuffer);
     }
@@ -62,9 +75,6 @@ public class LEDSubsys extends SubsystemBase {
             case "Autonomous":
                 currentPattern = kAutonomous;
                 break;
-            case "Default":
-                currentPattern = kDefault;
-                break;
             case "XFormation":
                 currentPattern = kXFormation;
                 break;
@@ -73,6 +83,9 @@ public class LEDSubsys extends SubsystemBase {
                 break;
             case "LowVoltage":
                 currentPattern = kLowVoltage;
+                break;
+            case "StuckMotor":
+                currentPattern = kStuckMotor;
                 break;
         }
 
