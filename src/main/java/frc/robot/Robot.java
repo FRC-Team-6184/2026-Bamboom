@@ -47,7 +47,6 @@ public class Robot extends TimedRobot {
   private final SwerveSubsys SwerveDrive;
   private final ShooterSubsys Shooter;
   private final IntakeSubsys Intake;
-  private final VisionSubsys Vision;
   private final LEDSubsys LEDs;
   private final AutonomousSubsys Auto;
 
@@ -70,7 +69,6 @@ public class Robot extends TimedRobot {
     SwerveDrive = (SwerveSubsys) robotContainer.getSubsystem("Swerve");
     Shooter = (ShooterSubsys) robotContainer.getSubsystem("Shooter");
     Intake = (IntakeSubsys) robotContainer.getSubsystem("Intake");
-    Vision = (VisionSubsys) robotContainer.getSubsystem("Vision");
     LEDs = (LEDSubsys) robotContainer.getSubsystem("LEDs");
     Auto = (AutonomousSubsys) robotContainer.getSubsystem("Auto");
 
@@ -119,7 +117,7 @@ public class Robot extends TimedRobot {
     autoCommand = Auto.getSelectedAuto();
     CommandScheduler.getInstance().schedule(autoCommand);
     CommandScheduler.getInstance().schedule(robotContainer.getCommand("FlywheelHighSpeed"));
-    Shooter.setm_targetRPM(3250 / 60.0);
+    Shooter.setRPM(2800 / 60.0);
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 

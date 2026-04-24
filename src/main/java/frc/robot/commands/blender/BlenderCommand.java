@@ -8,12 +8,10 @@ import frc.robot.subsystems.ShooterSubsys;
 public class BlenderCommand extends Command {
     // Blender subsystem, and maybe other crucial things.
     private final ShooterSubsys kShooterSubsys;
-    private final IntakeSubsys intake;
 
     public BlenderCommand(ShooterSubsys shooter, IntakeSubsys intake) { // Add various other settings here?
         super();
         this.kShooterSubsys = shooter;
-        this.intake = intake;
     }
 
     @Override

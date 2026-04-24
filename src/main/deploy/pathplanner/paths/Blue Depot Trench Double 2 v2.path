@@ -3,155 +3,155 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.879,
-        "y": 2.778
+        "x": 2.538,
+        "y": 5.225
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.02111581518582,
-        "y": 1.6437437959173593
+        "x": 1.3958806983479373,
+        "y": 6.359252693446807
       },
       "isLocked": false,
-      "linkedName": "Red Depot Trench End "
+      "linkedName": "bluedepotdouble"
     },
     {
       "anchor": {
-        "x": 12.244649305555559,
-        "y": 0.5642183926884003
+        "x": 4.296,
+        "y": 7.505
       },
       "prevControl": {
-        "x": 13.69372009293759,
-        "y": 0.4652477657858124
+        "x": 2.8469288707042355,
+        "y": 7.603965620671886
       },
       "nextControl": {
-        "x": 11.492616698189986,
-        "y": 0.6155817486060406
+        "x": 5.048032784810511,
+        "y": 7.453639242194723
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 9.215211111111111,
-        "y": 0.9270304748405374
+        "x": 7.159133333333333,
+        "y": 7.026544444444443
       },
       "prevControl": {
-        "x": 9.71507331831356,
-        "y": 0.32421103694496667
+        "x": 6.659268668195089,
+        "y": 7.629361844193545
       },
       "nextControl": {
-        "x": 8.484377777781832,
-        "y": 1.8083944444404039
+        "x": 7.889970260335797,
+        "y": 6.1451834547565545
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.995961111115164,
-        "y": 3.1385111111070696
+        "x": 7.545,
+        "y": 4.93
       },
       "prevControl": {
-        "x": 8.699931951281076,
-        "y": 2.419990763294721
+        "x": 7.841034456262597,
+        "y": 5.648518165669986
       },
       "nextControl": {
-        "x": 9.091741042542619,
-        "y": 3.3709876336269047
+        "x": 7.449218354918527,
+        "y": 4.697524183510089
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 9.91193888889294,
-        "y": 2.997216666662624
+        "x": 6.629,
+        "y": 5.072
       },
       "prevControl": {
-        "x": 9.643966666666666,
-        "y": 3.4893111111111113
+        "x": 6.896974811288363,
+        "y": 4.579906965445638
       },
       "nextControl": {
-        "x": 10.07218923022182,
-        "y": 2.7029387671334435
+        "x": 6.468787117808812,
+        "y": 5.366205425476814
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 10.413777777777778,
-        "y": 0.9270304748405374
+        "x": 6.127,
+        "y": 7.142
       },
       "prevControl": {
-        "x": 9.935817676114757,
-        "y": 1.163554409049301
+        "x": 6.60496020275517,
+        "y": 6.905476270075173
       },
       "nextControl": {
-        "x": 10.788938888888888,
-        "y": 0.7413777777777772
+        "x": 5.751838809539498,
+        "y": 7.327652536715928
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 11.894933333333334,
-        "y": 0.5708499999999992
+        "x": 4.646,
+        "y": 7.498
       },
       "prevControl": {
-        "x": 11.56125241863457,
-        "y": 0.5708499999999992
+        "x": 4.979680914698764,
+        "y": 7.498
       },
       "nextControl": {
-        "x": 12.457838841164476,
-        "y": 0.5708499999999992
+        "x": 4.083094492168859,
+        "y": 7.498
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 13.879,
-        "y": 2.778
+        "x": 2.538,
+        "y": 5.225
       },
       "prevControl": {
-        "x": 15.100855555559608,
-        "y": 0.8290777777737353
+        "x": 1.316151505431282,
+        "y": 7.173926649019762
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Red Depot Trench End "
+      "linkedName": "bluedepotdouble"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 0.8,
-      "rotationDegrees": 90.0
+      "rotationDegrees": -90.0
     },
     {
-      "waypointRelativePos": 1.7195020746887968,
-      "rotationDegrees": 90.0
+      "waypointRelativePos": 1.4580912863070528,
+      "rotationDegrees": -90.0
     },
     {
       "waypointRelativePos": 2.112763320941765,
-      "rotationDegrees": 170.0
+      "rotationDegrees": -10.0
     },
     {
       "waypointRelativePos": 2.8661710037174633,
-      "rotationDegrees": 170.0
+      "rotationDegrees": -10.0
     },
     {
       "waypointRelativePos": 4.101244813278009,
-      "rotationDegrees": 10.0
+      "rotationDegrees": -170.0
     },
     {
       "waypointRelativePos": 5.32,
-      "rotationDegrees": -90.0
+      "rotationDegrees": 90.0
     },
     {
       "waypointRelativePos": 6.355186721991703,
-      "rotationDegrees": -90.0
+      "rotationDegrees": 90.0
     }
   ],
   "constraintZones": [],
@@ -167,13 +167,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 51.949
+    "rotation": -124.97200000000001
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 51.949
+    "rotation": -124.97200000000001
   },
   "useDefaultConstraints": true
 }

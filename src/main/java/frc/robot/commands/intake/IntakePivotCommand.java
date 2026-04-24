@@ -1,8 +1,6 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import frc.robot.RobotMap.Controller;
 import frc.robot.subsystems.IntakeSubsys;
 
 public class IntakePivotCommand extends Command {

@@ -13,7 +13,7 @@ import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 
 public class ShooterCommand extends Command {
-    private final ShooterSubsys shooter;
+    // private final ShooterSubsys shooter;
     private final SwerveSubsys swerve;
     private final PIDController seekingPID = new PIDController(0.2, 0, 0.001);
     private final Pigeon2 gyro = Gyro.GYRO;
@@ -34,7 +34,7 @@ public class ShooterCommand extends Command {
     public ShooterCommand(ShooterSubsys shooter, SwerveSubsys swerve) {
         super();
         super.addRequirements(shooter);
-        this.shooter = shooter;
+        // this.shooter = shooter;
         this.swerve = swerve;
     }
 
@@ -50,7 +50,7 @@ public class ShooterCommand extends Command {
         switch (currentState) {
             case SEEKING:
                 currentPos = poseEst.getEstimatedPosition().toPose2d();
-                double correctedX = hubXPosition - currentPos.getX();
+                // double correctedX = hubXPosition - currentPos.getX();
                 double correctedY = hubYPosition - currentPos.getY();
                 destinationAngle = (correctedY > 0 ? (Math.PI / 2) : (-Math.PI / 2)) - Math.atan(hubXPosition - currentPos.getX() / hubYPosition - currentPos.getY());
                 swerve.drive(0, 0, seekingPID.calculate(gyro.getRotation2d().getRadians() + (Math.PI / 2), destinationAngle), true);

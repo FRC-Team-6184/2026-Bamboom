@@ -1,7 +1,6 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotMap.DigitalValues;
 import frc.robot.subsystems.ShooterSubsys;
 
 public class HighShooterRPMCommand extends Command {

@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.RobotMap.Gyro;
 import frc.robot.commands.blender.BlenderCommand;
 import frc.robot.commands.flywheel.FlywheelHighSpeedCommand;
 import frc.robot.commands.flywheel.FlywheelLowSpeedCommand;
@@ -29,18 +28,15 @@ import frc.robot.commands.swerve.SwerveTeleopDriveCommand;
 import frc.robot.commands.swerve.XFormationCommand;
 import frc.robot.commands.intake.IntakePivotDownCommand;
 import frc.robot.commands.intake.IntakePivotLimitSwitchCommand;
-import frc.robot.commands.intake.IntakeManagerCommand;
 import frc.robot.subsystems.AutonomousSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.VisionSubsys;
 import frc.robot.subsystems.LEDSubsys;
-import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
 

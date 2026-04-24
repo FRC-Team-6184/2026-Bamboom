@@ -2,7 +2,6 @@ package frc.robot.commands.swerve;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsys;
 import frc.robot.subsystems.SwerveSubsys;
 import frc.robot.subsystems.LEDSubsys;
 

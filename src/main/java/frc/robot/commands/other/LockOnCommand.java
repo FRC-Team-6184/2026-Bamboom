@@ -5,7 +5,6 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Radians;
 import com.ctre.phoenix6.hardware.Pigeon2;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator3d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,7 +21,7 @@ public class LockOnCommand extends Command {
     private final double hubYPosition = 4.034536; //also in meters
     private double destinationAngle = 0;
     private Pose2d currentPos;
-    private final PIDController seekingPID = new PIDController(0.3, 0.0125, 0);
+    // private final PIDController seekingPID = new PIDController(0.3, 0.0125, 0);
     private final Pigeon2 gyro = Gyro.GYRO;
     private final SwerveDrivePoseEstimator3d poseEst = SoftwareObjects.poseEstimator;
 
@@ -49,7 +48,7 @@ public class LockOnCommand extends Command {
         }
         // currentPos = poseEst.getEstimatedPosition().toPose2d();
         // currentPos = vision.lastEstimate;
-        double correctedX = hubXPosition - currentPos.getX();
+        // double correctedX = hubXPosition - currentPos.getX();
         double correctedY = hubYPosition - currentPos.getY();
         destinationAngle = (correctedY > 0 ? (Math.PI / 2) : (-Math.PI / 2)) - Math.atan(hubXPosition - currentPos.getX() / hubYPosition - currentPos.getY());
         double currentAngle = getAdjustedGyroFromVision();

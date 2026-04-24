@@ -1,7 +1,6 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AutonomousSubsys;
 import frc.robot.subsystems.IntakeSubsys;
 
 public class AutonomousIntakeDownCommand extends Command {
@@ -16,12 +15,14 @@ public class AutonomousIntakeDownCommand extends Command {
 
     @Override
     public void initialize() {
+        finished = false;
         intake.pivotDown();
-        // intake.startIntake();
+        intake.slowOuttake();
     }
 
     @Override
     public void execute() {
+        System.out.println(intake.isSwitchHit());
         if (intake.isSwitchHit()) {
             intake.pivotStop();
             finished = true;
@@ -31,6 +32,11 @@ public class AutonomousIntakeDownCommand extends Command {
     @Override
     public boolean isFinished() {
         return finished;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        intake.stopIntake();
     }
 
 }

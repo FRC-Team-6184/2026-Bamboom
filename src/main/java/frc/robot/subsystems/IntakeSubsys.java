@@ -3,16 +3,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.networktables.BooleanEntry;
 import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.RobotMap.Controller;
 import frc.robot.RobotMap.DigitalInputOutput;
 import frc.robot.RobotMap.DigitalValues;
 import frc.robot.RobotMap.MotorControllers;
 import frc.robot.RobotMap.SoftwareObjects;
-import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 
 public class IntakeSubsys extends SubsystemBase {
     private DigitalInput kLimitSwitch;
@@ -24,6 +22,7 @@ public class IntakeSubsys extends SubsystemBase {
     private double intakeSpeed = -4000 / 60.0;
 
     DoubleEntry intakeSpeedEntry = SoftwareObjects.networkTableInstance.getDoubleTopic("/Intake/Intake Speed").getEntry(0.0);
+    BooleanEntry limitSwitchEntry = SoftwareObjects.networkTableInstance.getBooleanTopic("/Intake/Limit Switch Hit").getEntry(false);
 
     /** Intake constructor. Perform all initializing regarding related motors here */
     public IntakeSubsys() {
@@ -48,6 +47,7 @@ public class IntakeSubsys extends SubsystemBase {
     @Override
     public void periodic() {
         intakeSpeedEntry.set(kIntakeMotor.getVelocity().getValueAsDouble() * 60);
+        limitSwitchEntry.set(isSwitchHit());
     }
 
     // if (kXboxController.getLeftTriggerAxis() > (RobotMap.DigitalValues.CONTROLLER_DEADZONE * 2)) {
@@ -103,6 +103,10 @@ public class IntakeSubsys extends SubsystemBase {
 
     public void outtake() {
         kIntakeMotor.set(.75);
+    }
+
+    public void slowOuttake() {
+        kIntakeMotor.set(0.2);
     }
 
     /**

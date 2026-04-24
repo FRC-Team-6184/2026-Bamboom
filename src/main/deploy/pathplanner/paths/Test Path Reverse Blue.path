@@ -81,15 +81,15 @@
     {
       "anchor": {
         "x": 2.538,
-        "y": 5.225
+        "y": 2.844
       },
       "prevControl": {
         "x": 1.7357146392525862,
-        "y": 5.389618346275231
+        "y": 3.0086183462752314
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Blue Depot Trench End"
     }
   ],
   "rotationTargets": [

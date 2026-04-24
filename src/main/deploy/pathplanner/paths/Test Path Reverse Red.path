@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 11.88310861423221,
-        "y": 0.5943352059925099
+        "x": 12.28017632671472,
+        "y": 0.5010802171812077
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.910505617977527,
-        "y": 0.785
+        "x": 9.117766666664414,
+        "y": 1.126283333331014
       },
       "prevControl": {
-        "x": 9.023264898748193,
-        "y": 0.34729079904566496
+        "x": 9.18979141038852,
+        "y": 0.5710173037972337
       },
       "nextControl": {
-        "x": 8.803983023090195,
-        "y": 1.1984996212555328
+        "x": 8.94850112682897,
+        "y": 2.431215491109221
       },
       "isLocked": false,
       "linkedName": null
@@ -36,12 +36,12 @@
         "y": 3.3862827715355808
       },
       "prevControl": {
-        "x": 8.545958769464514,
-        "y": 3.0694317099321355
+        "x": 8.729172919644508,
+        "y": 3.2141826480165485
       },
       "nextControl": {
-        "x": 9.853195087527741,
-        "y": 4.205634688601216
+        "x": 9.101204399036646,
+        "y": 3.5672721026209793
       },
       "isLocked": false,
       "linkedName": null
@@ -52,12 +52,28 @@
         "y": 0.785
       },
       "prevControl": {
-        "x": 9.41408502897729,
-        "y": 1.202020062391665
+        "x": 9.179568643352223,
+        "y": 1.3250608278176292
       },
       "nextControl": {
-        "x": 11.390474437485073,
-        "y": 0.240204640422222
+        "x": 11.098140554043018,
+        "y": 0.37571524780997856
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 12.026483333331079,
+        "y": 0.5943352059925098
+      },
+      "prevControl": {
+        "x": 11.233302340002565,
+        "y": 0.5943352059925098
+      },
+      "nextControl": {
+        "x": 12.819664326659593,
+        "y": 0.5943352059925098
       },
       "isLocked": false,
       "linkedName": null
@@ -68,12 +84,12 @@
         "y": 1.918
       },
       "prevControl": {
-        "x": 15.249868913857679,
-        "y": 0.9063764044943812
+        "x": 14.31532824431887,
+        "y": 0.9073624970820506
       },
       "nextControl": {
-        "x": 13.635536116054118,
-        "y": 2.9713167765856365
+        "x": 14.538040598883727,
+        "y": 2.473999285359054
       },
       "isLocked": false,
       "linkedName": null
@@ -84,18 +100,18 @@
         "y": 2.778
       },
       "prevControl": {
-        "x": 13.993592591129616,
-        "y": 2.5558096805479575
+        "x": 13.911102113750456,
+        "y": 2.5300696583861653
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Red Depot Trench End "
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5507924136139254,
-      "rotationDegrees": -90.0
+      "waypointRelativePos": 0.31950207468879854,
+      "rotationDegrees": 90.0
     },
     {
       "waypointRelativePos": 1.0491803278688543,
@@ -106,11 +122,11 @@
       "rotationDegrees": 180.0
     },
     {
-      "waypointRelativePos": 3.038784486205526,
+      "waypointRelativePos": 3.1,
       "rotationDegrees": -90.0
     },
     {
-      "waypointRelativePos": 3.4814237464276445,
+      "waypointRelativePos": 3.95,
       "rotationDegrees": -90.0
     }
   ],
@@ -147,7 +163,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.76376821743581
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }
